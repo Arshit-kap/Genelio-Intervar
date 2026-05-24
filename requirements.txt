@@ -1,0 +1,47 @@
+# Genomic Q&A Engine — Dependencies
+# Install: pip install -r requirements.txt
+
+# ── Core ──────────────────────────────────────────────────────────────────────
+sqlalchemy==2.0.25
+python-dotenv==1.0.0
+
+# ── Database drivers ──────────────────────────────────────────────────────────
+psycopg2-binary==2.9.9      # PostgreSQL (optional, SQLite used by default)
+
+# ── Data processing ───────────────────────────────────────────────────────────
+pandas==2.0.3
+numpy==1.24.3
+
+# ── FastAPI + server ──────────────────────────────────────────────────────────
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.0
+
+# ── Phase 4: AI / Text-to-SQL ─────────────────────────────────────────────────
+langchain>=0.2.0
+langchain-community>=0.2.0
+langchain-huggingface>=0.0.3    # Qwen3 via HuggingFace (API + local pipeline)
+huggingface-hub>=0.22.0         # HF Inference API client
+
+# ── Phase 4: Local Qwen3 (optional — install if running model locally) ────────
+# transformers>=4.40.0
+# torch>=2.1.0
+# accelerate>=0.27.0
+
+# ── Phase 6: External evidence HTTP calls ─────────────────────────────────────
+httpx>=0.27.0                   # Async HTTP for ClinVar, PubMed, ClinGen APIs
+aiohttp>=3.9.0                  # Alternative async HTTP
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+click==8.1.7
+tqdm==4.66.1
+requests==2.31.0
+python-json-logger==2.0.7
+
+# ── Frontend (Gradio testing UI) ──────────────────────────────────────────────
+gradio>=4.19.0
+
+# ── Development / testing ─────────────────────────────────────────────────────
+pytest==7.4.3
+black==23.12.0
+flake8==6.1.0

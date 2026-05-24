@@ -1,0 +1,95 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+
+# ── Virtual environment ────────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Secrets & credentials ──────────────────────────────────────────────────────
+.env
+*.pem
+*.key
+*.p12
+*.pfx
+*_secret*
+*_credentials*
+
+# ── Databases (large binary files) ────────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# ── Large data / raw input files ──────────────────────────────────────────────
+*.txt.gz
+*.vcf
+*.vcf.gz
+intervar_3gb_file.txt
+intervar_MG_100.filtered*.txt
+raw_1.txt
+intervar_code.zip
+example_data.tsv
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+*.log.*
+backend.log
+gradio.log
+gradio_err.log
+server.log
+server_err.log
+ingestion.log
+setup_output.log
+pip_install_log.txt
+upload_db.log
+db_setup_output.txt
+db_status.txt
+rag_setup_result.txt
+
+# ── Test / output artefacts ────────────────────────────────────────────────────
+test_results*.json
+*.output
+
+# ── Media / docs (binary, project-local) ──────────────────────────────────────
+*.mp4
+*.ogg
+*.jpeg
+*.jpg
+*.png
+*.pdf
+*.docx
+*.pptx
+WhatsApp*
+demo_*
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Claude Code internal ───────────────────────────────────────────────────────
+.claude/
+
+# ── Gradio cache ───────────────────────────────────────────────────────────────
+.gradio/
+
+# ── Misc runtime ──────────────────────────────────────────────────────────────
+gradio_public_url.txt
+PowerShell*.txt
