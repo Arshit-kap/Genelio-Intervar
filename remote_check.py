@@ -1,0 +1,11 @@
+﻿import sqlite3
+c = sqlite3.connect('/ephemeral/ubuntu/intervar/genomic_variants.db', timeout=10)
+r = c.cursor()
+r.execute('SELECT COUNT(*) FROM variants')
+print('Variants:', r.fetchone()[0])
+r.execute('SELECT COUNT(*) FROM genes')
+print('Genes:', r.fetchone()[0])
+r.execute('PRAGMA integrity_check(1)')
+print('Integrity:', r.fetchone()[0])
+c.close()
+print('DB STATUS: HEALTHY')

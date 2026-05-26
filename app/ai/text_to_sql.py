@@ -235,7 +235,42 @@ _COLS_FULL = (
 
 
 def _clf(tier: str) -> str:
-    """InterVar classification LIKE clause (prefix match, indexed)."""
+    """Dual ClinVar + InterVar classification filter.
+
+    ClinVar is the primary source (values stored as 'clinvar: Pathogenic ',
+    'clinvar: Likely_pathogenic ' — note underscore + trailing space).
+    InterVar included as fallback for reports where ClinVar is UNK.
+    """
+    t = tier.lower()
+    if "likely pathogenic" in t or t == "likely_pathogenic":
+        return (
+            '("clinvar: Clinvar" LIKE \'clinvar: Likely_pathogenic%\' '
+            'OR "clinvar: Clinvar" LIKE \'clinvar: Pathogenic/Likely_pathogenic%\' '
+            'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Likely pathogenic%\')'
+        )
+    if t == "pathogenic":
+        return (
+            '("clinvar: Clinvar" LIKE \'clinvar: Pathogenic%\' '
+            'AND "clinvar: Clinvar" NOT LIKE \'clinvar: Conflicting%\' '
+            'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Pathogenic%\')'
+        )
+    if "likely benign" in t or t == "likely_benign":
+        return (
+            '("clinvar: Clinvar" LIKE \'clinvar: Likely_benign%\' '
+            'OR "clinvar: Clinvar" LIKE \'clinvar: Benign/Likely_benign%\' '
+            'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Likely benign%\')'
+        )
+    if t == "benign":
+        return (
+            '("clinvar: Clinvar" LIKE \'clinvar: Benign%\' '
+            'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Benign%\')'
+        )
+    if "uncertain" in t or t == "vus":
+        return (
+            '("clinvar: Clinvar" LIKE \'clinvar: Uncertain%\' '
+            'OR "clinvar: Clinvar" LIKE \'clinvar: Conflicting%\' '
+            'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Uncertain%\')'
+        )
     return f'"InterVar: InterVar and Evidence" LIKE \'InterVar: {tier}%\''
 
 
@@ -319,14 +354,16 @@ _DISEASE_GENE_MAP = {
 _COLS_FULL_CLINICAL = (
     'Chr, Start, Ref, Alt, "Ref.Gene", "ExonicFunc.refGene", '
     '"AAChange.refGene", "InterVar: InterVar and Evidence", "clinvar: Clinvar", '
-    'Freq_gnomAD_genome_ALL, CADD_phred, Otherinfo, Orpha, OMIM'
+    'Freq_gnomAD_genome_ALL, CADD_phred, Otherinfo, Orpha, OMIM, Phenotype_MIM'
 )
 
 _DISEASE_CAUSING_FILTER = (
-    '("InterVar: InterVar and Evidence" LIKE \'InterVar: Pathogenic%\' '
-    'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Likely pathogenic%\' '
-    'OR "clinvar: Clinvar" LIKE \'%Pathogenic%\' '
-    'OR "clinvar: Clinvar" LIKE \'%Likely_pathogenic%\')'
+    '("clinvar: Clinvar" LIKE \'clinvar: Pathogenic%\' '
+    'AND "clinvar: Clinvar" NOT LIKE \'clinvar: Conflicting%\' '
+    'OR "clinvar: Clinvar" LIKE \'clinvar: Likely_pathogenic%\' '
+    'OR "clinvar: Clinvar" LIKE \'clinvar: Pathogenic/Likely_pathogenic%\' '
+    'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Pathogenic%\' '
+    'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Likely pathogenic%\')'
 )
 
 
@@ -432,6 +469,39 @@ def _pattern_sql(question: str) -> Optional[str]:
             f'ORDER BY pathogenic_count DESC LIMIT 20;'
         )
 
+    # ── Pattern: "classification tier breakdown / genes per tier" ─────────────────
+    # Must be before aggregate block — "breakdown" would otherwise match it early
+    if re.search(
+        r'\b(classification\s+tier|tier\s+breakdown|breakdown\s+by\s+(?:classification|tier)|'
+        r'how\s+many\s+genes?\s+(?:per|by|for)\s+(?:each\s+)?(?:classification|tier)|'
+        r'gene\s+count\s+(?:by|per)\s+(?:tier|classification)|'
+        r'genes?\s+(?:per|by)\s+(?:classification|tier))\b', q
+    ):
+        return (
+            'SELECT '
+            'CASE '
+            '  WHEN "clinvar: Clinvar" LIKE \'clinvar: Pathogenic%\' '
+            '    AND "clinvar: Clinvar" NOT LIKE \'clinvar: Conflicting%\' THEN \'Pathogenic\' '
+            '  WHEN "clinvar: Clinvar" LIKE \'clinvar: Likely_pathogenic%\' THEN \'Likely Pathogenic\' '
+            '  WHEN "clinvar: Clinvar" LIKE \'clinvar: Pathogenic/Likely_pathogenic%\' '
+            '    THEN \'Pathogenic/Likely Pathogenic\' '
+            '  WHEN "clinvar: Clinvar" LIKE \'clinvar: Benign%\' THEN \'Benign\' '
+            '  WHEN "clinvar: Clinvar" LIKE \'clinvar: Likely_benign%\' THEN \'Likely Benign\' '
+            '  WHEN "clinvar: Clinvar" LIKE \'clinvar: Uncertain%\' '
+            '    OR "clinvar: Clinvar" LIKE \'clinvar: Conflicting%\' THEN \'VUS/Conflicting\' '
+            '  WHEN "InterVar: InterVar and Evidence" LIKE \'InterVar: Pathogenic%\' '
+            '    THEN \'Pathogenic (InterVar)\' '
+            '  WHEN "InterVar: InterVar and Evidence" LIKE \'InterVar: Likely pathogenic%\' '
+            '    THEN \'Likely Pathogenic (InterVar)\' '
+            '  ELSE \'Other/Unknown\' '
+            'END AS classification_tier, '
+            'COUNT(DISTINCT "Ref.Gene") AS gene_count, '
+            'COUNT(*) AS variant_count '
+            'FROM variants '
+            'GROUP BY classification_tier '
+            'ORDER BY variant_count DESC LIMIT 20;'
+        )
+
     # ── Variant type distribution: "how many types of variant / what variant types" ──
     # vari[ae]nt matches both "variant" and "varient" (common misspelling)
     if re.search(r'\btype[s]?\s+of\s+(?:the\s+)?vari[ae]nt\b|\bvari[ae]nt\s+type[s]?\b', q):
@@ -475,12 +545,52 @@ def _pattern_sql(question: str) -> Optional[str]:
             return f"SELECT COUNT(*) AS vus_count FROM variants WHERE {_clf('Uncertain')};"
         if "benign" in q and "likely" not in q:
             return f"SELECT COUNT(*) AS count FROM variants WHERE {_clf('Benign')};"
-        # Overall breakdown
+        # Overall breakdown — use ClinVar as primary classification source
         return (
-            'SELECT SUBSTR("InterVar: InterVar and Evidence", 1, 35) AS classification, '
+            'SELECT "clinvar: Clinvar" AS classification, '
             "COUNT(*) AS count FROM variants "
-            'GROUP BY SUBSTR("InterVar: InterVar and Evidence", 1, 35) '
-            "ORDER BY count DESC;"
+            'GROUP BY "clinvar: Clinvar" '
+            "ORDER BY count DESC LIMIT 20;"
+        )
+
+    # ── Pattern: "how many pathogenic genes" ──────────────────────────────────
+    if re.search(r'\bhow\s+many\s+pathogenic\s+genes?\b', q):
+        return (
+            f'SELECT COUNT(DISTINCT "Ref.Gene") AS pathogenic_gene_count, '
+            f'COUNT(*) AS total_pathogenic_variants '
+            f'FROM variants WHERE ({_clf("Pathogenic")} OR {_clf("Likely pathogenic")});'
+        )
+
+    # ── Pattern: "list pathogenic genes" / "top genes by pathogenic count" ────
+    if re.search(r'\b(list|show)\s+pathogenic\s+genes?\b', q) or (
+        re.search(r'\bpathogenic\s+genes?\b', q) and "list" in q
+    ):
+        n = limit_n or 10
+        return (
+            f'SELECT "Ref.Gene", COUNT(*) AS variant_count '
+            f'FROM variants '
+            f'WHERE ({_clf("Pathogenic")} OR {_clf("Likely pathogenic")}) '
+            f'AND "Ref.Gene" != \'NONE\' '
+            f'GROUP BY "Ref.Gene" ORDER BY variant_count DESC LIMIT {n};'
+        )
+
+    # ── Pattern: "summary of my variants" / "variant summary" / breakdown ─────
+    if re.search(r'\b(summary|overview|breakdown)\s+(of\s+)?(my\s+)?variants?\b|'
+                 r'\bmy\s+variant\s+(summary|overview|breakdown)\b', q):
+        return (
+            'SELECT "clinvar: Clinvar" AS classification, COUNT(*) AS count '
+            'FROM variants '
+            'GROUP BY "clinvar: Clinvar" ORDER BY count DESC LIMIT 20;'
+        )
+
+    # ── Pattern: "disease causing variants" / "what are my disease causing variants" ─
+    if re.search(r'disease.{0,2}caus|what\s+(are|is).{0,20}(pathogenic|harmful|disease)', q):
+        gf = _gene_filter(question)
+        gene_clause = f' AND {gf}' if gf else ''
+        return (
+            f'SELECT {_COLS_FULL_CLINICAL} FROM variants '
+            f'WHERE {_DISEASE_CAUSING_FILTER}{gene_clause} '
+            f'ORDER BY CADD_phred DESC LIMIT {limit_n or 50};'
         )
 
     # ── Top N genes — only when "genes" is the direct object of "top N" ──────────
@@ -617,11 +727,15 @@ def _pattern_sql(question: str) -> Optional[str]:
         elif any(x in q for x in ("vus", "uncertain significance", "uncertain")):
             conds.append(_clf("Uncertain"))
 
-    # ClinVar filter
+    # ClinVar filter — use prefix match to avoid catching Conflicting_interpretations
     if "clinvar pathogenic" in q or ("clinvar" in q and "pathogenic" in q):
-        conds.append('"clinvar: Clinvar" LIKE \'%Pathogenic%\'')
+        conds.append(
+            '("clinvar: Clinvar" LIKE \'clinvar: Pathogenic%\' '
+            'AND "clinvar: Clinvar" NOT LIKE \'clinvar: Conflicting%\' '
+            'OR "clinvar: Clinvar" LIKE \'clinvar: Likely_pathogenic%\')'
+        )
     elif "clinvar" in q and "benign" in q:
-        conds.append('"clinvar: Clinvar" LIKE \'%Benign%\'')
+        conds.append('"clinvar: Clinvar" LIKE \'clinvar: Benign%\'')
 
     # Variant type
     if "frameshift" in q:

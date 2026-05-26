@@ -97,7 +97,8 @@ _DATA_ACTION = re.compile(
 _DATA_OBJECT = re.compile(
     r'\b(variants?|genes?|chromosome|rsid|rs\d+|avsnp|database|rows?|records?|'
     r'missense|frameshift|stopgain|pathogenic|benign|vus|uncertain|'
-    r'exonic|splicing|heterozygous|homozygous|clinvar|intervar|gnomad)\b',
+    r'exonic|splicing|heterozygous|homozygous|clinvar|intervar|gnomad|'
+    r'disease.caus|disease-caus|harmful|dangerous)\b',
     re.IGNORECASE
 )
 
@@ -106,7 +107,8 @@ _GENOMIC_SIGNAL = re.compile(
     r'\b(rs\d+|chromosome\s+\d+|chr\s*\d+|position\s+\d+|pos\s+\d+|start_pos|'
     r'BRCA[12]|TP53|CFTR|MLH1|MSH[26]|PMS2|MECP2|DDX11L2|HNF1A|GCK|RYR2|CSMD1|'
     r'gnomad|cadd\s*[><=]\s*\d|hgvs|dbsnp|zygosity|frameshift|stopgain|missense|'
-    r'synonymous|splicing|in.?frame|heterozygous|homozygous|intervar|clinvar)\b',
+    r'synonymous|splicing|in.?frame|heterozygous|homozygous|intervar|clinvar|'
+    r'pathogenic|disease.caus|disease-caus)\b',
     re.IGNORECASE
 )
 
@@ -129,7 +131,7 @@ _GENE_PHENOTYPE = re.compile(
 _PATIENT_REPORT = re.compile(
     r'\b(my\s+(report|variants?|results?|genome|data|sample|file|wgs|sequencing)|'
     r'in\s+(my|the)\s+(report|results?|data|file)|'
-    r'disease[- ]causin|any\s+(pathogen|disease|harmful)|'
+    r'disease.{0,2}caus\w*|any\s+(pathogen|disease|harmful)|'
     r'what\s+gene\s+should\s+i\s+(look|check)|find\s+(me\s+)?the\s+gene|'
     r'my\s+symptoms?\s+(are|is|include|like)|behind\s+my\s+(condition|disease)|'
     r'gene\s+(behind|for|responsible|causing)\s+my|'
@@ -160,6 +162,280 @@ _DEFINE_PATTERN = re.compile(
 )
 
 
+# ── Layer 0 — Safety refuse ────────────────────────────────────────────────────
+
+_SAFETY_PATTERNS = [
+    (re.compile(
+        r'\b(do\s+i\s+have|have\s+i\s+got|am\s+i\s+(sick|ill|dying|infected|positive))\b',
+        re.IGNORECASE), "diagnosis"),
+    (re.compile(
+        r'\b(will\s+i\s+(die|survive|live|make\s+it)|how\s+long\s+(do\s+i\s+have|will\s+i\s+live)'
+        r'|is\s+it\s+(fatal|terminal|curable|treatable))\b',
+        re.IGNORECASE), "prognosis"),
+    (re.compile(
+        r'\b(should\s+i\s+(take|stop|start|avoid|use|get)\s+(?!a\s+test|tested)'
+        r'|what\s+(medication|drug|treatment|medicine|pill|dose|therapy)\s+should'
+        r'|prescribe|my\s+treatment)\b',
+        re.IGNORECASE), "treatment"),
+    (re.compile(
+        r'\b(can\s+i\s+(have|get)\s+(children|pregnant|kids|babies)'
+        r'|should\s+i\s+(have|get)\s+(children|pregnant|kids)'
+        r'|reproductive\s+(decision|choice|option))\b',
+        re.IGNORECASE), "reproductive"),
+    (re.compile(
+        r'\b(kill\s+myself|end\s+my\s+life|suicide|self.harm|want\s+to\s+die'
+        r'|hurt\s+myself|take\s+my\s+own\s+life)\b',
+        re.IGNORECASE), "self_harm"),
+]
+
+_SAFETY_RESPONSES = {
+    "diagnosis": (
+        "I'm not able to make a diagnosis. The variant data in this system is for "
+        "educational and research use only.\n\n"
+        "Please speak with a **certified genetic counselor or physician** who can "
+        "interpret your complete clinical picture alongside these genomic findings.\n\n"
+        "⚠️ This system provides educational genomic information only — not medical advice."
+    ),
+    "prognosis": (
+        "I can't provide prognosis information. Genomic variant data alone cannot "
+        "predict disease outcomes — that requires clinical evaluation by a specialist.\n\n"
+        "Please consult a **physician or genetic counselor** for guidance.\n\n"
+        "⚠️ This system provides educational genomic information only — not medical advice."
+    ),
+    "treatment": (
+        "I'm not able to give treatment or medication advice. Treatment decisions "
+        "must be made by a qualified physician with full knowledge of your medical history.\n\n"
+        "Please discuss these findings with your **doctor or genetic counselor**.\n\n"
+        "⚠️ This system provides educational genomic information only — not medical advice."
+    ),
+    "reproductive": (
+        "Reproductive decisions based on genetic findings require careful specialist counseling. "
+        "I'm not able to advise on this.\n\n"
+        "Please consult a **genetic counselor** who specialises in reproductive genetics.\n\n"
+        "⚠️ This system provides educational genomic information only — not medical advice."
+    ),
+    "self_harm": (
+        "I'm concerned about what you've shared. If you're in distress, please reach out:\n\n"
+        "**Crisis lines:** 988 (US Suicide & Crisis Lifeline) · 116 123 (UK Samaritans) "
+        "· 13 11 14 (Australia Lifeline)\n\n"
+        "A genetic counselor or psychologist can also help you process difficult "
+        "genetic findings in a supportive setting."
+    ),
+}
+
+
+def _safety_refuse(message: str) -> Optional[str]:
+    """Layer 0: return a fixed response if message hits a safety pattern, else None."""
+    for pattern, category in _SAFETY_PATTERNS:
+        if pattern.search(message):
+            return _SAFETY_RESPONSES[category]
+    return None
+
+
+# ── Layer 1 addition — HPO symptom intent ──────────────────────────────────────
+
+_SYMPTOM_QUERY_RE = re.compile(
+    r'\b(i\s+(have|feel|get|experience|suffer|had|am\s+having|am\s+experiencing)|'
+    r'my\s+symptoms?\s+(include|are|is|were)|'
+    r'suffering\s+from|experiencing\s+(symptoms?|problems?)|'
+    r'i\'?ve\s+(been\s+(having|experiencing|feeling)|had)|'
+    r'dealing\s+with|living\s+with|diagnosed\s+with)\b',
+    re.IGNORECASE,
+)
+
+# Words that disqualify symptom detection — unambiguous variant-lookup terms
+_SYMPTOM_DISQUALIFIER_RE = re.compile(
+    r'\b(variant|variants|mutation|gene|genes|allele|rs\d{3,}|chr\d|exon|intron'
+    r'|c\.\w|p\.\w|acmg|pvs1|cadd|clinvar|intervar|pathogenic|benign'
+    r'|frameshift|stopgain|missense|synonymous|splicing)\b',
+    re.IGNORECASE,
+)
+
+_SYMPTOM_EXTRACT_RE = re.compile(
+    r'(?:i\s+(?:have|feel|get|experience|suffer\s+from|am\s+having|am\s+experiencing|'
+    r'\'?ve\s+(?:been\s+)?(?:having|experiencing|feeling))|'
+    r'my\s+symptoms?\s+(?:include|are|is|were)|'
+    r'suffering\s+from|dealing\s+with|living\s+with|diagnosed\s+with)\s+'
+    r'([a-z][a-z\s,\-]{2,80}?)(?:\.|,\s*and\s+(?:i\s+)?(?:also\s+)?|$|\?|!)',
+    re.IGNORECASE,
+)
+
+
+def _extract_symptom_phrases(message: str) -> List[str]:
+    """Pull symptom phrases from a patient message."""
+    raw_phrases: List[str] = []
+    for m in _SYMPTOM_EXTRACT_RE.finditer(message):
+        chunk = m.group(1).strip().rstrip(".,!?;:")
+        if chunk:
+            raw_phrases.append(chunk)
+
+    # Fall back: use the whole message tail after trigger words
+    if not raw_phrases and _SYMPTOM_QUERY_RE.search(message):
+        tail = _SYMPTOM_QUERY_RE.sub("", message).strip().rstrip(".,!?;:")
+        if len(tail) > 3:
+            raw_phrases = [tail]
+
+    # Split compound phrases on commas and "and"
+    result: List[str] = []
+    for phrase in raw_phrases:
+        for part in re.split(r',\s*(?:and\s+)?|(?<!\w)\band\b(?!\w)', phrase):
+            part = part.strip().rstrip(".,!?;:")
+            if len(part) >= 3:
+                result.append(part)
+    return result
+
+
+# ── Layer 2 — HPO processing ───────────────────────────────────────────────────
+
+def _already_asked_clarification(history: List[ChatMessage]) -> bool:
+    """True if the last assistant turn already asked a clarification question."""
+    for msg in reversed(history):
+        if msg.role == "assistant":
+            content = (msg.content or "").lower()
+            return "could you clarify" in content or "could you describe" in content
+    return False
+
+
+def _process_hpo(message: str, history: List[ChatMessage]) -> dict:
+    """Layer 2: resolve HPO symptoms → ranked gene list (capped at 300).
+
+    Returns dict with keys:
+      resolved    : list of HPOTerm dicts (successfully resolved)
+      unresolved  : list of str (phrases that didn't map to HPO)
+      genes       : list of str (up to 300 genes, specificity-ranked)
+      hpo_summary : human-readable string for LLM context
+      needs_clarification : bool
+      clarification_question : str | None
+    """
+    from app.hpo.resolver import resolve_many, rank_and_cap_genes
+
+    phrases = _extract_symptom_phrases(message)
+    if not phrases:
+        return {
+            "resolved": [], "unresolved": [], "genes": [],
+            "hpo_summary": "", "needs_clarification": False,
+            "clarification_question": None,
+        }
+
+    terms = resolve_many(phrases)
+    resolved   = [t for t in terms if t.resolved()]
+    unresolved = [phrases[i] for i, t in enumerate(terms) if not t.resolved()]
+
+    # If nothing resolved and we haven't asked yet → ask one clarification
+    if not resolved and unresolved and not _already_asked_clarification(history):
+        first = unresolved[0]
+        question = (
+            f"I couldn't map **\"{first}\"** to a recognised clinical symptom. "
+            "Could you describe it using more specific medical terms? "
+            "For example: *muscle weakness*, *seizures*, *hearing loss*, "
+            "*fatigue*, *joint pain*, *developmental delay*."
+        )
+        return {
+            "resolved": [], "unresolved": unresolved, "genes": [],
+            "hpo_summary": "", "needs_clarification": True,
+            "clarification_question": question,
+        }
+
+    genes = rank_and_cap_genes(resolved, cap=300)
+
+    summary_parts = []
+    for t in resolved:
+        summary_parts.append(
+            f"  • {t.name} ({t.hpo_id}) — {len(t.genes):,} associated genes "
+            f"[matched via {t.matched_via}, confidence {t.confidence:.0%}]"
+        )
+    if unresolved:
+        summary_parts.append(
+            f"  • Unresolved (skipped): {', '.join(unresolved)}"
+        )
+
+    hpo_summary = (
+        f"Symptom → HPO resolution:\n" + "\n".join(summary_parts) +
+        f"\nCandidate gene pool: {len(genes)} genes (specificity-ranked, capped at 300)"
+    )
+
+    return {
+        "resolved": [t.as_dict() for t in resolved],
+        "unresolved": unresolved,
+        "genes": genes,
+        "hpo_summary": hpo_summary,
+        "needs_clarification": False,
+        "clarification_question": None,
+    }
+
+
+# ── Layer 3 — Deterministic SQL validation ─────────────────────────────────────
+
+_QUOTED_DOT_COLS = re.compile(r'(?<!")\b\w+\.\w+\b(?!")')
+
+
+def _deterministic_validate(sql: str) -> tuple:
+    """Python-only checks before executing any SQL. Returns (ok, error_message)."""
+    if not re.match(r'^\s*SELECT\b', sql, re.IGNORECASE):
+        return False, "Query must start with SELECT"
+    if re.search(r'\b(DROP|DELETE|UPDATE|INSERT|ALTER|TRUNCATE|EXEC|GRANT|REVOKE)\b',
+                 sql, re.IGNORECASE):
+        return False, "Query contains unsafe operations"
+    if "LIMIT" not in sql.upper():
+        return False, "Query is missing a LIMIT clause"
+    if not re.search(r'\bFROM\s+variants\b', sql, re.IGNORECASE):
+        return False, "Query must reference the 'variants' table"
+    unquoted = _QUOTED_DOT_COLS.findall(sql)
+    if unquoted:
+        return False, f"Unquoted dotted column names (must be double-quoted): {unquoted}"
+    return True, ""
+
+
+# ── Layer 4 — Top-10 cap ───────────────────────────────────────────────────────
+
+def _apply_top10_cap(rows: List[Dict], total_count: int) -> tuple:
+    """Always cap patient-facing results at 10. Returns (capped_rows, note_str)."""
+    capped = rows[:10]
+    note = ""
+    if total_count > 10:
+        note = (
+            f"*Showing top 10 of {total_count:,} matches ordered by damage score (CADD). "
+            "Narrow your search by adding a gene name, variant type, or classification "
+            "filter to see more specific results.*"
+        )
+    return capped, note
+
+
+# ── Layer 6 — Disclaimer middleware ───────────────────────────────────────────
+
+_DISCLAIMER_TRIGGERS_RE = re.compile(
+    r'\b(pathogenic|likely\s+pathogenic|disease.caus|acmg|pvs1|ps\d|pm\d|pp\d|ba1|bs\d|bp\d'
+    r'|heterozygous|homozygous|hemizygous|\bhet\b|\bhom\b|\bhemi\b'
+    r'|inheritance|dominant|recessive|de\s+novo'
+    r'|clinvar|intervar'
+    r'|variant.{0,15}classif|classif.{0,15}variant)\b',
+    re.IGNORECASE,
+)
+
+_DISCLAIMER_TEXT = (
+    "\n\n⚠️ **Educational only** — This information does not constitute medical advice. "
+    "Please discuss these findings with a certified genetic counselor or physician "
+    "before making any clinical decision."
+)
+
+_DISCLAIMER_ALREADY_RE = re.compile(
+    r'(educational only|genetic counselor|not medical advice|not constitute medical)',
+    re.IGNORECASE,
+)
+
+
+def _apply_disclaimer(response: str, intent: str) -> str:
+    """Layer 6: append disclaimer when clinically relevant. Never duplicate."""
+    if _DISCLAIMER_ALREADY_RE.search(response):
+        return response
+    # Always add for HPO and data queries with clinical content
+    if intent in ("hpo_query", "hpo_clarification"):
+        return response + _DISCLAIMER_TEXT
+    if _DISCLAIMER_TRIGGERS_RE.search(response):
+        return response + _DISCLAIMER_TEXT
+    return response
+
+
 def _extract_genes_from_history(history: List[ChatMessage]) -> List[str]:
     """Extract known gene names mentioned in recent assistant turns."""
     from app.ai.text_to_sql import _KNOWN_GENES
@@ -184,34 +460,38 @@ def _maybe_expand_with_history(message: str, history: List[ChatMessage]) -> str:
     return f"Show variants for these specific genes: {gene_list} — original question: {message}"
 
 
-def _classify_intent(message: str) -> str:
-    """Return 'data_query', 'general', or 'hybrid'."""
+def _classify_intent(message: str, history: List[ChatMessage] = None) -> str:
+    """Return intent: 'hpo_query' | 'anaphora_query' | 'data_query' | 'general'."""
+    # Anaphora — pronoun references to genes from prior turns (check before everything else)
+    if _PRONOUN_CONTEXT.search(message) and history:
+        genes = _extract_genes_from_history(history)
+        if genes:
+            return "anaphora_query"
+
+    # HPO symptom query — "I have X", "I feel X", "my symptoms include X"
+    # Only when no variant-lookup vocabulary is present
+    if _SYMPTOM_QUERY_RE.search(message) and not _SYMPTOM_DISQUALIFIER_RE.search(message):
+        return "hpo_query"
+
     # "What does X mean?" / "What does X stand for?" → always a definition question
     if _DEFINE_PATTERN.match(message):
         return "general"
-    # Patient report / symptom / "my data" queries → always data
+    # Patient report / "my data" queries → always data
     if _PATIENT_REPORT.search(message):
-        return "data_query"
-    # Pronoun references to prior genes → data
-    if _PRONOUN_CONTEXT.search(message):
         return "data_query"
     # "Which genes/variants are linked to X?" / "What genes cause Y?" → DB lookup
     if _GENE_PHENOTYPE.search(message):
         return "data_query"
-    # Question/explanation phrases — "what is TP53?" is a definition, NOT a DB lookup
+    # Question/explanation phrases
     if _QUESTION_PREFIX.match(message):
-        # Has explicit data action + data object (e.g. "show me how many pathogenic variants")
         if _DATA_ACTION.search(message) and _DATA_OBJECT.search(message):
             return "data_query"
-        # Has a data object AND a genomic signal (e.g. "What are missense variants in TP53?")
         if _DATA_OBJECT.search(message) and _GENOMIC_SIGNAL.search(message):
             return "data_query"
-        # Explicit coordinate/rsID lookup (e.g. "What is the position of rs123?")
         if _COORD_SIGNAL.search(message):
             return "data_query"
-        # Pure definition question (e.g. "What is TP53?", "What is gnomAD?")
         return "general"
-    # Non-question: genomic coordinates or gene/variant signals → always data
+    # Non-question genomic signals → data
     if _GENOMIC_SIGNAL.search(message):
         return "data_query"
     has_action = bool(_DATA_ACTION.search(message))
@@ -243,7 +523,8 @@ def _answer_general(message: str, history: List[ChatMessage], llm: Any) -> str:
     """Answer a general genomics question — Qwen3 first, static KB as fallback."""
     if llm is not None and hasattr(llm, "answer_general"):
         try:
-            return llm.answer_general(message)
+            hist_dicts = [{"role": m.role, "content": m.content} for m in history]
+            return llm.answer_general(message, history=hist_dicts)
         except Exception as e:
             logger.warning(f"LLM general answer failed: {e}")
     return _static_answer(message)
@@ -664,14 +945,18 @@ def _static_answer(message: str) -> str:
 
 # ── LLM plain-English explanation ──────────────────────────────────────────────
 
-def _explain_results(question: str, rows: list, row_count: int) -> Optional[str]:
+def _explain_results(question: str, rows: list, row_count: int,
+                     history: List[ChatMessage] = None,
+                     hpo_context: dict = None) -> Optional[str]:
     """Pass SQL results to LLM for a plain-English explanation. Returns None if unavailable."""
     try:
         from app.ai.llm_config import get_llm
         llm = get_llm()
         if llm is None or not hasattr(llm, "explain"):
             return None
-        return llm.explain(question, rows, row_count)
+        hist_dicts = [{"role": m.role, "content": m.content} for m in (history or [])]
+        return llm.explain(question, rows, row_count,
+                           history=hist_dicts, hpo_context=hpo_context)
     except Exception as e:
         logger.warning(f"LLM explain failed: {e}")
         return None
@@ -908,142 +1193,310 @@ def _format_api_supplement(external: dict) -> Optional[str]:
     return "---\n" + "\n\n".join(parts)
 
 
-# ── Main chat worker ────────────────────────────────────────────────────────────
+# ── Main chat worker — 6-layer pipeline ────────────────────────────────────────
 
 def _run_chat(req: ChatRequest) -> ChatResponse:
     from app.ai.text_to_sql import get_engine
     t0 = time.time()
 
-    intent = _classify_intent(req.message)
+    # ── LAYER 0: Safety refuse (before anything else) ────────────────────────
+    safety_response = _safety_refuse(req.message)
+    if safety_response:
+        return ChatResponse(
+            response=safety_response,
+            type="safety_refuse",
+            execution_time_ms=(time.time() - t0) * 1000,
+        )
+
+    # ── LAYER 1: Intent classification (with history for anaphora) ───────────
+    intent = _classify_intent(req.message, req.history)
+    hpo_context: Optional[dict] = None
+    query_text = req.message.strip()
+    sql_used: Optional[str] = None
+    sql_source_used: Optional[str] = None
+
+    # ── LAYER 1.5: Opportunistic HPO enrichment ───────────────────────────
+    # Mirror genelio_backend: HPO runs whenever symptom trigger words appear,
+    # even when primary intent is data_query.
+    # e.g. "I have seizures — show me pathogenic variants" → HPO + variant lookup
+    if intent == "data_query" and _SYMPTOM_QUERY_RE.search(req.message):
+        try:
+            _opp_hpo = _process_hpo(req.message, req.history)
+            if _opp_hpo.get("genes") and not _opp_hpo.get("needs_clarification"):
+                intent = "hpo_query"
+                hpo_context = _opp_hpo
+        except Exception as _hpo_err:
+            logger.debug(f"Opportunistic HPO failed: {_hpo_err}")
+
     db = SessionLocal()
-
     try:
-        # ── Data query path ──────────────────────────────────────────────────
-        if intent in ("data_query", "hybrid"):
-            engine = get_engine()
-            # Expand pronoun references ("those genes", "them") using conversation history
+        # ── LAYER 2: HPO resolution ──────────────────────────────────────────
+        if intent == "hpo_query":
+            # Use pre-computed context from opportunistic enrichment if available
+            hpo_result = hpo_context or _process_hpo(req.message, req.history)
+
+            # Single clarification question if nothing resolved
+            if hpo_result.get("needs_clarification"):
+                response = _apply_disclaimer(
+                    hpo_result["clarification_question"], "hpo_clarification"
+                )
+                return ChatResponse(
+                    response=response,
+                    type="hpo_clarification",
+                    execution_time_ms=(time.time() - t0) * 1000,
+                )
+
+            genes = hpo_result.get("genes", [])
+            hpo_context = hpo_result
+
+            if genes:
+                # Build HPO pattern SQL: gene list + pathogenic filter + CADD sort
+                gene_list_sql = ", ".join(f"'{g}'" for g in genes)
+                query_text = (
+                    f"Symptoms query: find pathogenic variants in these genes: "
+                    f"{', '.join(genes[:10])}{'...' if len(genes) > 10 else ''}"
+                )
+                # Directly build and run the HPO SQL (bypass text_to_sql engine)
+                hpo_sql = (
+                    f'SELECT "Ref.Gene", Chr, Start, Ref, Alt, '
+                    f'"ExonicFunc.refGene", "AAChange.refGene", '
+                    f'"InterVar: InterVar and Evidence", "clinvar: Clinvar", '
+                    f'CADD_phred, Freq_gnomAD_genome_ALL, Otherinfo '
+                    f'FROM variants '
+                    f'WHERE "Ref.Gene" IN ({gene_list_sql}) '
+                    f'AND ('
+                    f'"clinvar: Clinvar" LIKE \'clinvar: Pathogenic%\' '
+                    f'  AND "clinvar: Clinvar" NOT LIKE \'clinvar: Conflicting%\' '
+                    f'OR "clinvar: Clinvar" LIKE \'clinvar: Likely_pathogenic%\' '
+                    f'OR "clinvar: Clinvar" LIKE \'clinvar: Pathogenic/Likely_pathogenic%\' '
+                    f'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Pathogenic%\' '
+                    f'OR "InterVar: InterVar and Evidence" LIKE \'InterVar: Likely pathogenic%\''
+                    f') '
+                    f'ORDER BY CADD_phred DESC '
+                    f'LIMIT 50;'
+                )
+                ok, err = _deterministic_validate(hpo_sql)
+                if ok:
+                    from app.ai.text_to_sql import _run_sql
+                    hpo_db_result = _run_sql(hpo_sql, db, max_rows=50)
+                    if hpo_db_result.get("success") and hpo_db_result.get("row_count", 0) > 0:
+                        rows_all = hpo_db_result.get("rows", [])
+                        total = hpo_db_result.get("row_count", 0)
+                        # Enrich with disease associations (DB columns + HPO API)
+                        try:
+                            from app.ai.gene_enricher import enrich_rows_with_diseases
+                            rows_all = enrich_rows_with_diseases(rows_all, db)
+                        except Exception as _ge:
+                            logger.debug(f"HPO gene enrichment failed: {_ge}")
+                        # Layer 4: top-10 cap
+                        rows, cap_note = _apply_top10_cap(rows_all, total)
+                        # Layer 5: LLM answer with history + HPO context
+                        explanation = _explain_results(
+                            req.message, rows, total,
+                            history=req.history, hpo_context=hpo_result
+                        )
+                        hpo_header = (
+                            f"**Symptom analysis:**\n{hpo_result['hpo_summary']}\n\n"
+                            f"**Matching variants (pathogenic/likely pathogenic):**\n"
+                        )
+                        response_text = hpo_header + (explanation or f"Found {total} matching variant(s).")
+                        if cap_note:
+                            response_text += f"\n\n{cap_note}"
+                        # Layer 6: disclaimer
+                        response_text = _apply_disclaimer(response_text, "hpo_query")
+                        try:
+                            db.add(QueryLog(
+                                query_type="hpo_query",
+                                query_text=req.message,
+                                result_count=total,
+                                execution_time_ms=(time.time() - t0) * 1000,
+                                executed_at=datetime.now(),
+                            ))
+                            db.commit()
+                        except Exception:
+                            pass
+                        return ChatResponse(
+                            response=response_text,
+                            type="hpo_query",
+                            sql=hpo_sql if req.include_sql else None,
+                            sql_source="hpo_pattern",
+                            data=rows,
+                            row_count=total,
+                            execution_time_ms=(time.time() - t0) * 1000,
+                        )
+
+            # HPO resolved genes but 0 DB matches — fall through to general with context
+            no_match_msg = (
+                f"**Symptom analysis:**\n{hpo_result.get('hpo_summary','')}\n\n"
+                "No **Pathogenic** or **Likely Pathogenic** variants were found in your "
+                "report for the genes associated with these symptoms. This is a meaningful "
+                "finding — it doesn't mean the symptoms aren't real, only that no "
+                "high-confidence pathogenic variants in canonical disease genes were detected."
+            )
+            response_text = _apply_disclaimer(no_match_msg, "hpo_query")
+            return ChatResponse(
+                response=response_text,
+                type="hpo_query",
+                sql=hpo_sql if (genes and req.include_sql) else None,
+                sql_source="hpo_pattern",
+                data=[], row_count=0,
+                execution_time_ms=(time.time() - t0) * 1000,
+            )
+
+        # ── Anaphora expansion ───────────────────────────────────────────────
+        if intent == "anaphora_query":
             query_text = _maybe_expand_with_history(req.message.strip(), req.history)
+
+        # ── LAYER 3: SQL engine (data_query / anaphora_query / hybrid) ───────
+        if intent in ("data_query", "anaphora_query", "hybrid"):
+            engine = get_engine()
             result = engine.query(query_text, db, req.max_rows)
+            sql_used = result.get("sql")
+            sql_source_used = result.get("sql_source")
 
-            # Log
-            try:
-                db.add(QueryLog(
-                    query_type="chat_data",
-                    query_text=req.message,
-                    result_count=result.get("row_count", 0),
-                    execution_time_ms=result.get("execution_time_ms", 0),
-                    executed_at=datetime.now(),
-                ))
-                db.commit()
-            except Exception:
-                pass
-
+            # Stage A returned rows
             if result.get("success") and result.get("row_count", 0) > 0:
-                rows = result.get("rows", [])[:req.max_rows]
-                row_count = result.get("row_count", 0)
+                rows_all = result.get("rows", [])
+                total = result.get("row_count", 0)
 
-                # Call ClinVar/PubMed API for specific variant lookups (1–5 rows)
-                # or when rsID is present in any result row
+                # Enrich with disease associations from DB columns + HPO API
+                # Prevents LLM from using training-knowledge disease names
+                try:
+                    from app.ai.gene_enricher import enrich_rows_with_diseases
+                    rows_all = enrich_rows_with_diseases(rows_all, db)
+                except Exception as _ge:
+                    logger.debug(f"Gene enrichment failed: {_ge}")
+
+                # Layer 4: top-10 cap (always)
+                rows, cap_note = _apply_top10_cap(rows_all, total)
+
+                # ClinVar/PubMed supplement — only for rsID or single-variant lookups
                 api_supplement = ""
-                if row_count <= 5 or re.search(r'\brs\d+\b', req.message, re.IGNORECASE):
+                if total <= 3 or re.search(r'\brs\d+\b', req.message, re.IGNORECASE):
                     ext = _run_external_sync(req.message)
-                    api_supplement = _format_api_supplement(ext)
+                    api_supplement = _format_api_supplement(ext) or ""
 
-                nl_explanation = _explain_results(req.message, rows, row_count)
+                # Layer 5: LLM answer with history
+                nl_explanation = _explain_results(
+                    req.message, rows, total, history=req.history
+                )
                 response_text = nl_explanation if nl_explanation else result["response"]
-
-                # Append API data to response if available
+                if cap_note:
+                    response_text += f"\n\n{cap_note}"
                 if api_supplement:
-                    response_text = response_text + "\n\n" + api_supplement
+                    response_text += f"\n\n{api_supplement}"
+
+                # Layer 6: disclaimer
+                response_text = _apply_disclaimer(response_text, intent)
+
+                try:
+                    db.add(QueryLog(
+                        query_type="chat_data",
+                        query_text=req.message,
+                        result_count=total,
+                        execution_time_ms=(time.time() - t0) * 1000,
+                        executed_at=datetime.now(),
+                    ))
+                    db.commit()
+                except Exception:
+                    pass
 
                 return ChatResponse(
                     response=response_text,
                     type="data_query",
-                    sql=result.get("sql") if req.include_sql else None,
-                    sql_source=result.get("sql_source"),
+                    sql=sql_used if req.include_sql else None,
+                    sql_source=sql_source_used,
                     data=rows,
-                    row_count=row_count,
+                    row_count=total,
                     execution_time_ms=(time.time() - t0) * 1000,
                 )
-            # If data query returned 0 rows and it's hybrid, fall through to general
-            if intent == "data_query":
-                raw_err = result.get("error", "") or result.get("response", "")
-                # Friendly message when DB isn't available yet
-                if any(s in str(raw_err).lower() for s in ("no such table", "unable to open", "database is locked")):
-                    msg = (
-                        "The variant database is still loading. "
-                        "Please try again in a few minutes once the database is ready.\n\n"
-                        "I can still answer general genomics questions — try asking: "
-                        "\"What is PVS1?\" or \"Explain ACMG classification\"."
-                    )
-                    return ChatResponse(
-                        response=msg, type="data_query",
-                        sql=result.get("sql") if req.include_sql else None,
-                        sql_source=result.get("sql_source"), data=[], row_count=0,
-                        execution_time_ms=(time.time() - t0) * 1000,
-                    )
 
-                # No DB results — try external APIs (ClinVar, PubMed, ClinGen)
-                from app.ai.llm_config import get_llm as _get_llm
-                _llm = _get_llm()
+            # Stage A returned 0 rows — DB error or empty
+            raw_err = result.get("error", "") or result.get("response", "")
+            if any(s in str(raw_err).lower() for s in
+                   ("no such table", "unable to open", "database is locked")):
+                return ChatResponse(
+                    response=(
+                        "The variant database is still loading. "
+                        "Please try again in a few minutes.\n\n"
+                        "I can still answer general genomics questions — try: "
+                        "\"What is PVS1?\" or \"Explain ACMG classification\"."
+                    ),
+                    type="data_query",
+                    sql=sql_used if req.include_sql else None,
+                    sql_source=sql_source_used,
+                    data=[], row_count=0,
+                    execution_time_ms=(time.time() - t0) * 1000,
+                )
+
+            # 0 rows — try external APIs (only for rsID or single gene, not broad queries)
+            from app.ai.llm_config import get_llm as _get_llm
+            _llm = _get_llm()
+            gene, rsid = _extract_gene_rsid(req.message)
+            if rsid or (gene and not hpo_context):
                 external = _run_external_sync(req.message)
                 ext_prompt = _format_external_for_llm(external, req.message)
                 if ext_prompt:
                     if _llm and hasattr(_llm, "answer_general"):
                         try:
-                            ext_answer = _llm.answer_general(ext_prompt)
+                            hist_dicts = [{"role": m.role, "content": m.content}
+                                          for m in req.history]
+                            ext_answer = _llm.answer_general(ext_prompt, history=hist_dicts)
                             if ext_answer:
+                                response_text = _apply_disclaimer(ext_answer, intent)
                                 return ChatResponse(
-                                    response=ext_answer,
+                                    response=response_text,
                                     type="data_query",
-                                    sql=result.get("sql") if req.include_sql else None,
+                                    sql=sql_used if req.include_sql else None,
                                     sql_source="external_api",
                                     data=[], row_count=0,
                                     execution_time_ms=(time.time() - t0) * 1000,
                                 )
                         except Exception as e:
                             logger.warning(f"External API LLM answer failed: {e}")
-                    # LLM unavailable — return formatted external evidence directly
                     ext_direct = _format_external_direct(external, req.message)
                     if ext_direct:
                         return ChatResponse(
-                            response=ext_direct,
+                            response=_apply_disclaimer(ext_direct, intent),
                             type="data_query",
-                            sql=result.get("sql") if req.include_sql else None,
+                            sql=sql_used if req.include_sql else None,
                             sql_source="external_api",
                             data=[], row_count=0,
                             execution_time_ms=(time.time() - t0) * 1000,
                         )
 
-                # Final fallback — LLM general knowledge (handles phenotype/disease questions)
-                if _llm and hasattr(_llm, "answer_general"):
-                    try:
-                        gen_answer = _llm.answer_general(req.message)
-                        if gen_answer:
-                            return ChatResponse(
-                                response=gen_answer,
-                                type="general",
-                                sql=result.get("sql") if req.include_sql else None,
-                                sql_source=result.get("sql_source"),
-                                data=[], row_count=0,
-                                execution_time_ms=(time.time() - t0) * 1000,
-                            )
-                    except Exception as e:
-                        logger.warning(f"LLM general fallback failed: {e}")
-                msg = result["response"] if result.get("success") else raw_err or "No results found."
-                return ChatResponse(
-                    response=msg,
-                    type="data_query",
-                    sql=result.get("sql") if req.include_sql else None,
-                    sql_source=result.get("sql_source"),
-                    data=[],
-                    row_count=0,
-                    execution_time_ms=(time.time() - t0) * 1000,
-                )
+            # Final fallback — LLM general with history
+            if _llm and hasattr(_llm, "answer_general"):
+                try:
+                    hist_dicts = [{"role": m.role, "content": m.content}
+                                  for m in req.history]
+                    gen_answer = _llm.answer_general(req.message, history=hist_dicts)
+                    if gen_answer:
+                        return ChatResponse(
+                            response=_apply_disclaimer(gen_answer, "general"),
+                            type="general",
+                            sql=sql_used if req.include_sql else None,
+                            sql_source=sql_source_used,
+                            data=[], row_count=0,
+                            execution_time_ms=(time.time() - t0) * 1000,
+                        )
+                except Exception as e:
+                    logger.warning(f"LLM general fallback failed: {e}")
 
-        # ── General / hybrid path ────────────────────────────────────────────
+            msg = result["response"] if result.get("success") else raw_err or "No results found."
+            return ChatResponse(
+                response=_apply_disclaimer(msg, intent),
+                type="data_query",
+                sql=sql_used if req.include_sql else None,
+                sql_source=sql_source_used,
+                data=[], row_count=0,
+                execution_time_ms=(time.time() - t0) * 1000,
+            )
+
+        # ── LAYER 5 + 6: General path with history + disclaimer ──────────────
         from app.ai.llm_config import get_llm
         answer = _answer_general(req.message, req.history, get_llm())
+        answer = _apply_disclaimer(answer, "general")
         return ChatResponse(
             response=answer,
             type="general",

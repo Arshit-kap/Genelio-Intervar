@@ -174,7 +174,10 @@ Q: List 50 genes with missense variants
 SQL: SELECT DISTINCT "Ref.Gene", COUNT(*) as variant_count FROM variants WHERE "ExonicFunc.refGene" = 'nonsynonymous SNV' AND "Ref.Gene" != 'NONE' GROUP BY "Ref.Gene" ORDER BY variant_count DESC LIMIT 50;
 
 Q: ClinVar Pathogenic variants
-SQL: SELECT Chr, Start, Ref, Alt, "Ref.Gene", "clinvar: Clinvar", "InterVar: InterVar and Evidence", Freq_gnomAD_genome_ALL FROM variants WHERE "clinvar: Clinvar" LIKE '%Pathogenic%' LIMIT 50;
+SQL: SELECT Chr, Start, Ref, Alt, "Ref.Gene", "clinvar: Clinvar", "InterVar: InterVar and Evidence", Freq_gnomAD_genome_ALL, CADD_phred FROM variants WHERE "clinvar: Clinvar" LIKE 'clinvar: Pathogenic%' AND "clinvar: Clinvar" NOT LIKE 'clinvar: Conflicting%' LIMIT 50;
+
+Q: Classification tier breakdown with gene count and variant count per tier
+SQL: SELECT CASE WHEN "clinvar: Clinvar" LIKE 'clinvar: Pathogenic%' AND "clinvar: Clinvar" NOT LIKE 'clinvar: Conflicting%' THEN 'Pathogenic' WHEN "clinvar: Clinvar" LIKE 'clinvar: Likely_pathogenic%' THEN 'Likely Pathogenic' WHEN "clinvar: Clinvar" LIKE 'clinvar: Benign%' THEN 'Benign' WHEN "clinvar: Clinvar" LIKE 'clinvar: Uncertain%' OR "clinvar: Clinvar" LIKE 'clinvar: Conflicting%' THEN 'VUS/Conflicting' ELSE 'Other' END AS classification_tier, COUNT(DISTINCT "Ref.Gene") AS gene_count, COUNT(*) AS variant_count FROM variants GROUP BY classification_tier ORDER BY variant_count DESC LIMIT 20;
 
 Q: Splicing variants
 SQL: SELECT Chr, Start, Ref, Alt, "Ref.Gene", "Func.refGene", dbscSNV_ADA_SCORE, dbscSNV_RF_SCORE, "InterVar: InterVar and Evidence" FROM variants WHERE "Func.refGene" = 'splicing' LIMIT 50;

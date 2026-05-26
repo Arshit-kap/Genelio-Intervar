@@ -42,8 +42,11 @@ _SQL_SYSTEM_MSG = (
     "  frameshift → \"ExonicFunc.refGene\" LIKE '%frameshift%'\n"
     "  stopgain   → \"ExonicFunc.refGene\" = 'stopgain'\n"
     "  synonymous → \"ExonicFunc.refGene\" = 'synonymous SNV'\n"
-    "  pathogenic → \"InterVar: InterVar and Evidence\" LIKE 'InterVar: Pathogenic%'\n"
-    "  ClinVar    → \"clinvar: Clinvar\" LIKE '%Pathogenic%'\n"
+    "  pathogenic → \"clinvar: Clinvar\" LIKE 'clinvar: Pathogenic%' (ClinVar is PRIMARY — values stored as 'clinvar: Pathogenic ', 'clinvar: Likely_pathogenic ' with underscore+trailing space)\n"
+    "  likely pathogenic → \"clinvar: Clinvar\" LIKE 'clinvar: Likely_pathogenic%' OR \"clinvar: Clinvar\" LIKE 'clinvar: Pathogenic/Likely_pathogenic%'\n"
+    "  InterVar fallback → \"InterVar: InterVar and Evidence\" LIKE 'InterVar: Pathogenic%'\n"
+    "  NEVER use LIKE '%Pathogenic%' — it matches 'Conflicting_interpretations_of_pathogenicity'\n"
+    "  benign    → \"clinvar: Clinvar\" LIKE 'clinvar: Benign%' OR \"clinvar: Clinvar\" LIKE 'clinvar: Likely_benign%'\n"
     "  het / hom  → Otherinfo = 'het' / 'hom'\n"
     "  gnomAD     → Freq_gnomAD_genome_ALL  (NULL = absent from gnomAD)\n"
     "  CADD score → CADD_phred  (>20 damaging, >30 highly damaging)\n"
@@ -63,7 +66,7 @@ _EXPLAIN_SYSTEM_MSG = (
     "RULES:\n"
     "1. Give a direct 2–4 sentence summary of the KEY FINDING. No reasoning, no step-by-step.\n"
     "2. Translate technical terms into plain English:\n"
-    "   - 'InterVar: Pathogenic' → disease-causing\n"
+    "   - 'InterVar: Pathogenic' or 'clinvar: Pathogenic' → disease-causing\n"
     "   - 'InterVar: Benign' → harmless\n"
     "   - 'InterVar: Uncertain significance' → uncertain significance\n"
     "   - 'nonsynonymous SNV' → missense variant (amino acid change)\n"
@@ -74,7 +77,13 @@ _EXPLAIN_SYSTEM_MSG = (
     "   - Otherinfo 'het' → heterozygous; 'hom' → homozygous\n"
     "3. Only mention numbers and names that appear in the data provided.\n"
     "4. For disease-causing findings end with: "
-    "'⚠️ Educational only — consult a genetic counselor.'"
+    "'⚠️ Educational only — consult a genetic counselor.'\n"
+    "5. CRITICAL — Disease associations:\n"
+    "   Each row contains a '_diseases' field from the patient's own OMIM/Orphanet database.\n"
+    "   You MUST use ONLY '_diseases' when stating what disease a gene causes.\n"
+    "   NEVER use training memory for gene-disease links — it may be wrong or outdated.\n"
+    "   If '_diseases' says 'MSMD due to complete ISG15 deficiency', report exactly that.\n"
+    "   Do NOT substitute a more famous association from your training knowledge."
 )
 
 _GENERAL_SYSTEM_MSG = (
@@ -287,7 +296,8 @@ def _build_vllm_api() -> Optional[Any]:
                 )
                 return self._extract_content(resp)
 
-            def explain(self, question: str, rows: list, row_count: int) -> str:
+            def explain(self, question: str, rows: list, row_count: int,
+                        history: list = None, hpo_context: dict = None) -> str:
                 import re as _re
                 sample = rows[:5] if rows else []
                 if not sample:
@@ -300,19 +310,25 @@ def _build_vllm_api() -> Optional[Any]:
                 if row_count > 5:
                     data_text += f"\n(plus {row_count - 5} more rows not shown)"
 
-                # Keep user_content as pure data — no instructions (those are in system prompt).
-                # Mixing instructions into user_content causes the model to echo them back.
                 user_content = (
                     f"Question: {question}\n"
                     f"Rows returned: {row_count}\n\n"
                     f"Data ({len(sample)} rows shown):\n{data_text}"
                 )
+                if hpo_context:
+                    user_content += f"\n\nHPO context: {hpo_context}"
+
+                messages = [{"role": "system", "content": _EXPLAIN_SYSTEM_MSG}]
+                for m in (history or [])[-4:]:
+                    role = m.get("role") if isinstance(m, dict) else getattr(m, "role", None)
+                    content = m.get("content") if isinstance(m, dict) else getattr(m, "content", None)
+                    if role in ("user", "assistant") and content:
+                        messages.append({"role": role, "content": str(content)})
+                messages.append({"role": "user", "content": user_content})
+
                 resp = client.chat.completions.create(
                     model=VLLM_MODEL,
-                    messages=[
-                        {"role": "system", "content": _EXPLAIN_SYSTEM_MSG},
-                        {"role": "user",   "content": user_content},
-                    ],
+                    messages=messages,
                     max_tokens=500,
                     temperature=0.1,
                     extra_body={"think": False},
@@ -333,7 +349,7 @@ def _build_vllm_api() -> Optional[Any]:
                 return content
 
             @staticmethod
-            def _data_summary(row_count: int, rows: list, question: str = "") -> str:
+            def _data_summary(row_count: int, rows: list, question: str = "") -> str:  # noqa: ARG004
                 """Build a clean data-driven summary when LLM reasoning can't be stripped."""
                 if not rows:
                     return f"Found {row_count} result(s) matching your query."
@@ -362,13 +378,17 @@ def _build_vllm_api() -> Optional[Any]:
                     parts.append("⚠️ Educational only — consult a genetic counselor.")
                 return " ".join(parts)
 
-            def answer_general(self, question: str) -> str:
+            def answer_general(self, question: str, history: list = None) -> str:
+                messages = [{"role": "system", "content": _GENERAL_SYSTEM_MSG}]
+                for m in (history or [])[-6:]:
+                    role = m.get("role") if isinstance(m, dict) else getattr(m, "role", None)
+                    content = m.get("content") if isinstance(m, dict) else getattr(m, "content", None)
+                    if role in ("user", "assistant") and content:
+                        messages.append({"role": role, "content": str(content)})
+                messages.append({"role": "user", "content": question})
                 resp = client.chat.completions.create(
                     model=VLLM_MODEL,
-                    messages=[
-                        {"role": "system", "content": _GENERAL_SYSTEM_MSG},
-                        {"role": "user",   "content": question},
-                    ],
+                    messages=messages,
                     max_tokens=800,
                     temperature=0.4,
                     extra_body={"think": False},
