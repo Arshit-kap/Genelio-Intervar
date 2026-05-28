@@ -93,3 +93,47 @@ desktop.ini
 # ── Misc runtime ──────────────────────────────────────────────────────────────
 gradio_public_url.txt
 PowerShell*.txt
+
+# ── Diagnostic / one-off scripts (not production) ─────────────────────────────
+check_*.py
+diagnose_*.py
+preview_*.py
+full_status.py
+quick_db_test.py
+remote_*.py
+run_tests.py
+upload_db.py
+verify_*.py
+extract_zip.py
+monitor_*.py
+resume_transfer.py
+cols_check.py
+test_db_setup.py
+test_sql_speed.py
+test_stats.py
+test_acmg.py
+test_qwen3.py
+
+# ── Status / delivery docs (not production) ───────────────────────────────────
+COMPLETE_PROJECT_ASSESSMENT.md
+DATABASE_INGESTION_STATUS.md
+DATABASE_POPULATION_STATUS.md
+GENOMIC_QA_ENGINE_COMPLETE_GUIDE.md
+IMPLEMENTATION.md
+MODULE_TEST_REPORT.md
+PHASES_1-3_DELIVERY_SUMMARY.md
+PROJECT_DELIVERY.md
+PROJECT_STATUS_REPORT.md
+RAG_PROJECT_SETUP_GUIDE.md
+RAG_SETUP_STATUS.md
+genomic_variant_architecture.txt
+verify_rag.bat
+
+# ── Reference / other projects (not production code) ─────────────────────────
+interval_02/
+genelio_frontend/
+genelio_backend/
+
+# ── Server startup logs ───────────────────────────────────────────────────────
+server_800*.log
+tunnel.log

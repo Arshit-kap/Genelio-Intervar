@@ -366,6 +366,7 @@ class ExecutorResult:
     intent: str
     rows: list[dict[str, Any]] = field(default_factory=list)
     total_matched: int = 0
+    universe: int = 0                            # total rows in DB (for header context)
     aggregate_table: list[dict[str, Any]] = field(default_factory=list)
     aggregate_caption: str = ""
     description: str = ""
@@ -379,7 +380,7 @@ _VARIANT_COLS = (
     '"Ref.Gene"', "Chr", "Start", "End", "Ref", "Alt",
     '"Func.refGene"', '"ExonicFunc.refGene"', '"AAChange.refGene"',
     '"clinvar: Clinvar"', '"InterVar: InterVar and Evidence"',
-    "CADD_phred", "Freq_gnomAD_genome_ALL",
+    "CADD_phred", "SIFT_score", "Freq_gnomAD_genome_ALL",
     "Freq_esp6500siv2_all", "Freq_1000g2015aug_all",
     "avsnp147", "Otherinfo",
     "Orpha", "OMIM", "Phenotype_MIM",
@@ -396,6 +397,52 @@ _PATHOGENIC_WHERE = (
     "OR \"InterVar: InterVar and Evidence\" LIKE 'InterVar: Likely pathogenic%'"
     ")"
 )
+
+
+# ── Universe count cache ──────────────────────────────────────────────────────
+
+_UNIVERSE_CACHE: Optional[int] = None
+
+
+def _get_universe(db: Session) -> int:
+    """Return total row count from variants table (cached after first call)."""
+    global _UNIVERSE_CACHE
+    if _UNIVERSE_CACHE is None:
+        try:
+            r = db.execute(sa_text("SELECT COUNT(*) FROM variants")).fetchone()
+            _UNIVERSE_CACHE = int(r[0]) if r else 0
+        except Exception:
+            _UNIVERSE_CACHE = 0
+    return _UNIVERSE_CACHE
+
+
+# ── ACMG flags extractor ──────────────────────────────────────────────────────
+# Parse the InterVar evidence string and return which ACMG criteria fired.
+# Format: "InterVar: Pathogenic PVS1=1 PS=[0,0,0,0,0] PM=[0,1,0,0,0,0] ..."
+
+_PVS1_RE = re.compile(r'\bPVS1=(\d+)')
+_BA1_RE  = re.compile(r'\bBA1=(\d+)')
+_FLAG_LIST_RE = re.compile(r'\b(PS|PM|PP|BS|BP)=\[([\d,\s]+)\]')
+
+
+def _extract_acmg_flags(intervar_str: str) -> list:
+    """Return list of ACMG criteria that fired (e.g. ['PVS1', 'PM'])."""
+    if not intervar_str:
+        return []
+    flags: list = []
+    m = _PVS1_RE.search(intervar_str)
+    if m and int(m.group(1)) > 0:
+        flags.append("PVS1")
+    m = _BA1_RE.search(intervar_str)
+    if m and int(m.group(1)) > 0:
+        flags.append("BA1")
+    for m in _FLAG_LIST_RE.finditer(intervar_str):
+        key = m.group(1)
+        vals = [int(v.strip()) for v in m.group(2).split(',')
+                if v.strip().lstrip('-').isdigit()]
+        if any(v > 0 for v in vals):
+            flags.append(key)
+    return flags
 
 
 # ── JSON helper ────────────────────────────────────────────────────────────────
@@ -738,6 +785,7 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
     """Stage 2 — map RouterDecision to SQL, execute, apply pathogenicity buckets."""
     intent = decision.intent
     cap = min(decision.limit or _MAX_ROWS, 100)
+    universe = _get_universe(db)  # total rows (cached after first call)
 
     # ── coord_lookup ──────────────────────────────────────────────────────────
     if intent == "coord_lookup":
@@ -759,12 +807,12 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
                        f"LIMIT 20;")
                 desc = f"chr{decision.chr}:{decision.start}"
         else:
-            return ExecutorResult(kind="empty", intent=intent,
+            return ExecutorResult(kind="empty", intent=intent, universe=universe,
                                   description="coord_lookup with no rsid/chr/pos")
         rows = _run_sql(sql, db)
         return ExecutorResult(
             kind="rows" if rows else "empty",
-            intent=intent, rows=rows,
+            intent=intent, rows=rows, universe=universe,
             total_matched=len(rows), description=desc,
         )
 
@@ -812,7 +860,7 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
         rows = _run_sql(sql, db, cap)
         return ExecutorResult(
             kind="aggregate" if rows else "empty",
-            intent=intent,
+            intent=intent, universe=universe,
             aggregate_table=rows,
             aggregate_caption=caption,
             total_matched=len(rows),
@@ -842,7 +890,7 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
         rows = path_rows
         return ExecutorResult(
             kind="summary",
-            intent=intent,
+            intent=intent, universe=universe,
             rows=rows,
             aggregate_table=agg_table,
             aggregate_caption="InterVar verdict distribution (top 10 categories)",
@@ -862,7 +910,7 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
                     break
         return ExecutorResult(
             kind="schema",
-            intent=intent,
+            intent=intent, universe=0,  # schema lookup — no DB search
             schema_column=col,
             schema_definition=defn or f"(no definition found for column '{col}')",
         )
@@ -984,7 +1032,7 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
         desc = _describe_filter(decision)
         return ExecutorResult(
             kind="rows" if rows else "empty",
-            intent=intent, rows=rows,
+            intent=intent, rows=rows, universe=universe,
             total_matched=len(rows), description=desc,
         )
 
@@ -992,7 +1040,7 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
     if intent == "hpo_symptom":
         genes = session_profile.get("candidate_genes") or []
         if not genes:
-            return ExecutorResult(kind="empty", intent=intent,
+            return ExecutorResult(kind="empty", intent=intent, universe=universe,
                                   description="HPO resolved 0 candidate genes")
         cap_genes = genes[:200]
         gene_list = ", ".join(f"'{g}'" for g in cap_genes)
@@ -1006,7 +1054,7 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
         rows = rank_rows(rows, _MAX_ROWS)
         return ExecutorResult(
             kind="rows" if rows else "empty",
-            intent=intent, rows=rows,
+            intent=intent, rows=rows, universe=universe,
             total_matched=len(rows),
             description=(
                 f"HPO-derived genes ({len(genes)}) "
@@ -1015,7 +1063,7 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
         )
 
     # ── other ─────────────────────────────────────────────────────────────────
-    return ExecutorResult(kind="empty", intent=intent,
+    return ExecutorResult(kind="empty", intent=intent, universe=universe,
                           description="intent=other — no filter applied")
 
 
@@ -1045,39 +1093,70 @@ def _describe_filter(d: RouterDecision) -> str:
 
 def render_executor(result: ExecutorResult) -> str:
     """Convert ExecutorResult to a compact text block for the answer LLM."""
+    univ = result.universe
+    univ_note = f" (universe: {univ:,} variants)" if univ else ""
+
     if result.kind == "empty":
         return (
-            f"MATCHED RECORDS — 0 variants found.\n"
+            f"MATCHED RECORDS — 0 matches{univ_note}.\n"
             f"Filter applied: {result.description}\n"
         )
     if result.kind == "rows":
+        n = result.total_matched
         head = (
-            f"MATCHED RECORDS — {result.total_matched} variant(s) "
-            f"(showing top {len(result.rows)} ranked by evidence tier then CADD).\n"
-            f"Filter: {result.description}\n\n"
+            f"MATCHED RECORDS — {n} match{'es' if n != 1 else ''} "
+            f"(showing top {len(result.rows)} ranked by InterVar verdict "
+            f"then ClinVar then CADD{univ_note}).\n"
+            f"Filter applied: {result.description}\n"
         )
-        lines = []
+        row_blocks = []
         for row in result.rows:
             bucket_label = row.get("_bucket_label", "")
             gene = row.get("Ref.Gene", "?")
             aac  = (row.get("AAChange.refGene") or "").split(",")[0].strip()
             func = row.get("ExonicFunc.refGene") or row.get("Func.refGene") or "?"
-            lines.append(
-                f"🧬 **{gene}** · {aac or '(no HGVS)'} · {func}\n"
-                f"   Evidence tier: {bucket_label}\n"
-                f"   chr{row.get('Chr')}:{row.get('Start')} {row.get('Ref')}>({row.get('Alt')})\n"
-                f"   ClinVar: {row.get('clinvar: Clinvar', 'N/A')}\n"
-                f"   InterVar: {(row.get('InterVar: InterVar and Evidence') or 'N/A')[:60]}\n"
-                f"   CADD: {row.get('CADD_phred', 'N/A')} | "
-                f"gnomAD: {row.get('Freq_gnomAD_genome_ALL', 'N/A')} | "
-                f"rsID: {row.get('avsnp147', 'N/A')}\n"
-                + (f"   Disease: {row.get('Orpha') or row.get('Phenotype_MIM') or row.get('OMIM') or ''}\n"
-                   if (row.get('Orpha') or row.get('Phenotype_MIM') or row.get('OMIM')) else "")
-            )
-        return head + "\n".join(lines)
+            intervar_str = row.get("InterVar: InterVar and Evidence") or ""
+            acmg_flags = _extract_acmg_flags(intervar_str)
+
+            bits = [
+                f"🧬 **{gene}** · {aac or '(no HGVS)'} · {func}",
+                f"   Evidence tier: {bucket_label}",
+                f"   chr{row.get('Chr')}:{row.get('Start')} "
+                f"{row.get('Ref', '?')}>{row.get('Alt', '?')}",
+                f"   ClinVar: {row.get('clinvar: Clinvar', 'N/A')}",
+                f"   InterVar: {intervar_str[:70] or 'N/A'}",
+                f"   Zygosity: {row.get('Otherinfo', 'N/A')}",
+            ]
+            if row.get("avsnp147"):
+                bits.append(f"   rsID: {row['avsnp147']}")
+            cadd = row.get("CADD_phred")
+            if cadd is not None:
+                bits.append(f"   CADD: {cadd}")
+            sift = row.get("SIFT_score")
+            if sift is not None:
+                bits.append(f"   SIFT: {sift}")
+            gnomad = row.get("Freq_gnomAD_genome_ALL")
+            if gnomad is not None:
+                bits.append(f"   gnomAD AF: {gnomad}")
+            if acmg_flags:
+                bits.append(f"   ACMG evidence fired: {', '.join(acmg_flags)}")
+            dz = []
+            if row.get("OMIM"):        dz.append(f"OMIM:{row['OMIM']}")
+            if row.get("Phenotype_MIM"): dz.append(f"PhenotypeMIM:{row['Phenotype_MIM']}")
+            if row.get("Orpha"):       dz.append(f"Orpha:{row['Orpha']}")
+            if dz:
+                bits.append(f"   Disease links: {' · '.join(dz)}")
+            row_blocks.append("\n".join(bits))
+        return head + "\n\n" + "\n\n".join(row_blocks)
 
     if result.kind == "aggregate":
-        head = f"MATCHED RECORDS — {result.aggregate_caption}.\n"
+        if univ:
+            head = (
+                f"MATCHED RECORDS — {result.aggregate_caption} "
+                f"(universe: {univ:,}, {result.total_matched} groups).\n"
+            )
+        else:
+            head = f"MATCHED RECORDS — {result.aggregate_caption} ({result.total_matched} groups).\n"
         if not result.aggregate_table:
             return head + "(no rows after filter)"
         cols = list(result.aggregate_table[0].keys())
@@ -1094,7 +1173,10 @@ def render_executor(result: ExecutorResult) -> str:
         )
     if result.kind == "summary":
         # Render verdict distribution + top pathogenic rows
-        head = "MATCHED RECORDS — whole-report summary requested.\n\n"
+        head = (
+            f"MATCHED RECORDS — whole-report summary requested"
+            f"{univ_note}.\n\n"
+        )
         verdict_text = ""
         if result.aggregate_table:
             verdict_text = "InterVar verdict distribution:\n"
@@ -1106,13 +1188,17 @@ def render_executor(result: ExecutorResult) -> str:
             top_text = f"Top {len(result.rows)} high-priority variants:\n"
             for row in result.rows:
                 gene = row.get("Ref.Gene", "?")
-                cv = row.get("clinvar: Clinvar", "N/A")
-                iv = (row.get("InterVar: InterVar and Evidence") or "N/A")[:50]
+                cv   = row.get("clinvar: Clinvar", "N/A")
+                iv   = (row.get("InterVar: InterVar and Evidence") or "N/A")[:60]
                 cadd = row.get("CADD_phred", "N/A")
                 bucket_label = row.get("_bucket_label", "")
+                acmg_flags = _extract_acmg_flags(
+                    row.get("InterVar: InterVar and Evidence") or ""
+                )
+                flags_str = f" [{', '.join(acmg_flags)}]" if acmg_flags else ""
                 top_text += (
                     f"  🧬 **{gene}** · ClinVar: {cv} · InterVar: {iv}\n"
-                    f"       Evidence tier: {bucket_label} · CADD: {cadd}\n"
+                    f"       Tier: {bucket_label}{flags_str} · CADD: {cadd}\n"
                 )
         return head + verdict_text + top_text
 
