@@ -178,9 +178,9 @@ _SAFETY_PATTERNS = [
         r'|prescribe|my\s+treatment)\b',
         re.IGNORECASE), "treatment"),
     (re.compile(
-        r'\b(can\s+i\s+(have|get)\s+(children|pregnant|kids|babies)'
-        r'|should\s+i\s+(have|get)\s+(children|pregnant|kids)'
-        r'|reproductive\s+(decision|choice|option))\b',
+        r'\b(should\s+i\s+(have|get)\s+(children|pregnant|kids|babies)'
+        r'|reproductive\s+(decision|choice|option)'
+        r'|is\s+it\s+safe\s+(for\s+me\s+)?to\s+(have|get)\s+(pregnant|kids|children))\b',
         re.IGNORECASE), "reproductive"),
     (re.compile(
         r'\b(kill\s+myself|end\s+my\s+life|suicide|self.harm|want\s+to\s+die'
@@ -862,9 +862,15 @@ def _static_answer(message: str) -> str:
             "• Rate: ~1-2 de novo coding variants per person per generation"
         )
     # E1 / E2: Inheritance and passing to children
-    if re.search(r'\b(will|can|might|could).{0,20}(children|kids|child|son|daughter|offspring|family).{0,30}(inherit|get|have|pass)\b'
-                 r'|\b(pass|inherit).{0,20}(children|kids|child)\b'
-                 r'|\b(children|kids|family).{0,20}(inherit|risk|tested|check)\b', msg):
+    if re.search(
+        r'\b(will|can|might|could).{0,20}(children|kids|child|son|daughter|offspring|family).{0,30}(inherit|get|have|pass)\b'
+        r'|\b(pass|inherit).{0,20}(children|kids|child|offspring)\b'
+        r'|\b(children|kids|family|offspring).{0,20}(inherit|risk|tested|check)\b'
+        # broad: any "risk" mention near offspring/children (up to 80 chars apart)
+        r'|\b(risk|chance|probability).{0,80}(offspring|children|child|kids|son|daughter)\b'
+        r'|\b(offspring|children|child|kids|son|daughter).{0,80}(risk|inherit|chance)\b'
+        r'|\b(pass\w*|inherit\w*).{0,80}(offspring|children|child|kids|son|daughter)\b',
+        msg):
         return (
             "**Will my children inherit this?**\n\n"
             "Whether a variant is passed to children depends on the inheritance pattern:\n\n"
@@ -1326,28 +1332,29 @@ def _run_intervar_pipeline(
         req.message, db, session_profile, history_dicts
     )
 
-    # If router returned "other" with no entities AND LLM is available for
-    # general answers, let the legacy pipeline handle it so we preserve the
-    # rich static KB and the pronoun-expansion logic.
-    if (
-        decision.intent == "other"
-        and not (decision.gene or decision.rsid or decision.chr is not None
-                 or decision.disease_term or decision.symptoms)
+    # domain_fallback and other with no entities → legacy pipeline has richer KB
+    if decision.intent in ("other",) and not (
+        decision.gene or decision.rsid or decision.chr is not None
+        or decision.disease_term or decision.symptoms
     ):
         return None  # signal: fall through to legacy pipeline
 
-    # Empty result short-circuit (no LLM call needed)
+    # Empty result short-circuit
     if executor.kind == "empty":
         has_specific_filter = bool(
             decision.gene or decision.rsid or decision.chr is not None
             or decision.disease_term
+        )
+        hpo_interactive = (
+            decision.intent == "hpo_symptom"
+            and executor.description.startswith(("SYMPTOM_CLARIFICATION", "SYMPTOM_PROMPT"))
         )
         hpo_all_unresolved = (
             decision.intent == "hpo_symptom"
             and not resolution_summary.get("added")
             and resolution_summary.get("unresolved")
         )
-        if has_specific_filter or hpo_all_unresolved:
+        if has_specific_filter or hpo_all_unresolved or hpo_interactive:
             empty_reply = _render_empty_router_answer(decision, executor, resolution_summary)
             empty_reply = apply_safety_tag(empty_reply, decision.intent)
             return ChatResponse(
@@ -1355,24 +1362,28 @@ def _run_intervar_pipeline(
                 type=decision.intent,
                 execution_time_ms=(time.time() - t0) * 1000,
             )
-        # Broad question with no filter and empty result → fall back
+        # Broad question with no filter → fall through
         return None
 
     # Schema lookup — no LLM needed when definition found
     if executor.kind == "schema":
         defn = executor.schema_definition or ""
         # If no definition found in _COLUMN_REFERENCE, fall back to legacy
-        # pipeline which has a rich static KB (CADD, VUS, ACMG tiers, etc.)
         if defn.startswith("(no definition"):
-            return None  # signal: let legacy _static_answer handle it
-        resp = (
-            f"**{executor.schema_column}** — {defn}\n\n"
-            "This is the definition from the InterVar genomic schema reference."
-        )
+            return None
+        # LLM refused or empty → fall back to static KB
+        if not defn or "I can't answer" in defn or "please speak with a genetic counselor" in defn[:80]:
+            return None
+
+        # domain_fallback — just return the LLM answer without schema label
+        if decision.intent == "domain_fallback":
+            resp = defn
+        else:
+            resp = f"**{executor.schema_column}** — {defn}"
         resp = apply_safety_tag(resp, decision.intent)
         return ChatResponse(
             response=resp,
-            type="schema_lookup",
+            type=decision.intent,
             execution_time_ms=(time.time() - t0) * 1000,
         )
 
@@ -1455,6 +1466,28 @@ def _render_empty_router_answer(decision: Any, executor: Any, resolution_summary
         loc = f"chr{decision.chr}:{decision.start}" if decision.start else f"chr{decision.chr}"
         return f"No variant at **{loc}** was found in your report."
     if intent == "hpo_symptom":
+        # Interactive symptom-prompt case
+        if executor.description.startswith("SYMPTOM_PROMPT"):
+            return (
+                "To help you find relevant genes and variants, I need to know your symptoms.\n\n"
+                "**What symptoms are you experiencing?**\n\n"
+                "For example, you could mention:\n"
+                "- *Muscle weakness* or *fatigue*\n"
+                "- *Blurry vision* or *hearing loss*\n"
+                "- *Joint pain* or *easy bruising*\n"
+                "- *Shortness of breath* or *heart palpitations*\n"
+                "- *Seizures* or *developmental delay*\n\n"
+                "The more specific you are, the better I can match your symptoms to the genes and variants in your report."
+            )
+        if executor.description.startswith("SYMPTOM_CLARIFICATION"):
+            unresolved = decision.symptoms or []
+            unr = ", ".join(f'"{s}"' for s in unresolved) if unresolved else "those symptoms"
+            return (
+                f"I couldn't map {unr} to a recognised clinical symptom (HPO). "
+                "Could you rephrase with more specific clinical language? For example: "
+                "*muscle weakness*, *hearing loss*, *seizures*, *abdominal pain*, *fatigue*, "
+                "*blurry vision*, *joint pain*, *easy bruising*, *shortness of breath*."
+            )
         added = resolution_summary.get("added") or []
         unresolved = resolution_summary.get("unresolved") or []
         if not added and unresolved:

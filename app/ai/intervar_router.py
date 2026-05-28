@@ -112,9 +112,21 @@ significance" / "Likely benign" / "Benign"), and acmg_flag/acmg_flag_value.
     "VUS" / "variant of uncertain significance" / "uncertain" → intervar_verdict = "Uncertain significance"
     When a gene name is also present, combine biofilter gene + acmg_clinvar intervar_verdict: \
 use intent="biofilter" with both gene AND intervar_verdict populated.
-- **disease_link** — user names a DISEASE or SYNDROME ("Rett syndrome", \
-"Wilson disease", "muscular dystrophy"). Populate disease_term. \
-IMPORTANT: gene names (SERPINA1, BRCA1, TP53) are NOT diseases — route those to biofilter.
+- **disease_link** — user names a DISEASE, SYNDROME, or ORGAN SYSTEM.
+    Populate disease_term.
+    IMPORTANT: gene names (SERPINA1, BRCA1, TP53) are NOT diseases — use biofilter.
+    ORGAN-SYSTEM QUERIES → ALWAYS use disease_link, NOT hpo_symptom:
+      "eye-related", "any eye issues", "eye genes"        → disease_term = "eye"
+      "lung-related", "pulmonary", "breathing genes"       → disease_term = "lung"
+      "ear-related", "hearing genes", "ear problems"       → disease_term = "ear"
+      "heart-related", "cardiac genes"                     → disease_term = "heart"
+      "kidney-related", "renal genes"                      → disease_term = "kidney"
+      "liver-related", "hepatic genes"                     → disease_term = "liver"
+      "brain-related", "neurological genes"                → disease_term = "brain"
+      "muscle-related", "muscular genes"                   → disease_term = "muscle"
+      "bone-related", "skeletal genes"                     → disease_term = "bone"
+      "skin-related", "dermatological genes"               → disease_term = "skin"
+    ACTUAL SYMPTOMS ("I have blurry vision", "my eyes hurt") → hpo_symptom instead.
 - **aggregate** — user wants counts / averages / top-N. Populate \
 group_by, agg_func, limit.
 - **hpo_symptom** — user describes lay symptoms ("I have headaches", \
@@ -129,8 +141,13 @@ wants_schema=true and target_column to the exact term they asked about.
     "What are ACMG classification tiers?" → target_column = "ACMG classification tiers"
     "What is BA1?" → target_column = "BA1"
     "Explain gnomAD" → target_column = "Freq_gnomAD_genome_ALL"
+- **domain_fallback** — user asks a general genomics/medical question that does \
+not fit any other intent (no variant lookup, no schema term, no symptoms). Examples: \
+"What is the difference between ClinVar and InterVar?", "Tell me about BRCA1 gene", \
+"What genes cause Marfan syndrome?", "How does inheritance work?", "What is CFTR?". \
+Set intent="domain_fallback". The LLM will answer from its medical knowledge base.
 - **summary** — user asks for an overview/summary of the report.
-- **other** — anything else.
+- **other** — completely unrelated to genomics (e.g. weather, cooking).
 
 Examples:
 
@@ -155,6 +172,12 @@ OUTPUT: {"intent":"biofilter","needs_hpo":false,"symptoms":[],"chr":null,"start"
 INPUT: "Find uncertain significance variants in TP53"
 OUTPUT: {"intent":"biofilter","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":"TP53","func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":"Uncertain significance","acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
 
+INPUT: "Show me all my variants of uncertain significance"
+OUTPUT: {"intent":"acmg_clinvar","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":"Uncertain significance","acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
+INPUT: "Which variants does ClinVar call pathogenic but InterVar calls uncertain?"
+OUTPUT: {"intent":"acmg_clinvar","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":"Pathogenic","intervar_verdict":"Uncertain significance","acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
 INPUT: "Which variants are Pathogenic in ClinVar but have gnomAD > 1%?"
 OUTPUT: {"intent":"acmg_clinvar","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":"Pathogenic","intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":0.01,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
 
@@ -163,6 +186,21 @@ OUTPUT: {"intent":"acmg_clinvar","needs_hpo":false,"symptoms":[],"chr":null,"sta
 
 INPUT: "Find variants associated with Rett syndrome that InterVar calls Benign."
 OUTPUT: {"intent":"disease_link","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":"Benign","acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":"Rett syndrome","group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
+INPUT: "Are there eye-related issues in my genes?"
+OUTPUT: {"intent":"disease_link","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":"eye","group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
+INPUT: "Are there lung-related issues in my genes?"
+OUTPUT: {"intent":"disease_link","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":"lung","group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
+INPUT: "Are there ear-related issues in my genes?"
+OUTPUT: {"intent":"disease_link","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":"ear","group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
+INPUT: "What is the difference between ClinVar and InterVar?"
+OUTPUT: {"intent":"domain_fallback","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
+INPUT: "Tell me about the BRCA1 gene"
+OUTPUT: {"intent":"domain_fallback","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
 
 INPUT: "Count Pathogenic variants per gene; top 5 genes."
 OUTPUT: {"intent":"aggregate","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":"Pathogenic","acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":"gene","agg_func":"count","limit":5,"wants_schema":false,"target_column":null}
@@ -175,6 +213,12 @@ OUTPUT: {"intent":"hpo_symptom","needs_hpo":true,"symptoms":["headaches","easy b
 
 INPUT: "I have fever and fatigue, what genes are associated?"
 OUTPUT: {"intent":"hpo_symptom","needs_hpo":true,"symptoms":["fever","fatigue"],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
+INPUT: "I have muscle weakness - what genes could explain this?"
+OUTPUT: {"intent":"hpo_symptom","needs_hpo":true,"symptoms":["muscle weakness"],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
+
+INPUT: "I experience joint pain, fatigue, and easy bruising"
+OUTPUT: {"intent":"hpo_symptom","needs_hpo":true,"symptoms":["joint pain","fatigue","easy bruising"],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":false,"target_column":null}
 
 INPUT: "What does CADD_phred mean?"
 OUTPUT: {"intent":"schema_lookup","needs_hpo":false,"symptoms":[],"chr":null,"start":null,"end":null,"rsid":null,"gene":null,"func":null,"exonic_func":null,"zygosity":null,"in_repeat":null,"clinvar_includes":null,"intervar_verdict":null,"acmg_flag":null,"acmg_flag_value":null,"cadd_min":null,"cadd_max":null,"gnomad_max":null,"gnomad_min":null,"sift_max":null,"metasvm_min":null,"disease_term":null,"group_by":null,"agg_func":null,"limit":null,"wants_schema":true,"target_column":"CADD_phred"}
@@ -204,115 +248,108 @@ Return ONLY the JSON object.
 """
 
 
-# Answer-generation system prompt — exact interval_02 ANSWER_SYSTEM_PROMPT
+# Answer-generation system prompt — grounded on executor MATCHED RECORDS block
 ANSWER_SYSTEM_PROMPT = """\
-⛔️ ABSOLUTE OUTPUT FORMAT RULE — READ THIS FIRST:
-You are outputting to a PATIENT-FACING chat interface.
-You MUST ONLY output: plain English sentences, markdown tables (| col |), bullet points, bold (**text**).
-You MUST NEVER output:
-  - Python code: lung_genes = [...], query = f\"\"\"...\"\"\", import, def, for, while, class
-  - SQL queries: SELECT ... FROM ... WHERE ...
-  - Code blocks: ```python ... ``` or ```sql ... ``` or ``` ... ```
-  - Variable assignments: anything = [...] or anything = {…}
-  - Programming syntax of any kind
-If you start writing code → STOP immediately → rewrite as plain English sentences.
-─────────────────────────────────────────────────────────────────────────────
+══════════════════════════════════════════════════════════════════
+RULE 1 — NO CODE EVER. You are writing for a patient, not a developer.
+NEVER output: Python, SQL, variable assignments, code blocks, for/while/def/import.
+If you catch yourself writing a backtick (`) or the word SELECT or def → STOP and rewrite.
+══════════════════════════════════════════════════════════════════
+RULE 2 — MATCHED RECORDS IS YOUR ONLY SOURCE OF TRUTH.
+When a MATCHED RECORDS block is present, every gene and variant listed there
+MUST appear in your answer. Do NOT invent or add genes that are not in the block.
+Do NOT omit genes that ARE in the block. Report EXACTLY what the block contains.
+══════════════════════════════════════════════════════════════════
+RULE 3 — MANDATORY TABLE FORMAT for ≥ 2 variants.
+When MATCHED RECORDS lists 2 or more variants, your answer MUST contain
+this exact markdown table (fill in the values from MATCHED RECORDS):
+
+| Gene | HGVS | ClinVar | InterVar | CADD | Zygosity |
+|------|------|---------|----------|------|----------|
+| GENE1 | hgvs1 | clinvar_verdict | intervar_verdict | cadd | het/hom |
+| GENE2 | hgvs2 | ... | ... | ... | ... |
+
+For 1 variant use a bullet list. For 0 matches say "No variants found matching that filter."
+══════════════════════════════════════════════════════════════════
 
 You are **Genelio**, a clinical-genomics assistant interpreting an \
 InterVar-annotated variant report (76,000+ rows annotated per patient — \
 most are common population variants).
 
-You receive a user message that contains EITHER (a) a MATCHED RECORDS \
-block from a deterministic filter, OR (b) a QUERY CONTEXT block telling \
-you to answer from STRUCTURED ANALYSIS instead. Read which one the \
-message gives you and follow the rules for that case.
+You receive a user message containing a MATCHED RECORDS block (pre-run \
+deterministic query results). Your job is to render those results in \
+plain language and add clinical context.
 
-Blocks you may see:
+Blocks you will see:
 
-1. **MATCHED RECORDS** — the output of a deterministic Python query \
-that the system already ran for the user's question. THIS IS YOUR \
-SOURCE OF TRUTH when present. The query handled the filtering / \
-aggregation / counting; your job is to render the result in plain \
-language and add clinical context.
-1b. **QUERY CONTEXT** — appears INSTEAD of MATCHED RECORDS when the \
-user's question was too broad for a single deterministic filter \
-(e.g. "any disease-causing variants?"). When you see this block, your \
-source of truth is the STRUCTURED ANALYSIS block — quote its verdict \
-counts and headline-variant list verbatim. **Do NOT say "0 matches" or \
-"no variants" in this case** — the report has whatever STRUCTURED \
-ANALYSIS shows it has.
-2. **SCHEMA REFERENCE** — column definitions; quote verbatim when the \
-user asked what a column means.
-3. **STRUCTURED ANALYSIS** — whole-report summary (verdict counts, \
-ACMG-flag totals, headline-variant list). Always present; primary \
-source when QUERY CONTEXT is set.
-4. **SESSION HPO PROFILE** — symptoms the user has revealed across \
-the chat, resolved to canonical HPO terms.
-5. **USER QUESTION** — what the patient actually asked.
+1. **MATCHED RECORDS** — query results already run by the system. \
+THIS IS YOUR SOURCE OF TRUTH. Contains: gene names, HGVS, ClinVar \
+verdict, InterVar verdict, CADD, SIFT, gnomAD AF, Zygosity, ACMG \
+evidence fired, disease links (OMIM/Orpha). Report ALL of this.
 
-Operating rules — non-negotiable:
+2. **SCHEMA REFERENCE** — column definitions; quote verbatim when \
+the user asked what a column/term means.
 
-0. **NEVER fabricate variants, transcripts, or HGVS notations.** The \
-MATCHED RECORDS block (when present) is the complete answer to \
-filter/lookup questions. If it is empty AND no QUERY CONTEXT block is \
-present, say "0 variants" plainly — do NOT invent rows from your \
-training prior. The system has 76k rows; if 0 matches are returned and \
-the filter was specific, the patient genuinely has 0 matches.
+3. **SESSION HPO PROFILE** — symptoms the user has revealed across \
+the chat, resolved to HPO terms.
 
-0a. **When QUERY CONTEXT says "no concrete filter — use STRUCTURED \
-ANALYSIS":** Answer from STRUCTURED ANALYSIS, not from MATCHED RECORDS \
-(it is absent). For "any disease-causing variants?" → quote the \
-"Likely pathogenic: N" count and list the headline LP variants. \
-Never reply "0 matches" or "no disease-causing variants found" in this \
-case — that contradicts the report.
+4. **USER QUESTION** — what the patient asked.
 
-1. **MATCHED RECORDS is the ground truth** (when present). When it \
-lists 3 variants, you report EXACTLY those 3 variants — every single \
-one, by name. Use a markdown table when there are more than 3. \
-For each variant ALWAYS include: gene name, HGVS notation \
-(AAChange.refGene field), ClinVar verdict, InterVar verdict, CADD score, \
-and zygosity. Do not skip any variant from MATCHED RECORDS.
+Operating rules:
 
-1a. **Never name the prompt scaffold in your reply.** Do NOT say \
-"MATCHED RECORDS shows..." or "the EXECUTOR RESULT..." or "the FILTER \
-APPLIED...". Write naturally: "Your report contains 52 variants with \
-PVS1 = 1." or "Two variants in your report are classified Pathogenic \
-by ClinVar." The patient is not reading the scaffold.
+0. **NEVER fabricate.** Only report genes and variants that appear \
+in MATCHED RECORDS. If MATCHED RECORDS shows 0 matches, say exactly \
+"No variants found matching that filter" and explain what filter was used.
 
-2. **Quote BOTH ClinVar AND InterVar verdicts verbatim for each variant.** \
-Every variant entry MUST state the ClinVar column value AND the InterVar \
-column value separately. "Conflicting_interpretations_of_pathogenicity" \
-must be reported as such, not paraphrased as "Pathogenic". \
-Never mention only one classification and ignore the other.
+1. **Report every gene in MATCHED RECORDS.** When the block lists \
+4 variants in SERPINA1, IDUA, PADI3, etc. — you name EVERY ONE of those \
+genes, their HGVS notation, ClinVar verdict, InterVar verdict, CADD, \
+and zygosity. Use the mandatory table format (Rule 3 above).
 
-3. **Explain ACMG evidence explicitly** (PVS1, PS, PM, PP, BA1, BS, BP) \
-using the SCHEMA REFERENCE. PVS1=1 is a "Very Strong" pathogenic signal \
-(null variant in LOF-known gene); BA1=1 is "Stand-Alone Benign" \
-(allele freq >5%).
+1a. **Never mention the scaffold.** Do NOT write "MATCHED RECORDS \
+shows..." or "the filter returned...". Write naturally: "Your report \
+contains 4 variants classified as Pathogenic."
 
-4. **Disease-link questions:** if the executor returned matches with \
-OMIM / Orpha annotation, surface those identifiers and the disease names.
+2. **Both ClinVar and InterVar verdicts required for each variant.** \
+Quote them verbatim — "Conflicting_interpretations_of_pathogenicity" \
+stays exactly that, not paraphrased.
 
-5. **HPO-symptom questions:** explain WHICH HPO term mapped to the \
-user's symptom, WHICH genes are associated, and which (if any) the \
-patient has variants in. List the specific gene names and their variants. \
-If the patient has no variants in the relevant genes, say so — \
-that's a meaningful clinical finding.
+3. **ACMG evidence:** when ACMG evidence fired (PVS1, PM, PP, BA1 etc.) \
+is listed for a variant, explain what it means in plain English.
 
-6. **NEVER diagnose, prescribe, or recommend specific treatments.** \
-Always close with a recommendation to discuss findings with a physician \
-or certified genetic counselor.
+4. **Disease links:** when OMIM/Orpha annotations appear, name the \
+disease associated with each gene.
 
-7. **ABSOLUTELY NO CODE OUTPUT.** Never write Python, SQL, JavaScript, \
-or any programming language. No variable assignments, no lists of gene \
-names in code format, no query strings. Output ONLY plain English \
-and markdown tables. This is the most important rule.
+5. **HPO-symptom answers — CRITICAL RULES:**
+   a. State WHICH symptom → WHICH HPO term (e.g. "limb numbness → Paresthesia HP:0003401").
+   b. Name ONLY genes that are directly listed in the HPO term for THAT symptom.
+   c. If the description says "NO PATHOGENIC variants found" → clearly say \
+"Your report contains no disease-causing variants in genes specifically linked \
+to [symptom]. The following variants have uncertain significance in broadly \
+associated genes — they are NOT confirmed as the cause of your symptom."
+   d. NEVER say SERPINA1 causes neurological symptoms unless the HPO term \
+explicitly links SERPINA1 to a neurological phenotype.
+   e. Always end symptom responses with: "Could you describe any other \
+symptoms or provide more detail about these symptoms?"
 
-Formatting:
-- Markdown tables when listing >3 variants (columns: Gene, HGVS, ClinVar, InterVar, CADD, Zygosity).
-- Bullets for ≤3 variants.
-- 🧬 variant · ⚠️ pathogenic · 📝 carrier · 💊 pharmacogenomic.
-- Plain-language gloss after every technical term on first use.
+6. **NEVER diagnose or prescribe.** Close every clinical response with \
+a recommendation to discuss findings with a physician or certified \
+genetic counselor.
+
+7. **Symptom queries — always end with a follow-up question.** \
+When answering any symptom/HPO question (whether or not variants were found), \
+end your response with a gentle follow-up such as: \
+"*Could you tell me more about your symptoms — for example, when they started, \
+how severe they are, or any other symptoms you experience?*" \
+This helps narrow down the most clinically relevant genes. \
+If the user's symptom was vague (e.g., "tired", "unwell"), also ask them to \
+rephrase with more specific clinical language.
+
+Formatting rules:
+- ≥2 variants → mandatory markdown table (Gene | HGVS | ClinVar | InterVar | CADD | Zygosity).
+- 1 variant → bullet list with all fields.
+- 🧬 for variant entries · ⚠️ for pathogenic calls · 📝 for carrier findings.
+- Gloss every technical term on first use (e.g. "CADD — a deleteriousness score").
 """
 
 
@@ -470,8 +507,23 @@ def _safe_json(text: str) -> dict:
 
 _VALID_INTENTS = frozenset({
     "coord_lookup", "biofilter", "acmg_clinvar", "disease_link",
-    "aggregate", "hpo_symptom", "schema_lookup", "summary", "other",
+    "aggregate", "hpo_symptom", "schema_lookup", "summary",
+    "domain_fallback", "other",
 })
+
+# Organ-system → expanded Orpha/OMIM search terms
+_ORGAN_EXPANSIONS: dict[str, list[str]] = {
+    "eye":    ["eye", "ophthalm", "retin", "ocul", "catar", "glaucom", "macular", "cornea", "leber"],
+    "lung":   ["lung", "pulmon", "respirat", "emphysema", "bronch", "airway", "COPD", "asthma", "surfact"],
+    "ear":    ["ear", "hearing", "cochle", "auditor", "deaf", "otosclerosis", "usher"],
+    "heart":  ["heart", "cardiac", "cardiomyop", "arrhythm", "aortic", "dilated", "hypertrophic"],
+    "kidney": ["kidney", "renal", "nephro", "glomerul", "polycystic"],
+    "liver":  ["liver", "hepat", "cirrhosis", "cholestasis", "wilson", "haemochromatosis"],
+    "brain":  ["brain", "neuro", "epilep", "seizure", "cerebr", "encephal", "ataxia", "neuropath"],
+    "muscle": ["muscl", "myopathy", "dystrophin", "myotonic", "limb-girdle", "nemaline"],
+    "bone":   ["bone", "skeletal", "osteo", "dysplasia", "dwarfism"],
+    "skin":   ["skin", "dermato", "epiderm", "ichthyos", "ectodermal"],
+}
 
 # Symptom salvage — "I feel X", "I get X" etc. patterns
 _SYMPTOM_SALVAGE_RE = re.compile(
@@ -618,8 +670,10 @@ def _normalize_decision(d: RouterDecision, message: str) -> RouterDecision:
             d.intent = "hpo_symptom"; d.needs_hpo = True
         elif d.gene:
             d.intent = "biofilter"
+        elif d.disease_term:
+            d.intent = "disease_link"
         else:
-            d.intent = "other"
+            d.intent = "domain_fallback"  # unknown → try LLM knowledge answer
     elif d.intent == "other":
         if d.rsid or d.chr is not None:
             d.intent = "coord_lookup"
@@ -627,6 +681,10 @@ def _normalize_decision(d: RouterDecision, message: str) -> RouterDecision:
             d.intent = "hpo_symptom"; d.needs_hpo = True
         elif d.gene:
             d.intent = "biofilter"
+        elif d.disease_term:
+            d.intent = "disease_link"
+        else:
+            d.intent = "domain_fallback"
 
     return d
 
@@ -636,9 +694,56 @@ def classify(message: str) -> RouterDecision:
     parsed = _call_router_llm(message) or {}
     d = _parse_decision(parsed)
     d = _normalize_decision(d, message)
+    # Store original message so domain_fallback can pass it to the LLM
+    d.raw["_original_message"] = message
     log.info("router: intent=%s gene=%r rsid=%r symptoms=%r",
              d.intent, d.gene, d.rsid, d.symptoms)
     return d
+
+
+# ── LLM symptom normalizer ─────────────────────────────────────────────────────
+
+_SYMPTOM_NORM_PROMPT = (
+    "/no_think\n"
+    "Convert these lay symptom descriptions into clinical phenotype terms "
+    "suitable for HPO (Human Phenotype Ontology) lookup. "
+    "Return ONLY a JSON array of strings — one clinical term per symptom. "
+    "Use standard medical vocabulary (e.g. 'fatigue' not 'tired', "
+    "'muscle weakness' not 'weak muscles', 'nyctalopia' for 'can't see at night', "
+    "'renal dysfunction' for 'kidney problems', 'arthralgia' for 'joint pain', "
+    "'dyspnoea' for 'shortness of breath', 'haematuria' for 'blood in urine'). "
+    "If a phrase is already clinical, keep it.\n\n"
+    "Symptoms:\n{symptoms}\n\n"
+    "Output ONLY a JSON array e.g. [\"fatigue\", \"muscle weakness\"]. No explanation."
+)
+
+
+def _llm_normalize_symptoms(unresolved: list[str]) -> list[str]:
+    """Use LLM to convert vague lay terms to clinical HPO-compatible terms."""
+    if not unresolved:
+        return unresolved
+    try:
+        from app.ai.llm_config import get_llm
+        llm = get_llm()
+        if llm is None or not hasattr(llm, "route"):
+            return unresolved
+        symptoms_str = "\n".join(f"- {s}" for s in unresolved)
+        prompt = _SYMPTOM_NORM_PROMPT.format(symptoms=symptoms_str)
+        raw = llm.route(prompt)
+        if not raw:
+            return unresolved
+        m = re.search(r'\[[\s\S]*?\]', raw)
+        if m:
+            import json as _json
+            terms = _json.loads(m.group(0))
+            if isinstance(terms, list) and terms:
+                clean = [str(t).strip() for t in terms if isinstance(t, str) and t.strip()]
+                if clean:
+                    log.info("LLM normalized symptoms %r → %r", unresolved, clean)
+                    return clean
+    except Exception as e:
+        log.debug("LLM symptom normalization failed: %s", e)
+    return unresolved
 
 
 # ── Stage 1.5: HPO resolution ─────────────────────────────────────────────────
@@ -672,7 +777,7 @@ def resolve_hpo(symptoms: list[str], session_profile: dict) -> dict:
 
         match = hpo_resolve(phrase)
         if not match.hpo_id:
-            # ── Fallback: try HPO API client (organ/body-system terms) ────────
+            # ── Fallback 1: HPO API client (organ/body-system terms) ──────────
             genes_from_api: list[str] = []
             api_terms: list[tuple] = []
             try:
@@ -698,8 +803,35 @@ def resolve_hpo(symptoms: list[str], session_profile: dict) -> dict:
                 session_profile["candidate_genes"] = sorted(existing)
                 log.info("HPO API resolved %r → %s (%d genes)", phrase, term_name, len(genes_from_api))
                 continue
-            # Still unresolved
-            unresolved.append(phrase)
+
+            # ── Fallback 2: LLM normalises vague term → retry HPO ─────────────
+            normalized = _llm_normalize_symptoms([phrase])
+            for norm_phrase in normalized:
+                if norm_phrase.lower() == phrase.lower():
+                    continue  # unchanged — skip to avoid infinite loop
+                norm_match = hpo_resolve(norm_phrase)
+                if norm_match.hpo_id:
+                    term_entry = {
+                        "input_text":  phrase,
+                        "hpo_id":      norm_match.hpo_id,
+                        "name":        norm_match.name,
+                        "confidence":  norm_match.confidence * 0.9,
+                        "matched_via": f"llm_norm→{norm_match.matched_via}",
+                        "gene_count":  len(norm_match.genes),
+                        "genes":       list(norm_match.genes),
+                    }
+                    added_this_turn.append(term_entry)
+                    session_profile.setdefault("hpo_terms", []).append(term_entry)
+                    existing = set(session_profile.get("candidate_genes") or [])
+                    existing.update(norm_match.genes)
+                    session_profile["candidate_genes"] = sorted(existing)
+                    session_profile.setdefault("hpo_term_genes", {})[norm_match.hpo_id] = list(norm_match.genes)
+                    log.info("LLM-norm resolved %r → %r → %s (%d genes)",
+                             phrase, norm_phrase, norm_match.name, len(norm_match.genes))
+                    break
+            else:
+                # Still unresolved after all fallbacks
+                unresolved.append(phrase)
             continue
 
         term_entry = {
@@ -709,12 +841,15 @@ def resolve_hpo(symptoms: list[str], session_profile: dict) -> dict:
             "confidence":  match.confidence,
             "matched_via": match.matched_via,
             "gene_count":  len(match.genes),
+            "genes":       list(match.genes),   # store per-term genes
         }
         added_this_turn.append(term_entry)
         session_profile.setdefault("hpo_terms", []).append(term_entry)
         existing = set(session_profile.get("candidate_genes") or [])
         existing.update(match.genes)
         session_profile["candidate_genes"] = sorted(existing)
+        # Also store per-term gene map for targeted queries
+        session_profile.setdefault("hpo_term_genes", {})[match.hpo_id] = list(match.genes)
 
     return {
         "added":                  added_this_turn,
@@ -908,11 +1043,44 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
                     defn = v
                     col = k
                     break
+        if defn is None:
+            # KB miss → ask LLM to explain the term in genomics context
+            try:
+                from app.ai.llm_config import get_llm
+                llm = get_llm()
+                if llm and hasattr(llm, "answer_general"):
+                    q = (f"Explain '{col}' in the context of genomic variant interpretation "
+                         f"and the InterVar/ACMG classification system. "
+                         f"Keep the answer concise (3-5 sentences).")
+                    defn = llm.answer_general(q)
+            except Exception as _e:
+                log.debug("LLM schema fallback failed: %s", _e)
+            if not defn:
+                defn = f"(no definition found for '{col}' — try rephrasing your question)"
         return ExecutorResult(
             kind="schema",
-            intent=intent, universe=0,  # schema lookup — no DB search
+            intent=intent, universe=0,
             schema_column=col,
-            schema_definition=defn or f"(no definition found for column '{col}')",
+            schema_definition=defn,
+        )
+
+    # ── domain_fallback ───────────────────────────────────────────────────────
+    if intent == "domain_fallback":
+        # Pure knowledge question — no DB needed, answer from LLM medical knowledge
+        try:
+            from app.ai.llm_config import get_llm
+            llm = get_llm()
+            if llm and hasattr(llm, "answer_general"):
+                answer_text = llm.answer_general(decision.raw.get("_original_message", ""))
+            else:
+                answer_text = None
+        except Exception:
+            answer_text = None
+        return ExecutorResult(
+            kind="schema",          # reuse schema kind — no DB rows
+            intent=intent, universe=0,
+            schema_column="knowledge",
+            schema_definition=answer_text or "(answer unavailable — please rephrase)",
         )
 
     # ── biofilter / acmg_clinvar / disease_link ────────────────────────────────
@@ -984,11 +1152,21 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
                 flag_val = "YES" if val == 1 else "NO"
                 where_parts.append(f'"{flag}" = \'{flag_val}\'')
         if decision.disease_term:
-            t = decision.disease_term.replace("'", "''")
-            where_parts.append(
-                f"(Orpha LIKE '%{t}%' OR OMIM LIKE '%{t}%' "
-                f"OR Phenotype_MIM LIKE '%{t}%')"
-            )
+            t = decision.disease_term.strip().lower().replace("'", "''")
+            # Check if it's an organ-system word — use expanded search terms
+            expansions = _ORGAN_EXPANSIONS.get(t)
+            if expansions:
+                organ_conditions = []
+                for exp in expansions:
+                    exp_safe = exp.replace("'", "''")
+                    organ_conditions.append(f"Orpha LIKE '%{exp_safe}%'")
+                    organ_conditions.append(f"Phenotype_MIM LIKE '%{exp_safe}%'")
+                where_parts.append("(" + " OR ".join(organ_conditions) + ")")
+            else:
+                where_parts.append(
+                    f"(Orpha LIKE '%{t}%' OR OMIM LIKE '%{t}%' "
+                    f"OR Phenotype_MIM LIKE '%{t}%')"
+                )
 
         if not where_parts and _in_repeat_clause is None:
             # No filters → show top pathogenic
@@ -1040,26 +1218,109 @@ def execute(decision: RouterDecision, db: Session, session_profile: dict) -> Exe
     if intent == "hpo_symptom":
         genes = session_profile.get("candidate_genes") or []
         if not genes:
+            # No symptoms resolved yet — return an interactive question prompt
+            unresolved = decision.symptoms
+            if unresolved:
+                desc = (
+                    f"SYMPTOM_CLARIFICATION: Could not map {unresolved} to HPO terms. "
+                    "Please ask the user to describe symptoms more specifically using "
+                    "clinical terms such as: muscle weakness, hearing loss, seizures, "
+                    "blurry vision, joint pain, shortness of breath, easy bruising, fatigue."
+                )
+            else:
+                desc = (
+                    "SYMPTOM_PROMPT: No symptoms provided. "
+                    "Ask the user: 'What symptoms are you experiencing? "
+                    "For example: muscle weakness, hearing loss, blurry vision, "
+                    "joint pain, shortness of breath, easy bruising, or fatigue.'"
+                )
             return ExecutorResult(kind="empty", intent=intent, universe=universe,
-                                  description="HPO resolved 0 candidate genes")
-        cap_genes = genes[:200]
-        gene_list = ", ".join(f"'{g}'" for g in cap_genes)
-        sql = (
-            f"SELECT {_SELECT} FROM variants "
-            f"WHERE \"Ref.Gene\" IN ({gene_list}) "
-            f"AND {_PATHOGENIC_WHERE} "
-            f"ORDER BY CADD_phred DESC LIMIT 50;"
+                                  description=desc)
+
+        # ── Per-HPO-term targeted query ───────────────────────────────────────
+        # Query genes from EACH specific HPO term separately so results stay
+        # relevant to the actual symptom.  e.g. "limbs numb" → HP:0003401
+        # (paresthesia) → specific neuropathy genes, not lung/lysosomal genes.
+        hpo_terms   = session_profile.get("hpo_terms") or []
+        term_genes  = session_profile.get("hpo_term_genes") or {}
+        total_genes = len(genes)
+
+        # Build targeted gene sets from per-term data
+        targeted_genes: list[str] = []
+        seen_genes: set[str] = set()
+        term_context_lines: list[str] = []
+
+        for term in hpo_terms:
+            hp_id = term.get("hpo_id", "")
+            tgenes = term_genes.get(hp_id) or term.get("genes") or []
+            new_g  = [g for g in tgenes if g not in seen_genes]
+            if new_g:
+                seen_genes.update(new_g)
+                targeted_genes.extend(new_g)
+            term_context_lines.append(
+                f"  Symptom '{term.get('input_text','?')}' → "
+                f"HPO:{hp_id} {term.get('name','?')} "
+                f"({len(tgenes)} associated genes)"
+            )
+
+        # Fall back to pooled candidate genes if per-term data unavailable
+        query_genes = targeted_genes if targeted_genes else genes
+        hpo_context_str = "\n".join(term_context_lines) if term_context_lines else ""
+
+        all_results: list[dict] = []
+        batch_size = 800
+        for batch_start in range(0, min(len(query_genes), 2400), batch_size):
+            batch = query_genes[batch_start : batch_start + batch_size]
+            gene_list = ", ".join(f"'{g}'" for g in batch)
+            sql_batch = (
+                f"SELECT {_SELECT} FROM variants "
+                f"WHERE \"Ref.Gene\" IN ({gene_list}) "
+                f"AND {_PATHOGENIC_WHERE} "
+                f"ORDER BY CADD_phred DESC LIMIT 50;"
+            )
+            all_results.extend(_run_sql(sql_batch, db, 50))
+            if len(all_results) >= 200:
+                break
+
+        rows = rank_rows(all_results, _MAX_ROWS) if all_results else []
+
+        if rows:
+            desc = (
+                f"HPO-symptom match ({len(query_genes)} genes queried).\n"
+                f"Symptom-to-HPO mapping:\n{hpo_context_str}\n"
+                "Found pathogenic/likely-pathogenic variants in these symptom-linked genes."
+            )
+            return ExecutorResult(
+                kind="rows", intent=intent, rows=rows, universe=universe,
+                total_matched=len(rows), description=desc,
+            )
+
+        # Second pass — any variant (Benign/VUS) in symptom-specific genes
+        all_any: list[dict] = []
+        for batch_start in range(0, min(len(query_genes), 2400), batch_size):
+            batch = query_genes[batch_start : batch_start + batch_size]
+            gene_list = ", ".join(f"'{g}'" for g in batch)
+            sql_any = (
+                f"SELECT {_SELECT} FROM variants "
+                f"WHERE \"Ref.Gene\" IN ({gene_list}) "
+                f"ORDER BY CADD_phred DESC LIMIT 20;"
+            )
+            all_any.extend(_run_sql(sql_any, db, 20))
+            if len(all_any) >= 60:
+                break
+
+        rows_any = rank_rows(all_any, _MAX_ROWS) if all_any else []
+        desc_any = (
+            f"HPO-symptom match ({len(query_genes)} genes queried) — "
+            "NO PATHOGENIC variants found in symptom-linked genes.\n"
+            f"Symptom-to-HPO mapping:\n{hpo_context_str}\n"
+            "Showing variants with Uncertain significance / Benign classification "
+            "in these genes. These are NOT confirmed as disease-causing for this symptom."
         )
-        rows = _run_sql(sql, db, 50)
-        rows = rank_rows(rows, _MAX_ROWS)
         return ExecutorResult(
-            kind="rows" if rows else "empty",
-            intent=intent, rows=rows, universe=universe,
-            total_matched=len(rows),
-            description=(
-                f"HPO-derived genes ({len(genes)}) "
-                "intersected with pathogenic variants"
-            ),
+            kind="rows" if rows_any else "empty",
+            intent=intent, rows=rows_any, universe=universe,
+            total_matched=len(rows_any), description=desc_any,
         )
 
     # ── other ─────────────────────────────────────────────────────────────────
@@ -1107,47 +1368,70 @@ def render_executor(result: ExecutorResult) -> str:
             f"MATCHED RECORDS — {n} match{'es' if n != 1 else ''} "
             f"(showing top {len(result.rows)} ranked by InterVar verdict "
             f"then ClinVar then CADD{univ_note}).\n"
-            f"Filter applied: {result.description}\n"
+            f"Filter applied: {result.description}\n\n"
         )
-        row_blocks = []
-        for row in result.rows:
-            bucket_label = row.get("_bucket_label", "")
-            gene = row.get("Ref.Gene", "?")
-            aac  = (row.get("AAChange.refGene") or "").split(",")[0].strip()
-            func = row.get("ExonicFunc.refGene") or row.get("Func.refGene") or "?"
-            intervar_str = row.get("InterVar: InterVar and Evidence") or ""
-            acmg_flags = _extract_acmg_flags(intervar_str)
 
-            bits = [
-                f"🧬 **{gene}** · {aac or '(no HGVS)'} · {func}",
-                f"   Evidence tier: {bucket_label}",
-                f"   chr{row.get('Chr')}:{row.get('Start')} "
-                f"{row.get('Ref', '?')}>{row.get('Alt', '?')}",
-                f"   ClinVar: {row.get('clinvar: Clinvar', 'N/A')}",
-                f"   InterVar: {intervar_str[:70] or 'N/A'}",
-                f"   Zygosity: {row.get('Otherinfo', 'N/A')}",
+        # ── Pre-formatted Markdown table (LLM renders this directly) ──────────
+        tbl_lines = [
+            "| Gene | HGVS | ClinVar | InterVar | CADD | Zygosity |",
+            "|------|------|---------|----------|------|----------|",
+        ]
+        detail_blocks: list[str] = []
+
+        for row in result.rows:
+            gene        = row.get("Ref.Gene", "?")
+            aac         = (row.get("AAChange.refGene") or "—").split(",")[0].strip() or "—"
+            func        = row.get("ExonicFunc.refGene") or row.get("Func.refGene") or "?"
+            intervar_str= row.get("InterVar: InterVar and Evidence") or ""
+            clinvar_str = row.get("clinvar: Clinvar") or "N/A"
+            cadd        = row.get("CADD_phred", "")
+            sift        = row.get("SIFT_score", "")
+            gnomad      = row.get("Freq_gnomAD_genome_ALL", "")
+            zyg         = row.get("Otherinfo") or "N/A"
+            bucket_label= row.get("_bucket_label", "")
+            acmg_flags  = _extract_acmg_flags(intervar_str)
+
+            # Short InterVar verdict for table cell — strip everything after PVS1=
+            if "PVS1=" in intervar_str:
+                iv_short = intervar_str.split("PVS1=")[0].replace("InterVar:", "").strip().rstrip()
+            else:
+                iv_short = intervar_str.replace("InterVar:", "").strip()[:40] or "N/A"
+
+            tbl_lines.append(
+                f"| **{gene}** | {aac} | {clinvar_str} | {iv_short} | {cadd} | {zyg} |"
+            )
+
+            # Detailed block for the LLM to reference when adding clinical context
+            dz: list[str] = []
+            if row.get("OMIM"):          dz.append(f"OMIM:{row['OMIM']}")
+            if row.get("Phenotype_MIM"): dz.append(f"PhenotypeMIM:{row['Phenotype_MIM']}")
+            if row.get("Orpha"):         dz.append(f"Orpha:{row['Orpha']}")
+
+            detail = [
+                f"VARIANT: {gene} | {aac} | {func}",
+                f"  Coordinates: chr{row.get('Chr')}:{row.get('Start')} "
+                f"{row.get('Ref','?')}>{row.get('Alt','?')}",
+                f"  ClinVar: {clinvar_str}",
+                f"  InterVar (full): {intervar_str[:90] or 'N/A'}",
+                f"  CADD: {cadd}  SIFT: {sift}  gnomAD AF: {gnomad}  Zygosity: {zyg}",
+                f"  Evidence tier: {bucket_label}",
             ]
             if row.get("avsnp147"):
-                bits.append(f"   rsID: {row['avsnp147']}")
-            cadd = row.get("CADD_phred")
-            if cadd is not None:
-                bits.append(f"   CADD: {cadd}")
-            sift = row.get("SIFT_score")
-            if sift is not None:
-                bits.append(f"   SIFT: {sift}")
-            gnomad = row.get("Freq_gnomAD_genome_ALL")
-            if gnomad is not None:
-                bits.append(f"   gnomAD AF: {gnomad}")
+                detail.append(f"  rsID: {row['avsnp147']}")
             if acmg_flags:
-                bits.append(f"   ACMG evidence fired: {', '.join(acmg_flags)}")
-            dz = []
-            if row.get("OMIM"):        dz.append(f"OMIM:{row['OMIM']}")
-            if row.get("Phenotype_MIM"): dz.append(f"PhenotypeMIM:{row['Phenotype_MIM']}")
-            if row.get("Orpha"):       dz.append(f"Orpha:{row['Orpha']}")
+                detail.append(f"  ACMG criteria fired: {', '.join(acmg_flags)}")
             if dz:
-                bits.append(f"   Disease links: {' · '.join(dz)}")
-            row_blocks.append("\n".join(bits))
-        return head + "\n\n" + "\n\n".join(row_blocks)
+                detail.append(f"  Disease links: {' | '.join(dz)}")
+            detail_blocks.append("\n".join(detail))
+
+        table_str = "\n".join(tbl_lines)
+        details_str = "\n\n".join(detail_blocks)
+        return (
+            head
+            + table_str
+            + "\n\nDetailed fields (for clinical context):\n\n"
+            + details_str
+        )
 
     if result.kind == "aggregate":
         if univ:
@@ -1189,7 +1473,9 @@ def render_executor(result: ExecutorResult) -> str:
             for row in result.rows:
                 gene = row.get("Ref.Gene", "?")
                 cv   = row.get("clinvar: Clinvar", "N/A")
-                iv   = (row.get("InterVar: InterVar and Evidence") or "N/A")[:60]
+                iv_raw = row.get("InterVar: InterVar and Evidence") or "N/A"
+                iv = (iv_raw.split("PVS1=")[0].replace("InterVar:", "").strip()
+                      if "PVS1=" in iv_raw else iv_raw[:40])
                 cadd = row.get("CADD_phred", "N/A")
                 bucket_label = row.get("_bucket_label", "")
                 acmg_flags = _extract_acmg_flags(
