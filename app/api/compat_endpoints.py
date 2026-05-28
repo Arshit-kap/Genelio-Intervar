@@ -331,3 +331,40 @@ async def send_message(
             s["name"]  = s["title"]
 
     return {"user": user_msg, "assistant": assistant_msg}
+
+
+# ── Franklin / variant lookup stub ────────────────────────────────────────────
+
+@router.get("/franklin/search/")
+async def franklin_search(
+    q: str = "",
+    ref: str = "hg19",
+    mode: str = "auto",
+    authorization: str = Header(default=""),
+):
+    """Stub — returns informative message; full Franklin API not configured."""
+    _require_user(authorization)
+    return {
+        "kind": "gene",
+        "query": q,
+        "reference": ref,
+        "page_url": None,
+        "error": None,
+        "sections": {
+            "info": {
+                "key": "info",
+                "label": "InterVar Genomic Engine",
+                "url": "",
+                "status": 200,
+                "data": {
+                    "message": (
+                        f"Variant/gene lookup for '{q}'. "
+                        "Use the chat interface to query this variant "
+                        "against the InterVar database."
+                    )
+                },
+                "error": None,
+            }
+        },
+        "_cache": "miss",
+    }

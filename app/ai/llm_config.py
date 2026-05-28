@@ -107,11 +107,15 @@ _GENERAL_SYSTEM_MSG = (
     "- InterVar report columns: what each field means, how to interpret results\n\n"
     "SAFETY RULES — apply these strictly:\n"
     "REFUSE (say 'I can't answer this — please speak with a genetic counselor') for:\n"
-    "  - 'Do I have [disease]?' / diagnosis questions\n"
-    "  - 'What is my risk for X?' / personal risk calculation\n"
+    "  - 'Do I have [disease]?' / specific personal diagnosis\n"
     "  - 'Should I take/avoid [drug]?' / medication advice\n"
-    "  - 'Can I have children?' / reproductive decisions\n"
-    "  - 'Do I need screening?' / clinical management\n\n"
+    "  - 'Should I have children?' / reproductive DECISIONS\n"
+    "  - 'Do I need screening?' / clinical management decisions\n\n"
+    "ANSWER FREELY (these are NOT refusals):\n"
+    "  - 'Is there a risk of passing this to my children/offspring?' → explain inheritance probability\n"
+    "  - 'Will my children inherit this variant?' → explain Mendelian risk (50% dominant, etc.)\n"
+    "  - 'What is the risk of this variant in my family?' → explain inheritance pattern\n"
+    "  - General inheritance questions about autosomal dominant/recessive, X-linked, etc.\n\n"
     "ADD DISCLAIMER for pathogenicity of specific variants or zygosity implications. Append:\n"
     "'⚠️ This is for educational purposes only and is not medical advice. "
     "Please discuss with a certified genetic counselor or your physician.'\n\n"
@@ -437,16 +441,31 @@ def _build_vllm_api() -> Optional[Any]:
 
             @staticmethod
             def _strip_code_output(text: str) -> str:
-                """Strip Python/SQL/code blocks that LLMs sometimes generate instead of prose.
-
-                MedGemma may generate lines like:
-                  lung_genes = ['CFTR', 'SFTPA1', ...]
-                  query = f\"\"\"SELECT ...\"\"\
-                This strips those before the response reaches the user.
-                """
+                """Strip Python/SQL/code blocks and MedGemma structured output formats."""
                 import re as _re
                 if not text or len(text) < 15:
                     return text
+
+                # ── MedGemma structured output: [{'text': '...', 'type': 'text'}]  ──
+                # MedGemma sometimes wraps its answer in a Python list-of-dicts format.
+                stripped = text.strip()
+                if stripped.startswith("[{") and "'text'" in stripped[:50]:
+                    try:
+                        import ast as _ast
+                        parsed = _ast.literal_eval(stripped)
+                        if isinstance(parsed, list):
+                            parts = [
+                                item.get("text", "") for item in parsed
+                                if isinstance(item, dict) and item.get("text")
+                            ]
+                            if parts:
+                                text = "\n".join(parts).strip()
+                    except Exception:
+                        # Regex fallback — extract text values
+                        texts = _re.findall(r"'text':\s*'((?:[^'\\]|\\.)*)'", stripped)
+                        if texts:
+                            text = "\n".join(t.replace("\\'", "'").replace("\\n", "\n") for t in texts).strip()
+
                 original = text
 
                 # 1. Remove fenced code blocks (```...```)
