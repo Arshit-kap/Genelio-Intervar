@@ -120,17 +120,23 @@ def _index() -> _Index:
 
 
 _LAY_SYNONYMS: Dict[str, str] = {
-    # Bleeding
+    # Bleeding / bruising
     "easy bruising": "Bruising susceptibility",
     "bruise easily": "Bruising susceptibility",
     "bruising easily": "Bruising susceptibility",
+    "bruise really easily": "Bruising susceptibility",
+    "bruise a lot": "Bruising susceptibility",
+    "easily bruised": "Bruising susceptibility",
+    "prone to bruising": "Bruising susceptibility",
     "bleed easily": "Abnormal bleeding",
     "heavy bleeding": "Abnormal bleeding",
+    "bleeding a lot": "Abnormal bleeding",
     "nose bleeds": "Epistaxis",
     "nosebleeds": "Epistaxis",
     # Vision
     "night blindness": "Nyctalopia",
     "bad night vision": "Nyctalopia",
+    "trouble seeing at night": "Nyctalopia",
     "blurry vision": "Blurred vision",
     # Muscle
     "weak muscles": "Muscle weakness",
@@ -138,18 +144,22 @@ _LAY_SYNONYMS: Dict[str, str] = {
     "weak legs": "Lower limb muscle weakness",
     "trouble walking": "Gait disturbance",
     "difficulty walking": "Gait disturbance",
+    "hard to walk": "Gait disturbance",
     "walking problems": "Gait disturbance",
     "muscle pain": "Myalgia",
+    "muscle pains": "Myalgia",
     "muscle aches": "Myalgia",
     "sore muscles": "Myalgia",
     "myalgia": "Myalgia",
     "muscle cramps": "Muscle cramps",
-    # Joints
+    "cramping muscles": "Muscle cramps",
+    # Pain / joints
     "joint pain": "Arthralgia",
     "joints hurt": "Arthralgia",
     "abdominal pain": "Abdominal pain",
     "stomach pain": "Abdominal pain",
     "belly pain": "Abdominal pain",
+    "fatty food intolerance": "Steatorrhea",
     # Hearing
     "hearing loss": "Hearing impairment",
     "hearing problems": "Hearing impairment",
@@ -161,9 +171,10 @@ _LAY_SYNONYMS: Dict[str, str] = {
     "seizures": "Seizure",
     "epilepsy": "Seizure",
     "convulsions": "Seizure",
-    # Energy
+    # Energy / sleep
     "lethargic": "Lethargy",
     "lethargy": "Lethargy",
+    "feeling drained": "Lethargy",
     "no energy": "Fatigue",
     "low energy": "Fatigue",
     "always tired": "Fatigue",
@@ -176,20 +187,52 @@ _LAY_SYNONYMS: Dict[str, str] = {
     # Neuro
     "headache": "Headache",
     "headaches": "Headache",
+    "bad headaches": "Headache",
     "migraine": "Migraine",
     "migraines": "Migraine",
     "brain fog": "Cognitive impairment",
+    "feeling foggy": "Cognitive impairment",
     "memory problems": "Memory impairment",
     "numbness": "Paresthesia",
+    "fingers go numb": "Paresthesia",
     # Cardiac
     "heart palpitations": "Palpitations",
     "irregular heartbeat": "Arrhythmia",
     # Liver
     "yellow skin": "Jaundice",
     "yellow eyes": "Jaundice",
-    # Movement
+    # Movement disorders
     "tremor": "Tremor",
     "shaking hands": "Tremor",
+    # Organ / body-system (single-word) — map to HPO root terms
+    # These prevent bad substring matches like "lung" → "Madelung-like forearm deformities"
+    "lung": "Abnormal lung morphology",
+    "lungs": "Abnormal lung morphology",
+    "breathing": "Abnormal lung morphology",
+    "respiratory": "Abnormal lung morphology",
+    "heart": "Abnormal heart morphology",
+    "cardiac": "Abnormal heart morphology",
+    "kidney": "Abnormality of the kidney",
+    "kidneys": "Abnormality of the kidney",
+    "renal": "Abnormality of the kidney",
+    "liver": "Abnormality of the liver",
+    "hepatic": "Abnormality of the liver",
+    "brain": "Abnormality of brain morphology",
+    "skin": "Abnormality of the skin",
+    "bones": "Abnormality of the skeletal system",
+    "skeleton": "Abnormality of the skeletal system",
+    "eye": "Abnormality of the eye",
+    "eyes": "Abnormality of the eye",
+    "vision": "Abnormality of vision",
+    "ear": "Abnormality of the ear",
+    "ears": "Abnormality of the ear",
+    "muscle": "Abnormality of the musculature",
+    "muscles": "Abnormality of the musculature",
+    "gut": "Abnormality of the digestive system",
+    "stomach": "Abnormality of the digestive system",
+    "intestine": "Abnormality of the digestive system",
+    "blood": "Abnormality of blood and blood-forming tissues",
+    "thyroid": "Abnormality of the thyroid gland",
 }
 
 _SHORT_STOP = {"the", "and", "for", "with", "have", "has", "had",
@@ -251,10 +294,26 @@ def resolve(phrase: str) -> HPOTerm:
         best: Tuple[str, str, float] | None = None
         for cand_lower, cand_hp in idx.name_lower_list:
             cand_words = set(re.split(r"[^a-z0-9]+", cand_lower))
-            overlap = [w for w in norm_words if any(w in cw for cw in cand_words) or w in cand_words]
-            if not overlap:
+            # Word-boundary-only matching: require the input word to match a
+            # tokenised word of the candidate term exactly, OR (for ≥5-char
+            # input words) as a prefix/suffix of a tokenised word.
+            # Mid-word substring matches (e.g. "lung" ⊂ "madelung") are NOT
+            # accepted — this was the root cause of HPO mis-routing.
+            overlap_words: List[str] = []
+            for w in norm_words:
+                if w in cand_words:
+                    # Exact word match — always valid
+                    overlap_words.append(w)
+                    continue
+                if len(w) >= 5:
+                    # Prefix/suffix only for longer words
+                    for cw in cand_words:
+                        if cw.startswith(w) or cw.endswith(w):
+                            overlap_words.append(w)
+                            break
+            if not overlap_words:
                 continue
-            ratio = len(overlap) / len(norm_words)
+            ratio = len(overlap_words) / len(norm_words)
             if ratio < 0.4:
                 continue
             if best is None or ratio > best[2]:

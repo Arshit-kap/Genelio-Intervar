@@ -1,0 +1,408 @@
+{
+  "site": "oral",
+  "email": "e2e+oral+1776348767@example.com",
+  "pdf": "/Users/user/Downloads/Oral Report from Arshit Arora.pdf",
+  "report_id": "33fef2e1-e518-4131-ae72-a54ccb30b13b",
+  "session_id": "bc255ce3-6574-47b8-a469-bdd6657e7aa6",
+  "upload_seconds": 23.081891792000533,
+  "parsed_data_report": {
+    "site": "oral",
+    "display": "Oral Microbiome",
+    "patient": {
+      "Sample Type": "Oral swab",
+      "Provincial Health Number": "Not Provided"
+    },
+    "diversity": {
+      "score": 3.581,
+      "range": "1.2-3.0",
+      "range_low": 1.2,
+      "range_high": 3.0,
+      "status": "above_range"
+    },
+    "top_organisms": [
+      {
+        "name": "Streptococcus mitis",
+        "abundance": 15.21,
+        "abundance_raw": "15.21%",
+        "reference": "0.11%-1.10%",
+        "reference_low": 0.11,
+        "reference_high": 1.1,
+        "status": "above_range",
+        "significance": "It is an early coloniser of oral cavity and colonises infant\u2019s oral cavity soon after birth. It is a commensal bacterium and one of the dominant species in children up to the age of 4 years. It produces hydrogen peroxide which prevents colonisation of harmful pathogens"
+      },
+      {
+        "name": "Veillonella parvula",
+        "abundance": 4.87,
+        "abundance_raw": "4.87%",
+        "reference": "0.58%-3.62%",
+        "reference_low": 0.58,
+        "reference_high": 3.62,
+        "status": "above_range",
+        "significance": "V. parvula is a gram-negative coccus which exists as a member of the oral microbiome. This organism can lead to periodontist and different systemic infections. Introductory studies conducted on role of this bacterium in human health pointed towards its increased abundance in patients suffering from pancreatic ductal carcinoma"
+      },
+      {
+        "name": "Rothia SGB49305",
+        "abundance": 4.48,
+        "abundance_raw": "4.48%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "Rothia is a gram-positive and commensal bacteria. It helps in nitric oxide and gluten degradation. Some species may associate with oral infection"
+      },
+      {
+        "name": "Actinomyces johnsonii",
+        "abundance": 3.95,
+        "abundance_raw": "3.95%",
+        "reference": "0.01%-0.10%",
+        "reference_low": 0.01,
+        "reference_high": 0.1,
+        "status": "above_range",
+        "significance": "Actinomyces johnsonii is a common oral commensal, often found in dental plaque and healthy gingival tissues. It has been linked to recurrent aphthous stomatitis (RAS), showing increased abundance and cytotoxic effects on oral epithelial cells"
+      },
+      {
+        "name": "Actinomyces massiliensis",
+        "abundance": 2.78,
+        "abundance_raw": "2.78%",
+        "reference": "0.06%-0.86%",
+        "reference_low": 0.06,
+        "reference_high": 0.86,
+        "status": "above_range",
+        "significance": "The Actinomyces spp. are found to be abundant in healthy individuals. Decreased abundance is associated with various oral diseases. Although Actinomyces spp. are responsible for production of biofilm on tooth surfaces, however, they are not associated with periodontitis"
+      },
+      {
+        "name": "Corynebacterium matruchotii",
+        "abundance": 2.13,
+        "abundance_raw": "2.13%",
+        "reference": "0.41%-7.02%",
+        "reference_low": 0.41,
+        "reference_high": 7.02,
+        "status": "within_range",
+        "significance": "Corynebacterium matruchotii is an actinobacteria commonly occurring as a part of core microflora of the tooth. Presence of this bacterium in oral cavity is an indicator of caries free tooth. Its reduced / lower abundance reflects a shift to caries biofilm from a healthy dental plaque. Abundance of the bacteria is inversely proportional to cancer risk in head and neck squamous cells as well as reduced smoking"
+      },
+      {
+        "name": "Actinomyces dentalis",
+        "abundance": 2.04,
+        "abundance_raw": "2.04%",
+        "reference": "0.00%-0.14%",
+        "reference_low": 0.0,
+        "reference_high": 0.14,
+        "status": "above_range",
+        "significance": "Actinomyces dentalis is a Gram-positive bacterium first isolated from a human dental abscess, indicating its role in oral infections. It may contribute to pus formation and tissue damage, but its specific functions in the oral microbiome are not well-characterized"
+      },
+      {
+        "name": "Streptococcus oralis",
+        "abundance": 1.49,
+        "abundance_raw": "1.49%",
+        "reference": "0.57%-2.61%",
+        "reference_low": 0.57,
+        "reference_high": 2.61,
+        "status": "within_range",
+        "significance": "It is an early coloniser found in dental plaques. It produces hydrogen peroxide which prevents the pathogenic bacteria from commencing disease"
+      },
+      {
+        "name": "GGB1844 SGB2532",
+        "abundance": 1.45,
+        "abundance_raw": "1.45%",
+        "reference": "0.00%-0.00%",
+        "reference_low": 0.0,
+        "reference_high": 0.0,
+        "status": "above_range",
+        "significance": "The unclassified species taxonomy belongs to Porphyromonadaceae family of Gram-negative bacteria, of the order Bacteroidales. Members of this family reside in the human oral cavity as commensals or as opportunistic pathogens"
+      },
+      {
+        "name": "Gemella haemolysans",
+        "abundance": 1.44,
+        "abundance_raw": "1.44%",
+        "reference": "0.00%-0.03%",
+        "reference_low": 0.0,
+        "reference_high": 0.03,
+        "status": "above_range",
+        "significance": "It colonises the mucous membranes of the oral cavity. This gram- positive facultative anaerobes ferments frees sugars and produces a mixture of acid end products together with carbon dioxide"
+      },
+      {
+        "name": "Streptococcus sanguinis",
+        "abundance": 0.86,
+        "abundance_raw": "0.86%",
+        "reference": "0.66%-4.06%",
+        "reference_low": 0.66,
+        "reference_high": 4.06,
+        "status": "within_range",
+        "significance": "This early coloniser delays colonisation of Streptococcus mutans (responsible for tooth decay), resulting in decreased caries in primary and permanent teeth"
+      },
+      {
+        "name": "Streptococcus parasanguinis",
+        "abundance": 0.48,
+        "abundance_raw": "0.48%",
+        "reference": "0.00%-0.01%",
+        "reference_low": 0.0,
+        "reference_high": 0.01,
+        "status": "above_range",
+        "significance": "It is pioneer coloniser and arginolyitc bacteria, capable of preventing growth of aciduric bacteria. It delays colonisation of Streptococcus mutans, hence, preventing caries formation in primary and permanent teeth"
+      },
+      {
+        "name": "Streptococcus gordonii",
+        "abundance": 0.44,
+        "abundance_raw": "0.44%",
+        "reference": "0.09%-0.62%",
+        "reference_low": 0.09,
+        "reference_high": 0.62,
+        "status": "within_range",
+        "significance": "Salivary amylase produces by host aids in colonisation of S. gordonii in the oral cavity of children. Establishment of this bacterium is crucial for establishment of late colonisers in mouth. Presence of this bacterium is linked to reduced prevalence of Streptocccus mutans and dental caries"
+      },
+      {
+        "name": "Veillonella atypica",
+        "abundance": 0.2,
+        "abundance_raw": "0.20%",
+        "reference": "0.00%-0.00%",
+        "reference_low": 0.0,
+        "reference_high": 0.0,
+        "status": "above_range",
+        "significance": "Veillonella rogosae is a gram-negative anaerobic bacterium that plays a role in early dental biofilm formation by metabolizing lactate produced by other bacteria. It contributes to oral microbial balance and may help reduce the risk of dental caries by lowering acid levels"
+      },
+      {
+        "name": "Streptococcus salivarius",
+        "abundance": 0.13,
+        "abundance_raw": "0.13%",
+        "reference": "0.00%-0.00%",
+        "reference_low": 0.0,
+        "reference_high": 0.0,
+        "status": "above_range",
+        "significance": "This bacterium is abundant in saliva and oropharyngeal mucosa of the oral cavity. Salivary amylase produces by host aids in colonisation of S. salivarius in the oral cavity of children. Establishment of this bacterium is crucial for establishment of late colonisers in mouth. It possesses anti-inflammatory properties"
+      },
+      {
+        "name": "Veillonella rogosae",
+        "abundance": 0.1,
+        "abundance_raw": "0.10%",
+        "reference": "0.00%-0.01%",
+        "reference_low": 0.0,
+        "reference_high": 0.01,
+        "status": "above_range",
+        "significance": "It converts lactic acid to weak acids like formic acid, acetic acid and propionic acid. These weak acids help in acid neutralization and tooth re-mineralisation by interfering with Streptococcus mutans. It interacts positively with Streptococcus australis while interfering with cariogenic bacteria"
+      }
+    ],
+    "keystone_species": [],
+    "conditions": {
+      "Obesity": {
+        "markers": [
+          {
+            "name": "Prevotella spp",
+            "abundance": 3.8,
+            "abundance_raw": "3.80%",
+            "reference": "0.26%-3.14%",
+            "reference_low": 0.26,
+            "reference_high": 3.14,
+            "status": "above_range"
+          },
+          {
+            "name": "Streptococcus spp",
+            "abundance": 30.24,
+            "abundance_raw": "30.24%",
+            "reference": "4.24%-9.70%",
+            "reference_low": 4.24,
+            "reference_high": 9.7,
+            "status": "above_range"
+          },
+          {
+            "name": "Granulicatella spp",
+            "abundance": 2.7,
+            "abundance_raw": "2.70%",
+            "reference": "0.00% - 2.56%",
+            "reference_low": 0.0,
+            "reference_high": 2.56,
+            "status": "above_range"
+          },
+          {
+            "name": "Selenomonas noxia",
+            "abundance": 0.115,
+            "abundance_raw": "0.115%",
+            "reference": "0.00% - 1.38%",
+            "reference_low": 0.0,
+            "reference_high": 1.38,
+            "status": "within_range"
+          },
+          {
+            "name": "Leptotrichia buccalis",
+            "abundance": 0.344,
+            "abundance_raw": "0.344%",
+            "reference": "0.00% - 1.54%",
+            "reference_low": 0.0,
+            "reference_high": 1.54,
+            "status": "within_range"
+          }
+        ]
+      },
+      "Cardiovascular disease": {
+        "markers": [
+          {
+            "name": "Porphyromonas gingivalis",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00%-0.00%",
+            "reference_low": 0.0,
+            "reference_high": 0.0,
+            "status": "not_detected"
+          },
+          {
+            "name": "Actinobacillus actinomycetemcomitans",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00%- 0.00%",
+            "reference_low": 0.0,
+            "reference_high": 0.0,
+            "status": "not_detected"
+          },
+          {
+            "name": "Treponema denticola",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% -0.63%",
+            "reference_low": 0.0,
+            "reference_high": 0.63,
+            "status": "not_detected"
+          },
+          {
+            "name": "Tannerella forsythia",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 0.58%",
+            "reference_low": 0.0,
+            "reference_high": 0.58,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "Oral Cancer": {
+        "markers": [
+          {
+            "name": "Fusobacterium spp",
+            "abundance": 0.69,
+            "abundance_raw": "0.69%",
+            "reference": "0.49%-2.20%",
+            "reference_low": 0.49,
+            "reference_high": 2.2,
+            "status": "within_range"
+          },
+          {
+            "name": "Alloprevotella spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00%-0.46%",
+            "reference_low": 0.0,
+            "reference_high": 0.46,
+            "status": "not_detected"
+          },
+          {
+            "name": "Capnocytophaga gingivalis",
+            "abundance": 0.18,
+            "abundance_raw": "0.18%",
+            "reference": "0.33%-2.17%",
+            "reference_low": 0.33,
+            "reference_high": 2.17,
+            "status": "below_range"
+          },
+          {
+            "name": "Filifactor alocis",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00%-0.00%",
+            "reference_low": 0.0,
+            "reference_high": 0.0,
+            "status": "not_detected"
+          },
+          {
+            "name": "Firmicutes/Bacteroidetes Ratio",
+            "abundance": 1.302,
+            "abundance_raw": "1.302%",
+            "reference": "0.67%-5.52%",
+            "reference_low": 0.67,
+            "reference_high": 5.52,
+            "status": "within_range"
+          },
+          {
+            "name": "Fusobacterium nucleatum",
+            "abundance": 0.47,
+            "abundance_raw": "0.47%",
+            "reference": "0.25%-1.25%",
+            "reference_low": 0.25,
+            "reference_high": 1.25,
+            "status": "within_range"
+          },
+          {
+            "name": "Porphyromonas endodontalis",
+            "abundance": 0.02,
+            "abundance_raw": "0.02%",
+            "reference": "0.00%-0.01%",
+            "reference_low": 0.0,
+            "reference_high": 0.01,
+            "status": "above_range"
+          },
+          {
+            "name": "Porphyromonas gingivalis",
+            "abundance": 0.08,
+            "abundance_raw": "0.08%",
+            "reference": "0.00%-0.00%",
+            "reference_low": 0.0,
+            "reference_high": 0.0,
+            "status": "above_range"
+          },
+          {
+            "name": "Prevotella spp",
+            "abundance": 3.8,
+            "abundance_raw": "3.80%",
+            "reference": "0.26%-3.14%",
+            "reference_low": 0.26,
+            "reference_high": 3.14,
+            "status": "above_range"
+          },
+          {
+            "name": "Peptostreptococcus spp",
+            "abundance": 0.09,
+            "abundance_raw": "0.09%",
+            "reference": "0.00%-0.00%",
+            "reference_low": 0.0,
+            "reference_high": 0.0,
+            "status": "above_range"
+          },
+          {
+            "name": "Streptococcus spp",
+            "abundance": 30.24,
+            "abundance_raw": "30.24%",
+            "reference": "4.24%-9.70%",
+            "reference_low": 4.24,
+            "reference_high": 9.7,
+            "status": "above_range"
+          }
+        ]
+      }
+    },
+    "full_text": "\nOral Microbiome Report\nClient Information\nName: Date of Birth:\nSample Type: Oral swab Provincial He alth Number: Not Provided\nCollection Date: Report Date:\nReceive Date:\nNote: Current evidence does not support the use of microbiome testing results for clinical diagnosis or treatment decisions.\nThe findings may show links between certain types of microbiome changes and specific health conditions, but these links do\nnot mean that one causes the other. Your results should therefore be viewed as informative rather than diagnostic, and any\nhealth concerns should be discussed with your healthcare professional.\nClient Name: Collection Date: Version 2 1 | Pa ge\nWhat is the oral microbiome, and why is it important for your health?\nThe oral cavity harbours a complex and diverse community of microorganisms, collectively forming the oral\nmicrobiome. This intricate network profoundly influences various aspects of our lives, starting from the moment\nof birth when the assembly of this microbiome begins. Throughout our lives, these oral microbes play crucial\nroles in processes such as digestion and the synthesis of essential compounds that contribute to nutrient\nabsorption.\nThe oral microbiome's impact extends deeply into our overall health, intricately shaping the health of our teeth,\ngums, and even influencing our systemic well-being. From breaking down food particles during the initial stages\nof digestion to actively participating in immune system education, the oral microbiome contributes significantly\nto our health.\nAnalyzing the oral microbiome involves studying the genes of various microorganisms, including bacteria,\nviruses, fungi, and other microbes present in the oral cavity. This comprehensive examination generates a\ndetailed report outlining the microbial composition within the oral environment. Beyond identification, this\nanalysis can detect genes related to antibiotic resistance, aiding healthcare professionals in determining effective\ntreatment options for oral infections.\nThe report not only lists the types of microbes but also provides detailed information about potentially harmful\nones, offering insights into their identity and genetic traits. This information is valuable for understanding the\ndiverse range of microbes residing in the oral cavity and their implications for oral health. Furthermore,\nmaintaining a balanced oral microbiome is essential for preventing issues such as tooth decay, gum disease, and\nother oral health conditions. Adopting good oral hygiene practices and making lifestyle choices that support a\nhealthy oral microbiome contribute to overall oral and systemic well-being.\nClient Name: Collection Date: Version 2 2 | Pa ge\nWhat is the composition of your microbiome?\nNote: Keystone are highlighted in bold\nClient Name: Collection Date: Version 2 3 | Pa ge\nWhat is the diversity value for your plaque microbiome and why is that important?\nOral microbiome diversity is a vital indicator of good oral health, influenced by factors such as diabetes,\ninflammation, liver function, and lifestyle. The Shannon Diversity Index Value (SDIV) assesses this diversity,\ntypically falling within a healthy range of 1.2 to 3. Your oral microbiome exhibits an SDIV of 3.581, surpassing\nthe upper limit of the healthy range. A diverse oral microbiome enhances stability and resilience, lowering the\nrisk of oral health issues. This diversity contributes to a well-functioning immune system in the oral cavity,\npromoting overall oral well-being.\nWhich are the most abundant members of the oral microbiome?\nThe following graph depicts the top 20 organisms in your mouth and their relative abundance.\nThe following table provide important details about the top 10 organisms and keystone species in your oral\ncavity, including their roles, impact on health, and suggestions for lifestyle changes.\nKeystone bacteria are pivotal players among the multitude of microorganisms residing in our oral cavity. Think\nof them as essential leaders responsible for maintaining a healthy balance within our oral community. These\nparticular bacteria wield significant influence over how other microbes interact, contributing to tasks such as\nefficient digestion and overall oral well-being. A decline in these crucial bacteria can upset the oral cavity\u2019s\nequilibrium, potentially leading to health concerns. Hence, they hold immense importance in sustaining a\nClient Name: Collection Date: Version 2 4 | Pa ge\nharmonious and functional oral environment. When your oral cavity is out of balance (dysbiosis), these key\nspecies are found to be lower than normal.\nScientific Name Abundance Reference Known function/effect on oral cavity\nof microbes in your Range\nprofile\nStreptococcus 15.21% 0.11%-1.10% It is an early coloniser of oral cavity and colonises infant\u2019s oral cavity\nmitis soon after birth. It is a commensal bacterium and one of the dominant\nspecies in children up to the age of 4 years. It produces hydrogen\nperoxide which prevents colonisation of harmful pathogens.\nVeillonella 4.87% 0.58%-3.62% V. parvula is a gram-negative coccus which exists as a member of\nparvula the oral microbiome. This organism can lead to periodontist and\ndifferent systemic infections. Introductory studies conducted on role\nof this bacterium in human health pointed towards its increased\nabundance in patients suffering from pancreatic ductal carcinoma.\nRothia SGB49305 4.48% ND Rothia is a gram-positive and commensal bacteria. It helps in nitric\noxide and gluten degradation. Some species may associate with oral\ninfection.\nActinomyces 3.95% 0.01%-0.10% Actinomyces johnsonii is a common oral commensal, often found in\njohnsonii dental plaque and healthy gingival tissues. It has been linked to\nrecurrent aphthous stomatitis (RAS), showing increased abundance\nand cytotoxic effects on oral epithelial cells.\nActinomyces 2.78% 0.06%-0.86% The Actinomyces spp. are found to be abundant in healthy\nmassiliensis individuals. Decreased abundance is associated with various oral\ndiseases. Although Actinomyces spp. are responsible for production\nof biofilm on tooth surfaces, however, they are not associated with\nperiodontitis.\nCorynebacterium 2.13% 0.41%-7.02% Corynebacterium matruchotii is an actinobacteria commonly\nmatruchotii occurring as a part of core microflora of the tooth. Presence of this\nbacterium in oral cavity is an indicator of caries free tooth. Its\nreduced / lower abundance reflects a shift to caries biofilm from a\nhealthy dental plaque. Abundance of the bacteria is inversely\nproportional to cancer risk in head and neck squamous cells as well\nas reduced smoking.\nActinomyces 2.04% 0.00%-0.14% Actinomyces dentalis is a Gram-positive bacterium first isolated\ndentalis from a human dental abscess, indicating its role in oral infections. It\nmay contribute to pus formation and tissue damage, but its specific\nfunctions in the oral microbiome are not well-characterized.\nStreptococcus 1.49% 0.57%-2.61% It is an early coloniser found in dental plaques. It produces hydrogen\noralis peroxide which prevents the pathogenic bacteria from commencing\ndisease.\nGGB1844 1.45% 0.00%-0.00% The unclassified species taxonomy belongs to Porphyromonadaceae\nSGB2532 family of Gram-negative bacteria, of the order Bacteroidales.\nMembers of this family reside in the human oral cavity as\ncommensals or as opportunistic pathogens.\nGemella 1.44% 0.00%-0.03% It colonises the mucous membranes of the oral cavity. This gram-\nhaemolysans positive facultative anaerobes ferments frees sugars and produces a\nmixture of acid end products together with carbon dioxide.\nStreptococcus 0.86% 0.66%-4.06% This early coloniser delays colonisation of Streptococcus mutans\nsanguinis (responsible for tooth decay), resulting in decreased caries in primary\nand permanent teeth.\nStreptococcus 0.48% 0.00%-0.01% It is pioneer coloniser and arginolyitc bacteria, capable of preventing\nparasanguinis growth of aciduric bacteria. It delays colonisation of Streptococcus\nmutans, hence, preventing caries formation in primary and\npermanent teeth.\nClient Name: Collection Date: Version 2 5 | Pa ge\nStreptococcus 0.44% 0.09%-0.62% Salivary amylase produces by host aids in colonisation of S. gordonii\ngordonii in the oral cavity of children. Establishment of this bacterium is\ncrucial for establishment of late colonisers in mouth. Presence of this\nbacterium is linked to reduced prevalence of Streptocccus mutans\nand dental caries.\nVeillonella atypica 0.20% 0.00%-0.00% Veillonella rogosae is a gram-negative anaerobic bacterium that\nplays a role in early dental biofilm formation by metabolizing lactate\nproduced by other bacteria. It contributes to oral microbial balance\nand may help reduce the risk of dental caries by lowering acid levels.\nStreptococcus 0.13% 0.00%-0.00% This bacterium is abundant in saliva and oropharyngeal mucosa of\nsalivarius the oral cavity. Salivary amylase produces by host aids in\ncolonisation of S. salivarius in the oral cavity of children.\nEstablishment of this bacterium is crucial for establishment of late\ncolonisers in mouth. It possesses anti-inflammatory properties.\nVeillonella 0.10% 0.00%-0.01% It converts lactic acid to weak acids like formic acid, acetic acid and\nrogosae propionic acid. These weak acids help in acid neutralization and\ntooth re-mineralisation by interfering with Streptococcus mutans. It\ninteracts positively with Streptococcus australis while interfering\nwith cariogenic bacteria.\nNote: Green color highlighted species are keystone species\nCondition-specific microbial markers\nWhat is a biomarker?\nThe FDA defines a biomarker as a measurable characteristic to tell how the body is doing and overall health. It is\na measurable indicator or characteristic that can be objectively assessed and used as a signpost for biological\nprocesses, conditions, or diseases in the body. In the context of the oral microbiome analysis, Microbial markers\nare specific molecules, genes, or organisms found in the microbiome that can signal various aspects of oral health,\ndisease risk, or treatment response.\nMicrobial markers in oral microbiome analysis serve several important purposes:\n\uf0b7 Health Assessment: Help assess the overall health status of the oral cavity. For example, the presence or\nabsence of certain bacteria or microbial by-products can indicate whether the oral environment is healthy\nor potentially associated with disease.\n\uf0b7 Disease Identification: Specific microbial markers may be linked to particular oral diseases or conditions.\nChanges in the abundance or diversity of certain microbial species could signal conditions such as\nperiodontal disease, gingivitis, or dental caries.\n\uf0b7 Treatment Efficacy: Can be used to evaluate how the oral microbiome responds to various treatments or\ninterventions. Monitoring changes in these markers helps assess the effectiveness of therapeutic\napproaches.\n\uf0b7 Predictive Indicators: Serve as predictive markers, offering insights into an individual's susceptibility\nto certain oral diseases or their potential response to specific treatments based on their unique oral\nmicrobiome profile.\nIdentifying and understanding these microbial markers in the oral microbiome provides valuable insights into\noral health, disease mechanisms, and personalized approaches for improving oral conditions.\nClient Name: Collection Date: Version 2 6 | Pa ge\nMicrobial markers for Obesity\nIncreased levels in these microbial markers are linked to symptoms of obesity.\nMicrobial marker Relative abundance (%) Reference Range (%)\nPrevotella spp. 3.80% 0.26%-3.14%\nStreptococcus spp. 30.24% 4.24%-9.70%\nGranulicatella spp. 2.70% 0.00% - 2.56%\nSelenomonas noxia 0.115% 0.00% - 1.38%\nLeptotrichia buccalis 0.344% 0.00% - 1.54%\nMicrobial markers for Cardiovascular disease\nYour plaque doesn\u2019t have microorganism related to cardiovascular disease. Higher abundance of these species\nare associated with carotid intima-media thickening, subsequently leading to carotid atherosclerotic vascular\ndisease.\nMicrobial marker Relative abundance (%) Reference Range (%)\nPorphyromonas gingivalis ND 0.00%-0.00%\nActinobacillus actinomycetemcomitans ND 0.00%- 0.00%\nTreponema denticola ND 0.00% -0.63%\nTannerella forsythia ND 0.00% - 0.58%\nMicrobial markers for Oral Cancer\nHigher levels in these microbial markers are associated with oral cancer\nMicrobial marker Relative abundance (%) Reference IQR (%)\nFusobacterium spp. 0.69% 0.49%-2.20%\nAlloprevotella spp. ND 0.00%-0.46%\nCapnocytophaga gingivalis 0.18% 0.33%-2.17%\nFilifactor alocis ND 0.00%-0.00%\nFirmicutes/Bacteroidetes Ratio 1.302% 0.67%-5.52%\nFusobacterium nucleatum 0.47% 0.25%-1.25%\nPorphyromonas endodontalis 0.02% 0.00%-0.01%\nPorphyromonas gingivalis 0.08% 0.00%-0.00%\nPrevotella spp. 3.80% 0.26%-3.14%\nPeptostreptococcus spp. 0.09% 0.00%-0.00%\nStreptococcus spp. 30.24% 4.24%-9.70%\nOverall lifestyle recommendations\nMaintaining a healthy oral microbiome is essential for overall oral health. Here are lifestyle recommendations to\npromote a healthy oral microbiome and limit dysbiosis:\n\uf0b7 Practice Good Oral Hygiene: Brush your teeth twice a day using fluoride toothpaste. Floss daily to\nremove plaque and debris from between teeth.\nClient Name: Collection Date: Version 2 7 | Pa ge\n\uf0b7 Use Antimicrobial Mouthwash Sparingly: While mouthwash can help kill bacteria, excessive use may\ndisrupt the natural balance of the oral microbiome. Use antimicrobial mouthwash as directed or as\nrecommended by your dentist.\n\uf0b7 Consume a Balanced Diet: Eat a diet rich in fruits, vegetables, whole grains, and lean proteins.\n\uf0b7 Limit sugary and acidic foods, as they can contribute to the growth of harmful bacteria.\n\uf0b7 Stay Hydrated: Drinking water helps flush away food particles and bacteria, promoting a healthier oral\nenvironment.\n\uf0b7 Chew Sugar-Free Gum: This can stimulate saliva production, which helps neutralize acids and\nmaintain a balanced pH in the mouth.\n\uf0b7 Quit Smoking and Tobacco Products: Smoking and tobacco use can contribute to gum disease and\nnegatively impact the oral microbiome.\n\uf0b7 Eliminate Alcohol Consumption: Excessive alcohol consumption can contribute to dry mouth,\nreducing saliva production.\n\uf0b7 Regular Dental Check-ups: Visit your dentist for regular check-ups and cleanings.\n\uf0b7 Manage Stress: Practice stress-reducing techniques such as meditation, deep breathing, or yoga.\n\uf0b7 Limit Antibiotic Use: Only take antibiotics as prescribed by a healthcare professional and complete the\nfull course.\n\uf0b7 Address Teeth Grinding (Bruxism): If you grind your teeth, discuss potential solutions with your\ndentist, as bruxism can contribute to oral health issues.\nBy embracing these simple yet effective lifestyle adjustments, you can cultivate an environment in your oral\ncavity that encourages the growth of beneficial bacteria, ultimately supporting a healthier microbiome and\noverall well-being.\nTest Limitation:\nMicrobiome testing may not fully represent by oral samples because its composition varies along theoral cavity. The results may also\nbe affected by the place of sample that was collected. Additionally, species which are present at minor abundance is depicted as\n0.00% in the sample or healthy dataset. This states the absence of detectable species does not imply their complete absence but reflects\ntheir low abundance relative to the analyzed sample or health dataset.\nDisclaimer: Any information including content on our website or in any of our reports, is intended for informational purposes only.\nThis information is not medical advice and should not be used as a substitute for consultation with a qualified healthcare provider.\nThe content is not intended to diagnose, treat, cure, or prevent any medical condition, nor to prescribe any treatment. All the reference\nthresholds were calculated based on the healthy subjects from Human Microbiome project. Your health is your responsibility.\nClient Name: Collection Date: Version 2 8 | Pa ge\nAppendix\nWhat is the technology employed by BioAro?\nThe human body contains trillions of microorganisms. These microorganisms have been known to impact host health in various ways.\nKnowing what microbes are present helps us to understand how our body responds to dietary interventions, drugs, or food choices and\nhow we can manipulate them to receive maximum health benefits.\nWe, at BioAro, care for your health therefore, we try to target every microbe in your sample! How do we ensure that? We\nperform comprehensive microbiome analysis by employing state of art technology such as shotgun sequencing, which enables detection\nof all kinds of microbes including bacteria, fungi, viruses, and other types of eukaryotes. Not only this, but the approach also performs\nbetter taxonomic resolution and coverage, while simultaneously giving information about the functional microbiome profile.\nGlossary of important terms and definitions:\nAlpha-diversity (Shannon Index) helps us determine the diversity of species within an ecosystem. In simple words, it answers the\nquestion of \u2018How Many?\u2019. Alpha diversity can be explained by describing:\n\u00b7 Species richness: This provides a count of the number of different species present in a sample. It does not consider the abundance of\nthe species or their relative distributions.\n\u00b7 Species evenness: This is a measure of relative abundance of different species present in a sample.\nHigh diversity value of plague profile indicates that the microbiome comprises of variety of microorganisms (bacteria, fungi, viruses,\narchaea) that can produce variety a wide range of metabolites and can positively affect the resilience and stability of the plague\nmicrobiome in times of dysbiosis and stress. Loss of microbiome diversity (LOMD) is described to be one of the most constant factors\nwhile studying dysbiosis or imbalance.\nBacteroidetes and Firmicutes are two most important groups of bacteria of the human plague microbiome. The proportion of\nFirmicutes found in the plague, affecting your F/B ratio, is implicated in many health conditions. Larger amount of Firmicutes in\ncomparison to Bacteroidetes is often found in obese people. There are different species in each group with varied abilities. Usually fat-\nrich diet is known to increase the firmicutes in your plaque and fiber-rich diet could increase the beneficial species of Bacteroidetes.\nDysbiosis: It refers to disruption of the normal microbiome which causes a change in the functional/metabolic composition of the host\nmicrobiome leading to overgrowth of organisms that are otherwise underrepresented or absent in healthy systems.\nKeystone Species: Keystone species is one which defines the whole ecosystem owing to its direct effect on the functional role of other\nspecies irrespective of its relative biomass in comparison to the rest of the species.\nSimply put, the presence of these species, largely affects the presence/absence of other organisms in the ecosystem and therefore, it is\none of the most crucial members of the ecosystem.\nShort Chain Fatty Acids (SCFA): These comprise as one of the main metabolites produced by fermentation of dietary fibers by the\nplague microbiota which provide immense health benefits to the host.\nClient Name: Collection Date: Version 2 9 | Pa ge\nReferences\nAbranches, J., Zeng, L., Kajfasz, J. K., Palmer, S. R., Chakraborty, B., Wen, Z. T., Richards, V. P., Brady, L. J., & Lemos, J. A. (2018). Biology of Oral Streptococci.\nMicrobiology spectrum, 6(5), 10.1128/microbiolspec.GPP3-0042-2018. https://doi.org/10.1128/microbiolspec.GPP3-0042-2018\nAi, D., Huang, R., Wen, J., Li, C., Zhu, J., & Xia, L. C. (2017). Integrated metagenomic data analysis demonstrates that a loss of diversity in oral microbiota is associated\nwith periodontitis. BMC genomics, 18(Suppl 1), 1041. https://doi.org/10.1186/s12864-016-3254-5\nBik, E. M., Long, C. D., Armitage, G. C., Loomer, P., Emerson, J., Mongodin, E. F., Nelson, K. E., Gill, S. R., Fraser-Liggett, C. M., & Relman, D. A. (2010). Bacterial\ndiversity in the oral cavity of 10 healthy individuals. The ISME journal, 4(8), 962\u2013974. https://doi.org/10.1038/ismej.2010.30\nChoo, S. W., Mohammed, W. K., Mutha, N. V. R., Rostami, N., Ahmed, H., Krasnogor, N., Tan, G. Y. A., & Jakubovics, N. S. (2021). Transcriptomic Responses to\nCoaggregation between Streptococcus gordonii and Streptococcus oralis. Applied and environmental microbiology, 87(22), e0155821.\nhttps://doi.org/10.1128/AEM.01558-21\nEsberg, A., Barone, A., Eriksson, L., Lif Holgerson, P., Teneberg, S., & Johansson, I. (2020). Corynebacterium matruchotii Demography and Adhesion Determinants in\nthe Oral Cavity of Healthy Individuals. Microorganisms, 8(11), 1780. https://doi.org/10.3390/microorganisms8111780\nGalvin, S., Anishchuk, S., Healy, C. M., & Moran, G. P. (2023). Smoking, tooth loss and oral hygiene practices have significant and site-specific impacts on the\nmicrobiome of oral mucosal surfaces: a cross-sectional study. Journal of Oral Microbiology, 15(1), 2263971.\nGiacomini, J. J., Torres-Morales, J., Dewhirst, F. E., Borisy, G. G., & Mark Welch, J. L. (2023). Site Specialization of Human Oral Veillonella Species. Microbiology\nspectrum, 11(1), e0404222. https://doi.org/10.1128/spectrum.04042-22\nGris, P., et al. \"Neisseria sicca pneumonia and bronchiectasis.\" European Respiratory Journal 2.7 (1989): 685-687.\nKahler, C. M. (2021). species and their complicated relationships with human health. Microbiology Australia, 42(2), 79\u201383. https://doi.org/10.1071/ma21024\nKaplan, J. B., & Fine, D. H. (2002). Biofilm dispersal of Neisseria subflava and other phylogenetically diverse oral bacteria. Applied and environmental\nmicrobiology, 68(10), 4943\u20134950. https://doi.org/10.1128/AEM.68.10.4943-4950.2002\nLi, J., Helmerhorst, E. J., Leone, C. W., Troxler, R. F., Yaskell, T., Haffajee, A. D., Socransky, S. S., & Oppenheim, F. G. (2004). Identification of early microbial\ncolonizers in human dental biofilm. Journal of applied microbiology, 97(6), 1311\u20131318. https://doi.org/10.1111/j.1365-2672.2004.02420.x\nMitchell J. (2011). Streptococcus mitis: walking the line between commensalism and pathogenesis. Molecular oral microbiology, 26(2), 89\u201398.\nhttps://doi.org/10.1111/j.2041-1014.2010.00601.x\nPalma, T. H., Harth-Ch\u00fa, E. N., Scott, J., Stipp, R. N., Boisvert, H., Salom\u00e3o, M. F., Theobaldo, J. D., Possobon, R. F., Nascimento, L. C., McCafferty, J. W., Faller, L.,\nDuncan, M. J., & Mattos-Graner, R. O. (2016). Oral cavities of healthy infants harbour high proportions of Streptococcus salivarius strains with phenotypic and genotypic\nresistance to multiple classes of antibiotics. Journal of medical microbiology, 65(12), 1456\u20131464. https://doi.org/10.1099/jmm.0.000377\nPark, O. J., Kwon, Y., Park, C., So, Y. J., Park, T. H., Jeong, S., Im, J., Yun, C. H., & Han, S. H. (2020). Streptococcus gordonii: Pathogenesis and Host Response to Its\nCell Wall Components. Microorganisms, 8(12), 1852. https://doi.org/10.3390/microorganisms8121852\nShen, Xin, et al. \"Neisseria sicca and Corynebacterium matruchotii inhibited oral squamous cell carcinomas by regulating genome stability.\" Bioengineered 13.6 (2022):\n14094-14106.\nTorres-Morales, J., Mark Welch, J. L., Dewhirst, F. E., & Borisy, G. G. (2023). Site-specialization of human oral Gemella species. Journal of oral microbiology, 15(1),\n2225261.\nWicaksono, D. P., Washio, J., Abiko, Y., Domon, H., & Takahashi, N. (2020). Nitrite Production from Nitrate and Its Link with Lactate Metabolism in Oral Veillonella\nspp. Applied and environmental microbiology, 86(20), e01255-20. https://doi.org/10.1128/AEM.01255-20\nZhang, M., Zhao, Y., Umar, A., Zhang, H., Yang, L., Huang, J., ... & Yu, Z. (2024). Comparative analysis of microbial composition and functional characteristics in\ndental plaque and saliva of oral cancer patients. BMC Oral Health, 24(1), 411.\nClient Name: Collection Date: Version 2 10 | Pa ge"
+  },
+  "transcript": [
+    {
+      "q": "Is my oral microbiome healthy overall?",
+      "a": "Based on the analysis of your oral microbiome, there are both positive and concerning findings. Let me break this down for you:\n\n---\n\n### \ud83d\udcca **Overall Health Assessment**\n\n| Metric | Your Value | Healthy Range | Status |\n|--------|------------|----------------|--------|\n| **Shannon Diversity Index (SDIV)** | 3.581 | 1.2\u20133.0 | \ud83d\udd34 **Above** |\n| **Top Organisms** | 16 species identified | - | - |\n| **Condition-Specific Markers** | 20 markers analyzed | - | - |\n\n---\n\n### \ud83e\uddec **Key Findings**\n\n#### \ud83d\udd34 **High Diversity (SDIV = 3.581)**\n- Your oral microbiome has **higher diversity** than the healthy range (1.2\u20133.0).\n- While diversity is generally good, **excessive diversity** can sometimes indicate an unstable or dysbiotic microbiome.\n- This may be linked to factors like inflammation, lifestyle, or other systemic conditions.\n\n---\n\n#### \ud83d\udd34 **Abundance of Certain Bacteria**\nHere are the top 16 organisms and their status:\n\n| Organism | Abundance | Healthy Range | Status |\n|----------|-----------|----------------|--------|\n| **Streptococcus mitis** | 15.21% | 0.11%\u20131.10% | \ud83d\udd34 **Above** |\n| **Veillonella parvula** | 4.87% | 0.58%\u20133.62% | \ud83d\udd34 **Above** |\n| **Rothia SGB49305** | 4.48% | ND | - |\n| **Actinomyces johnsonii** | 3.95% | 0.01%\u20130.10% | \ud83d\udd34 **Above** |\n| **Actinomyces massiliensis** | 2.78% | 0.06%\u20130.86% | \ud83d\udd34 **Above** |\n| **Corynebacterium matruchotii** | 2.13% | 0.41%\u20137.02% | \ud83d\udfe2 **Normal** |\n| **Actinomyces dentalis** | 2.04% | 0.00%\u20130.14% | \ud83d\udd34 **Above** |\n| **Streptococcus oralis** | 1.49% | 0.57%\u20132.61% | \ud83d\udfe2 **Normal** |\n| **GGB1844 SGB2532** | 1.45% | 0.00%\u20130.00% | \ud83d\udd34 **Above** |\n| **Gemella haemolysans** | 1.44% | 0.00%\u20130.03% | \ud83d\udd34 **Above** |\n| **Streptococcus sanguinis** | 0.86% | 0.66%\u20134.06% | \ud83d\udfe2 **Normal** |\n| **Streptococcus parasanguinis** | 0.48% | 0.00%\u20130.01% | \ud83d\udd34 **Above** |\n| **Streptococcus gordonii** | 0.44% | 0.09%\u20130.62% | \ud83d\udfe2 **Normal** |\n| **Veillonella atypica** | 0.20% | 0.00%\u20130.00% | \ud83d\udd34 **Above** |\n| **Streptococcus salivarius** | 0.13% | 0.00%\u20130.00% | \ud83d\udd34 **Above** |\n| **Veillonella rogosae** | 0.10% | 0.00%\u20130.01% | \ud83d\udd34 **Above** |\n\n---\n\n### \ud83e\uddea **Condition-Specific Markers**\n\n#### \ud83d\udfe5 **Obesity (5 markers)**\n| Marker | Abundance | Healthy Range | Status |\n|--------|-----------|----------------|--------|\n| **Prevotella spp** | 3.80% | 0.26%\u20133.14% | \ud83d\udd34 **Above** |\n| **Streptococcus spp** | 30.24% | 4.24%\u20139.70% | \ud83d\udd34 **Above** |\n| **Granulicatella spp** | 2.70% | 0.00%\u20132.56% | \ud83d\udd34 **Above** |\n| **Selenomonas noxia** | 0.115% | 0.00%\u20131.38% | \ud83d\udfe2 **Normal** |\n| **Leptotrichia buccalis** | 0.344% | 0.00%\u20131.54% | \ud83d\udfe2 **Normal** |\n\n#### \ud83d\udfe5 **Cardiovascular Disease (4 markers)**\n| Marker | Abundance | Healthy Range | Status |\n|--------|-----------|----------------|--------|\n| **Porphyromonas gingivalis** | ND | 0.00%\u20130.00% | \u26aa **Not Detected** |\n| **Actinobacillus actinomycetemcomitans** | ND | 0.00%\u20130.00% | \u26aa **Not Detected** |\n| **Treponema denticola** | ND | 0.00%\u20130.63% | \u26aa **Not Detected** |\n| **Tannerella forsythia** | ND | 0.00%\u20130.58% | \u26aa **Not Detected** |\n\n#### \ud83d\udfe5 **Oral Cancer (11 markers)**\n| Marker | Abundance | Healthy Range | Status |\n|--------|-----------|----------------|--------|\n| **Fusobacterium spp** | 0.69% | 0.49%\u20132.20% | \ud83d\udfe2 **Normal** |\n| **Alloprevotella spp** | ND | 0.00%\u20130.46% | \u26aa **Not Detected** |\n| **Capnocytophaga gingivalis** | 0.18% | 0.33%\u20132.17% | \ud83d\udfe1 **Below** |\n| **Filifactor alocis** | ND | 0.00%\u20130.00% | \u26aa **Not Detected** |\n| **Firmicutes/Bacteroidetes Ratio** | 1.302% | 0.67%\u20135.52% | \ud83d\udfe2 **Normal** |\n| **Fusobacterium nucleatum** | 0.47% | 0.25%\u20131.25% | \ud83d\udfe2 **Normal** |\n| **Porphyromonas endodontalis** | 0.02% | 0.00%\u20130.01% | \ud83d\udd34 **Above** |\n| **Porphyromonas gingivalis** | 0.08% | 0.00%\u20130.00% | \ud83d\udd34 **Above** |\n| **Prevotella spp** | 3.80% | 0.26%\u20133.14% | \ud83d\udd34 **Above** |\n| **Peptostreptococcus spp** | 0.09% | 0.00%\u20130.00% | \ud83d\udd34 **Above** |\n| **Streptococcus spp** | 30.24% | 4.24%\u20139.70% | \ud83d\udd34 **Above** |\n\n---\n\n### \ud83e\udde0 **What Does This Mean?**\n\nYour oral microbiome shows **higher-than-healthy levels of several bacteria**, including:\n- **Streptococcus mitis**, **Veillonella parvula**, and **Actinomyces** species.\n- **Streptococcus spp** and **Prevotella spp** are significantly elevated, which may be associated with conditions like **obesity** and **oral cancer risk**.\n\nWhile some bacteria like **Corynebacterium matruchotii** and **Fusobacterium spp** are within normal ranges, the **overall imbalance** suggests that your oral microbiome may be **dysbiotic** (unbalanced), which can increase the risk of oral and systemic health issues.\n\n---\n\n### \ud83e\uddf4 **Lifestyle Recommendations**\n\nTo help restore balance and support a healthier oral microbiome, consider the following:\n\n- **Improve Oral Hygiene**: Brush twice daily with fluoride toothpaste and floss daily.\n- **Reduce Sugar Intake**: High sugar diets can promote the growth of harmful bacteria.\n- **Stay Hydrated**: Drinking water helps wash away food particles and bacteria.\n- **Eat a Balanced Diet**: Include more fiber-rich foods and fermented foods like yogurt or kefir.\n- **Avoid Smoking**: Smoking can disrupt the balance of your oral microbiome.\n- **Manage Stress**: Stress can affect your immune system and oral health.\n- **Limit Antibiotic Use**: Only take antibiotics when necessary and as prescribed.\n\n---\n\n### \ud83d\udccc **Next Steps**\n\nWhile this report provides valuable insights, it\u2019s important to:\n- **Consult with a healthcare provider** for a full evaluation, especially if you have concerns about oral health or systemic conditions.\n- Consider **follow-up testing** to track changes over time.\n\n---\n\n### \ud83e\udde9 **Summary**\n\nYour oral microbiome shows **higher-than-healthy diversity** and **elevated levels of several bacteria** that may be associated with oral and systemic health risks. While not a diagnosis, these findings suggest that **improving oral hygiene, diet, and lifestyle** could help restore balance and support better oral health.\n\nLet me know if you'd like more details about any specific markers or recommendations!",
+      "elapsed": 12.54491925000184
+    },
+    {
+      "q": "What is my Shannon Diversity score and what does it mean?",
+      "a": "### \ud83d\udcca **Your Shannon Diversity Score (SDIV)**\n\n- **Your Value**: 3.581  \n- **Healthy Range**: 1.2\u20133.0  \n- **Status**: \ud83d\udd34 **Above**  \n\n---\n\n### \ud83e\udde0 **What Does This Mean?**\n\nThe **Shannon Diversity Index (SDIV)** is a measure of **microbial diversity** in your oral microbiome. It tells us how many different types of microbes are present and how evenly they are distributed.\n\n- **Higher diversity** is generally a good sign, as it suggests a more stable and resilient microbiome.\n- However, your SDIV of **3.581** is **above the healthy range** (1.2\u20133.0), which may indicate **dysbiosis** (an imbalance in the microbiome).\n\n#### \ud83d\udccc **Why This Matters**\n- A **high SDIV** can sometimes be linked to **inflammation**, **lifestyle factors**, or **systemic health issues**.\n- While diversity is important, **too much diversity** can also be a sign of instability in the oral ecosystem.\n- This may be associated with conditions like **obesity**, **oral inflammation**, or **increased risk of oral diseases**.\n\n---\n\n### \ud83e\uddec **What\u2019s Driving the High Diversity?**\n\nYour report shows that several bacteria are **significantly above the healthy range**, including:\n- **Streptococcus mitis** (15.21%)\n- **Veillonella parvula** (4.87%)\n- **Actinomyces johnsonii** (3.95%)\n- **Streptococcus spp** (30.24%)\n\nThese imbalances may contribute to the **higher-than-healthy diversity** and could be linked to **oral inflammation**, **dysbiosis**, or **increased disease risk**.\n\n---\n\n### \ud83e\uddf4 **What Can You Do?**\n\nWhile your SDIV is higher than the healthy range, it's not a diagnosis \u2014 it's a signal that your oral microbiome may need support. Here are some practical steps:\n\n- **Improve Oral Hygiene**: Brush twice daily and floss regularly to reduce harmful bacteria.\n- **Reduce Sugar Intake**: High sugar diets can promote the growth of harmful bacteria.\n- **Eat a Balanced Diet**: Focus on fiber-rich foods, fermented foods (like yogurt or kefir), and anti-inflammatory foods.\n- **Stay Hydrated**: Drinking water helps wash away bacteria and food particles.\n- **Avoid Smoking**: Smoking can disrupt the balance of your oral microbiome.\n- **Manage Stress**: Stress can affect your immune system and oral health.\n- **Limit Antibiotic Use**: Only take antibiotics when necessary and as prescribed.\n\n---\n\n### \ud83d\udccc **Next Steps**\n\n- **Consult with a healthcare provider** to discuss your results and any concerns.\n- Consider **follow-up testing** to track changes over time.\n- Work with a **dentist or oral health specialist** to address any imbalances.\n\n---\n\n### \ud83e\udde9 **Summary**\n\nYour **Shannon Diversity Index (SDIV)** is **3.581**, which is **above the healthy range** (1.2\u20133.0). While diversity is generally good, this may indicate **dysbiosis** or **imbalance** in your oral microbiome. Several bacteria are significantly elevated, which could be linked to **oral inflammation** or **increased disease risk**.\n\nLet me know if you'd like more details about specific bacteria or recommendations for improving your oral microbiome!",
+      "elapsed": 4.674008709000191
+    },
+    {
+      "q": "Tell me about my obesity-related markers from this oral report \u2014 list each marker, abundance, range and status.",
+      "a": "### \ud83e\uddec **Obesity-Related Markers in Your Oral Microbiome Report**\n\nHere are the **5 microbial markers** associated with **obesity**, along with their **abundance**, **healthy reference range**, and **status**:\n\n---\n\n| **Marker**               | **Abundance** | **Healthy Reference Range** | **Status** |\n|--------------------------|---------------|-----------------------------|------------|\n| **Prevotella spp**       | 3.80%         | 0.26%\u20133.14%                 | \ud83d\udd34 **Above** |\n| **Streptococcus spp**    | 30.24%        | 4.24%\u20139.70%                 | \ud83d\udd34 **Above** |\n| **Granulicatella spp**   | 2.70%         | 0.00%\u20132.56%                 | \ud83d\udd34 **Above** |\n| **Selenomonas noxia**    | 0.115%        | 0.00%\u20131.38%                 | \ud83d\udfe2 **Normal** |\n| **Leptotrichia buccalis**| 0.344%        | 0.00%\u20131.54%                 | \ud83d\udfe2 **Normal** |\n\n---\n\n### \ud83d\udccc **What These Markers Mean**\n\n#### \ud83d\udd34 **Above Range (Elevated)**\n- **Prevotella spp** (3.80%):  \n  - **What it is**: A group of bacteria commonly found in the mouth and gut.  \n  - **What it means**: Higher levels of *Prevotella* are often associated with **high-carbohydrate diets** and **obesity**. It may also be linked to **inflammation** and **metabolic imbalances**.  \n  - **Why it matters**: Elevated *Prevotella* can be a sign of **dysbiosis** and may contribute to **oral and systemic inflammation**.\n\n- **Streptococcus spp** (30.24%):  \n  - **What it is**: A broad group of bacteria, many of which are **commensal** (harmless) but some can be **pathogenic**.  \n  - **What it means**: Very high levels of *Streptococcus* are often seen in **oral dysbiosis** and may be linked to **obesity** and **dental caries**.  \n  - **Why it matters**: Excessive *Streptococcus* can lead to **plaque buildup**, **tooth decay**, and **inflammation**.\n\n- **Granulicatella spp** (2.70%):  \n  - **What it is**: A group of bacteria that can be part of the **normal oral microbiome**, but are also associated with **infections**.  \n  - **What it means**: Elevated levels may indicate **inflammation** or **dysbiosis**.  \n  - **Why it matters**: High *Granulicatella* may be linked to **oral infections** and **systemic inflammation**.\n\n#### \ud83d\udfe2 **Within Range (Normal)**\n- **Selenomonas noxia** (0.115%):  \n  - **What it is**: A bacterium that can be associated with **periodontal disease** in some cases.  \n  - **What it means**: Your level is within the normal range, which is a good sign.  \n  - **Why it matters**: While it can be a **pathogen**, your level is not elevated, so it\u2019s not a concern at this time.\n\n- **Leptotrichia buccalis** (0.344%):  \n  - **What it is**: A **commensal** bacterium found in the mouth.  \n  - **What it means**: Your level is within the normal range.  \n  - **Why it matters**: This species is generally **harmless** and may even have **anti-inflammatory properties**.\n\n---\n\n### \ud83e\uddf4 **Lifestyle Recommendations for Obesity-Related Imbalances**\n\nTo help bring your oral microbiome into better balance and support overall health, consider the following:\n\n- **Eat a Balanced Diet**: Focus on **fiber-rich foods**, **whole grains**, and **anti-inflammatory foods** (like fruits, vegetables, and omega-3s).\n- **Limit Sugar and Refined Carbs**: These can promote the growth of harmful bacteria like *Streptococcus* and *Prevotella*.\n- **Stay Hydrated**: Drinking water helps wash away food particles and bacteria.\n- **Improve Oral Hygiene**: Brush twice daily and floss regularly to reduce plaque and bacterial buildup.\n- **Avoid Smoking**: Smoking can disrupt the balance of your oral microbiome.\n- **Manage Stress**: Chronic stress can affect your immune system and oral health.\n- **Limit Antibiotic Use**: Only take antibiotics when necessary and as prescribed.\n\n---\n\n### \ud83d\udccc **Next Steps**\n\n- **Consult with a healthcare provider** to discuss your results and any concerns about obesity or oral health.\n- Consider **follow-up testing** to track changes over time.\n- Work with a **dentist or oral health specialist** to address any imbalances.\n\n---\n\n### \ud83e\udde9 **Summary**\n\nYour oral microbiome shows **elevated levels of several bacteria** associated with **obesity**, including *Prevotella spp*, *Streptococcus spp*, and *Granulicatella spp*. While some markers are within the normal range, the overall pattern suggests **dysbiosis** that may be linked to **inflammation** and **metabolic imbalances**. Making **lifestyle and dietary changes** can help support a healthier oral microbiome and reduce the risk of related health issues.",
+      "elapsed": 7.502296541002579
+    },
+    {
+      "q": "Which oral organisms are above their healthy range, and why does it matter?",
+      "a": "### \ud83e\uddec **Oral Organisms Above Their Healthy Range**\n\nHere is a list of **all oral organisms** that are **above their healthy reference range**, along with their **abundance**, **reference range**, and **why it matters**.\n\n---\n\n### \ud83d\udcca **Top 16 Organisms (16 total)**\n\n| **Organism**               | **Abundance** | **Healthy Range** | **Status** | **Why It Matters** |\n|---------------------------|---------------|-------------------|------------|--------------------|\n| **Streptococcus mitis**    | 15.21%        | 0.11%\u20131.10%       | \ud83d\udd34 **Above** | High levels may indicate **oral dysbiosis**, **inflammation**, or **increased risk of dental caries**. |\n| **Veillonella parvula**    | 4.87%         | 0.58%\u20133.62%       | \ud83d\udd34 **Above** | Elevated levels may be linked to **periodontal disease**, **oral infections**, and **systemic inflammation**. |\n| **Actinomyces johnsonii**  | 3.95%         | 0.01%\u20130.10%       | \ud83d\udd34 **Above** | High abundance may be associated with **oral infections** and **reduced cancer risk**. |\n| **Actinomyces massiliensis** | 2.78%       | 0.06%\u20130.86%       | \ud83d\udd34 **Above** | Elevated levels may indicate **dysbiosis** or **oral inflammation**. |\n| **Actinomyces dentalis**   | 2.04%         | 0.00%\u20130.14%       | \ud83d\udd34 **Above** | High levels may be linked to **dental abscesses** and **tissue damage**. |\n| **GGB1844 SGB2532**        | 1.45%         | 0.00%\u20130.00%       | \ud83d\udd34 **Above** | This unclassified species may be an **opportunistic pathogen** or **indicator of imbalance**. |\n| **Gemella haemolysans**    | 1.44%         | 0.00%\u20130.03%       | \ud83d\udd34 **Above** | Elevated levels may be associated with **oral infections** and **inflammation**. |\n| **Streptococcus parasanguinis** | 0.48%     | 0.00%\u20130.01%       | \ud83d\udd34 **Above** | High levels may indicate **dysbiosis** or **increased risk of oral disease**. |\n| **Veillonella atypica**    | 0.20%         | 0.00%\u20130.00%       | \ud83d\udd34 **Above** | May be linked to **periodontal disease** and **oral inflammation**. |\n| **Streptococcus salivarius** | 0.13%       | 0.00%\u20130.00%       | \ud83d\udd34 **Above** | High levels may be associated with **oral infections** or **dysbiosis**. |\n| **Veillonella rogosae**    | 0.10%         | 0.00%\u20130.01%       | \ud83d\udd34 **Above** | May be linked to **oral inflammation** and **dysbiosis**. |\n\n---\n\n### \ud83e\uddec **Obesity-Related Markers (5 total)**\n\n| **Marker**               | **Abundance** | **Healthy Range** | **Status** | **Why It Matters** |\n|--------------------------|---------------|-------------------|------------|--------------------|\n| **Prevotella spp**       | 3.80%         | 0.26%\u20133.14%       | \ud83d\udd34 **Above** | High levels are often linked to **high-carbohydrate diets**, **obesity**, and **inflammation**. |\n| **Streptococcus spp**    | 30.24%        | 4.24%\u20139.70%       | \ud83d\udd34 **Above** | Very high levels may indicate **oral dysbiosis**, **dental caries**, and **inflammation**. |\n| **Granulicatella spp**   | 2.70%         | 0.00%\u20132.56%       | \ud83d\udd34 **Above** | Elevated levels may be associated with **oral infections** and **systemic inflammation**. |\n\n---\n\n### \ud83e\uddec **Oral Cancer-Related Markers (11 total)**\n\n| **Marker**                  | **Abundance** | **Healthy Range** | **Status** | **Why It Matters** |\n|-----------------------------|---------------|-------------------|------------|--------------------|\n| **Porphyromonas endodontalis** | 0.02%       | 0.00%\u20130.01%       | \ud83d\udd34 **Above** | May be linked to **oral infections** and **inflammation**. |\n| **Porphyromonas gingivalis**  | 0.08%       | 0.00%\u20130.00%       | \ud83d\udd34 **Above** | A known **periodontal pathogen** and may be associated with **oral cancer risk**. |\n| **Peptostreptococcus spp**    | 0.09%       | 0.00%\u20130.00%       | \ud83d\udd34 **Above** | May be linked to **oral infections** and **dysbiosis**. |\n\n---\n\n### \ud83e\udde0 **Why This Matters**\n\nHaving **multiple oral organisms above their healthy range** can indicate **dysbiosis** \u2014 an imbalance in your oral microbiome. This can lead to:\n\n- **Increased risk of oral diseases** such as **periodontitis**, **dental caries**, and **oral infections**.\n- **Inflammation** in the mouth, which may contribute to **systemic health issues** like **obesity**, **cardiovascular disease**, and **oral cancer**.\n- **Reduced microbial diversity** or **unstable microbial communities**, which can make your oral environment more vulnerable to harmful bacteria.\n\n---\n\n### \ud83e\uddf4 **What You Can Do**\n\nTo help restore balance and support a healthier oral microbiome:\n\n- **Improve oral hygiene**: Brush twice daily, floss, and use an antimicrobial mouthwash.\n- **Eat a balanced diet**: Limit sugar and refined carbs, and increase fiber and fermented foods.\n- **Stay hydrated**: Water helps wash away bacteria and food particles.\n- **Avoid smoking**: Smoking disrupts the oral microbiome.\n- **Manage stress**: Stress can weaken the immune system and affect oral health.\n- **Limit unnecessary antibiotic use**: Antibiotics can disrupt the balance of your microbiome.\n\n---\n\n### \ud83d\udccc **Next Steps**\n\n- **Consult with a healthcare provider** or **dentist** to discuss your results and any concerns.\n- Consider **follow-up testing** to track changes over time.\n- Work with a **qualified oral health professional** to develop a personalized plan for improving your oral microbiome.\n\n---\n\n### \ud83e\udde9 **Summary**\n\nYou have **multiple oral organisms above their healthy range**, including **Streptococcus mitis**, **Veillonella parvula**, **Actinomyces spp**, and **Streptococcus spp**. These imbalances may indicate **dysbiosis**, which can increase the risk of **oral disease**, **inflammation**, and **systemic health issues**. Making **lifestyle and dietary changes** can help support a healthier oral microbiome.",
+      "elapsed": 9.886707500001648
+    },
+    {
+      "q": "Do I have any cancer-associated microbial markers flagged?",
+      "a": "### \u2705 **Answer: Yes, you have several cancer-associated microbial markers that are **above** their healthy reference range**.\n\nHere is a complete list of **oral cancer-related microbial markers** from your report, along with their **abundance**, **reference range**, and **status**:\n\n---\n\n### \ud83e\uddec **Oral Cancer-Related Microbial Markers**\n\n| **Marker**                  | **Abundance** | **Healthy Reference Range** | **Status** | **Why It Matters** |\n|-----------------------------|---------------|-----------------------------|------------|--------------------|\n| **Porphyromonas endodontalis** | 0.02%         | 0.00%\u20130.01%                 | \ud83d\udd34 **Above** | Linked to **oral infections** and may be associated with **oral cancer risk**. |\n| **Porphyromonas gingivalis**  | 0.08%         | 0.00%\u20130.00%                 | \ud83d\udd34 **Above** | A **periodontal pathogen** and may be associated with **oral cancer risk**. |\n| **Prevotella spp**          | 3.80%         | 0.26%\u20133.14%                 | \ud83d\udd34 **Above** | High levels are often linked to **inflammation**, **obesity**, and **oral cancer risk**. |\n| **Peptostreptococcus spp**  | 0.09%         | 0.00%\u20130.00%                 | \ud83d\udd34 **Above** | May be associated with **oral infections** and **cancer risk**. |\n| **Streptococcus spp**       | 30.24%        | 4.24%\u20139.70%                 | \ud83d\udd34 **Above** | Very high levels may indicate **oral dysbiosis**, **inflammation**, and **cancer risk**. |\n\n---\n\n### \ud83e\udde0 **What This Means**\n\nSeveral of the **microbial markers** associated with **oral cancer** are **above the healthy range** in your report. While this does **not mean you have cancer**, it does suggest that your oral microbiome may be in a state of **dysbiosis** that could be linked to **increased cancer risk** or **oral inflammation**.\n\n- **Porphyromonas gingivalis** and **Prevotella spp** are well-known **periodontal pathogens** and have been associated with **oral cancer** in some studies.\n- **Peptostreptococcus spp** and **Streptococcus spp** are also linked to **oral infections** and **inflammation**, which may contribute to **cancer risk** over time.\n- **Porphyromonas endodontalis** is another bacterium that may be associated with **oral infections** and **inflammation**.\n\n---\n\n### \ud83e\uddf4 **What You Can Do**\n\nWhile your results are not a diagnosis, they suggest that your oral microbiome may benefit from **support and balance**. Here are some **practical steps** you can take:\n\n- **Improve oral hygiene**: Brush twice daily, floss, and use an antimicrobial mouthwash.\n- **Eat a balanced diet**: Limit sugar and refined carbs, and increase fiber and fermented foods.\n- **Stay hydrated**: Water helps wash away bacteria and food particles.\n- **Avoid smoking**: Smoking disrupts the oral microbiome and increases cancer risk.\n- **Manage stress**: Chronic stress can weaken the immune system and affect oral health.\n- **Limit unnecessary antibiotic use**: Antibiotics can disrupt the balance of your microbiome.\n\n---\n\n### \ud83d\udccc **Next Steps**\n\n- **Consult with a healthcare provider** or **dentist** to discuss your results and any concerns.\n- Consider **follow-up testing** to track changes over time.\n- Work with a **qualified oral health professional** to develop a personalized plan for improving your oral microbiome.\n\n---\n\n### \ud83e\udde9 **Summary**\n\nYou have **multiple cancer-associated microbial markers** that are **above the healthy reference range**, including **Porphyromonas endodontalis**, **Porphyromonas gingivalis**, **Prevotella spp**, **Peptostreptococcus spp**, and **Streptococcus spp**. These imbalances may indicate **dysbiosis** and could be linked to **oral inflammation** and **increased cancer risk**. Making **lifestyle and dietary changes** can help support a healthier oral microbiome.",
+      "elapsed": 5.838831375000154
+    }
+  ]
+}

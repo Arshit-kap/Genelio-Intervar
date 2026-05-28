@@ -225,9 +225,17 @@ _SAFETY_RESPONSES = {
 
 
 def _safety_refuse(message: str) -> Optional[str]:
-    """Layer 0: return a fixed response if message hits a safety pattern, else None."""
+    """Layer 0: return a fixed response if message hits a safety pattern, else None.
+
+    "diagnosis" checks for "do I have" are suppressed when the message clearly
+    asks about variant/gene data — e.g. "What variants do I have in SERPINA1?"
+    is a data query, not a diagnosis question.
+    """
     for pattern, category in _SAFETY_PATTERNS:
         if pattern.search(message):
+            # Skip "do I have" refusals when the question is clearly about variants/genes
+            if category == "diagnosis" and _DATA_OBJECT.search(message):
+                continue
             return _SAFETY_RESPONSES[category]
     return None
 
@@ -794,6 +802,33 @@ def _static_answer(message: str) -> str:
             "• PhyloP < -2 → accelerated evolution (less likely to be disease-causing)\n\n"
             "Stored as phylop46way_placental in the database. Used alongside GERP for PP3/BP4."
         )
+    # A2 category: ClinVar vs InterVar conflict explanation
+    if re.search(r'\b(clinvar|intervar).{0,40}(different|differ|conflict|disagree|mismatch|versus|vs|why|reliable)\b'
+                 r'|\b(reliable|trust|accurate).{0,40}(clinvar|intervar)\b'
+                 r'|\bclinvar.{0,20}(vus|uncertain).{0,20}intervar.{0,20}(pathogenic|likely)\b'
+                 r'|\bintervar.{0,20}(pathogenic|likely).{0,20}clinvar.{0,20}(vus|uncertain)\b',
+                 msg):
+        return (
+            "**Why ClinVar and InterVar can disagree**\n\n"
+            "**ClinVar** (National Institutes of Health):\n"
+            "• Collects submissions from clinical laboratories, hospitals, and research groups\n"
+            "• Each submission reflects that lab's expert interpretation\n"
+            "• May be outdated — a VUS from 5 years ago may be reclassified now\n"
+            "• 'Conflicting interpretations' = multiple labs disagree\n"
+            "• Strength depends on number of submissions and review status\n\n"
+            "**InterVar** (algorithmic ACMG/AMP 2015 rules):\n"
+            "• Applies the 28 ACMG evidence codes (PVS1, PS, PM, PP, BA1, BS, BP) automatically\n"
+            "• Uses gnomAD frequency, CADD scores, splice predictions, OMIM data\n"
+            "• Consistent and reproducible — same rules for every variant\n"
+            "• May miss novel gene-disease associations not yet in OMIM\n\n"
+            "**When they conflict:**\n"
+            "• ClinVar VUS + InterVar Pathogenic → InterVar may have captured recent criteria "
+            "(PM2, PP3, PVS1) that the ClinVar submission predates\n"
+            "• ClinVar Pathogenic + InterVar VUS → ClinVar may reflect strong functional evidence "
+            "not captured by automated rules\n\n"
+            "**Which is more reliable?** Both — they are complementary. Highest confidence = "
+            "agreement between both (ClinVar Pathogenic AND InterVar Pathogenic)."
+        )
     if re.search(r'\b(clinvar|clinical significance)\b', msg):
         return (
             "**ClinVar — Clinical Significance Database**\n\n"
@@ -826,6 +861,26 @@ def _static_answer(message: str) -> str:
             "• Common mechanism for dominant developmental disorders (e.g., ASD, intellectual disability)\n"
             "• Rate: ~1-2 de novo coding variants per person per generation"
         )
+    # E1 / E2: Inheritance and passing to children
+    if re.search(r'\b(will|can|might|could).{0,20}(children|kids|child|son|daughter|offspring|family).{0,30}(inherit|get|have|pass)\b'
+                 r'|\b(pass|inherit).{0,20}(children|kids|child)\b'
+                 r'|\b(children|kids|family).{0,20}(inherit|risk|tested|check)\b', msg):
+        return (
+            "**Will my children inherit this?**\n\n"
+            "Whether a variant is passed to children depends on the inheritance pattern:\n\n"
+            "• **Autosomal Dominant (AD)** — each child has a **50% chance** of inheriting it.\n"
+            "  If the variant is pathogenic with AD inheritance, each child is at risk.\n\n"
+            "• **Autosomal Recessive (AR)** — if you are a carrier (heterozygous), each child "
+            "has a 25% chance of being affected (if your partner is also a carrier) or a 50% "
+            "chance of being a carrier themselves.\n\n"
+            "• **X-linked** — depends on sex of parent and child. Males with X-linked dominant "
+            "variants pass to all daughters (not sons). Female carriers of X-linked recessive "
+            "pass a 50% carrier risk to daughters and 50% affected risk to sons.\n\n"
+            "⚠️ **This requires genetic counselling** — a genetic counsellor can calculate the "
+            "exact risk for your family based on your specific variant and inheritance pattern.\n\n"
+            "You can check the Orpha column in your report for the inheritance pattern of specific "
+            "disease-gene associations."
+        )
     if re.search(r'\b(inheritance|autosomal|dominant|recessive|x.linked)\b', msg):
         return (
             "**Inheritance Patterns in Mendelian Disease**\n\n"
@@ -857,6 +912,43 @@ def _static_answer(message: str) -> str:
             "• pLI score (gnomAD) ≥ 0.9 → gene is haploinsufficient\n\n"
             "**Gain-of-Function (GOF)** — variant increases or alters protein activity. "
             "Common in dominant negative mechanisms. Does NOT trigger PVS1."
+        )
+
+    # F1: Carrier status for recessive conditions
+    if re.search(r'\b(am i a carrier|carrier.{0,30}recessive|carry.{0,30}(disease|condition|recessive)|'
+                 r'silent.{0,20}disease|carrier.{0,20}status|heterozygous.{0,30}recessive)\b', msg):
+        return (
+            "**Carrier Status for Autosomal Recessive Conditions**\n\n"
+            "A **carrier** is a person with one pathogenic copy of a recessive gene — "
+            "they are generally unaffected but can pass the condition to children.\n\n"
+            "To check for carrier status in your report, look for:\n"
+            "• Heterozygous variants (Otherinfo = 'het') in recessive disease genes\n"
+            "• ClinVar or InterVar classification of Pathogenic or Likely Pathogenic\n\n"
+            "**Common recessive disease genes to check:**\n"
+            "• **CFTR** — Cystic Fibrosis (~1/25 carriers in Europeans)\n"
+            "• **HBB** — Sickle Cell / Beta-Thalassemia\n"
+            "• **HEXA** — Tay-Sachs (1/30 in Ashkenazi Jewish)\n"
+            "• **BRCA2** — Hereditary Breast/Ovarian Cancer (also AD)\n"
+            "• **SERPINA1** — Alpha-1 Antitrypsin Deficiency\n\n"
+            "You can ask: *'Show heterozygous pathogenic variants'* to identify potential carriers."
+        )
+
+    # F2: Secondary / incidental findings (ACMG 59 gene list)
+    if re.search(r'\b(secondary finding|incidental finding|acmg list|acmg 59|actionable.{0,20}gene|'
+                 r'acmg secondary|acmg.{0,20}list|are there incidental|acmg.{0,20}finding)\b', msg):
+        return (
+            "**ACMG Secondary Findings (SF v3.2 — 81 genes)**\n\n"
+            "The American College of Medical Genetics recommends reporting pathogenic variants "
+            "in 81 specific 'actionable' genes — even when not the reason for testing.\n\n"
+            "**Key gene categories on the ACMG list:**\n"
+            "• **Hereditary Cancer:** BRCA1, BRCA2, MLH1, MSH2, MSH6, PMS2, TP53, STK11, PALB2\n"
+            "• **Cardiac:** RYR2, KCNQ1, SCN5A, MYBPC3, MYH7, MYH11, SMAD3, TGFBR1, TGFBR2\n"
+            "• **Aortic Disease:** FBN1 (Marfan), FBN2, ACTA2, SLC2A10\n"
+            "• **Metabolic:** LDLR, APOB, PCSK9 (familial hypercholesterolaemia)\n"
+            "• **Others:** MUTYH, APC, PTEN, RET, VHL, SDHB, SDHC, SDHD\n\n"
+            "To check secondary findings in your report, ask:\n"
+            "*'Show pathogenic variants in BRCA1'* or *'Do I have variants in ACMG genes?'*\n\n"
+            "⚠️ Review of secondary findings should be done with a certified genetic counsellor."
         )
 
     # ── Genes ──────────────────────────────────────────────────────────────────
@@ -1193,7 +1285,232 @@ def _format_api_supplement(external: dict) -> Optional[str]:
     return "---\n" + "\n\n".join(parts)
 
 
-# ── Main chat worker — 6-layer pipeline ────────────────────────────────────────
+# ── Session HPO profiles (in-memory, per session_id) ──────────────────────────
+# key = session_id (str); value = {"hpo_terms": [...], "candidate_genes": [...]}
+# For the Gradio / non-session API, we use a single shared "default" profile.
+_SESSION_PROFILES: dict = {}
+
+
+def _get_session_profile(session_id: str = "default") -> dict:
+    if session_id not in _SESSION_PROFILES:
+        _SESSION_PROFILES[session_id] = {"hpo_terms": [], "candidate_genes": []}
+    return _SESSION_PROFILES[session_id]
+
+
+# ── New 8-intent router pipeline ───────────────────────────────────────────────
+
+def _run_intervar_pipeline(
+    req: ChatRequest,
+    db: Any,
+    llm: Any,
+    t0: float,
+    session_id: str = "default",
+) -> Optional[ChatResponse]:
+    """8-intent agentic pipeline (interval_02 architecture).
+
+    Returns a ChatResponse when successfully handled, or None to signal
+    the caller to fall back to the legacy regex pipeline.
+    """
+    from app.ai.intervar_router import (
+        route_and_execute, build_answer_user_message,
+        apply_safety_tag, render_executor,
+        ExecutorResult,
+    )
+    from app.ai.validator import validate_answer
+
+    session_profile = _get_session_profile(session_id)
+    history_dicts = [{"role": m.role, "content": m.content} for m in req.history]
+
+    # Stage 1 + 1.5 + 2: route → HPO resolve → execute
+    decision, executor, resolution_summary = route_and_execute(
+        req.message, db, session_profile, history_dicts
+    )
+
+    # If router returned "other" with no entities AND LLM is available for
+    # general answers, let the legacy pipeline handle it so we preserve the
+    # rich static KB and the pronoun-expansion logic.
+    if (
+        decision.intent == "other"
+        and not (decision.gene or decision.rsid or decision.chr is not None
+                 or decision.disease_term or decision.symptoms)
+    ):
+        return None  # signal: fall through to legacy pipeline
+
+    # Empty result short-circuit (no LLM call needed)
+    if executor.kind == "empty":
+        has_specific_filter = bool(
+            decision.gene or decision.rsid or decision.chr is not None
+            or decision.disease_term
+        )
+        hpo_all_unresolved = (
+            decision.intent == "hpo_symptom"
+            and not resolution_summary.get("added")
+            and resolution_summary.get("unresolved")
+        )
+        if has_specific_filter or hpo_all_unresolved:
+            empty_reply = _render_empty_router_answer(decision, executor, resolution_summary)
+            empty_reply = apply_safety_tag(empty_reply, decision.intent)
+            return ChatResponse(
+                response=empty_reply,
+                type=decision.intent,
+                execution_time_ms=(time.time() - t0) * 1000,
+            )
+        # Broad question with no filter and empty result → fall back
+        return None
+
+    # Schema lookup — no LLM needed when definition found
+    if executor.kind == "schema":
+        defn = executor.schema_definition or ""
+        # If no definition found in _COLUMN_REFERENCE, fall back to legacy
+        # pipeline which has a rich static KB (CADD, VUS, ACMG tiers, etc.)
+        if defn.startswith("(no definition"):
+            return None  # signal: let legacy _static_answer handle it
+        resp = (
+            f"**{executor.schema_column}** — {defn}\n\n"
+            "This is the definition from the InterVar genomic schema reference."
+        )
+        resp = apply_safety_tag(resp, decision.intent)
+        return ChatResponse(
+            response=resp,
+            type="schema_lookup",
+            execution_time_ms=(time.time() - t0) * 1000,
+        )
+
+    # Stage 3: LLM answer grounded on executor result
+    user_msg = build_answer_user_message(
+        req.message, executor, session_profile, decision, resolution_summary
+    )
+
+    answer = ""
+    if hasattr(llm, "answer"):
+        try:
+            answer = llm.answer(user_msg, history=history_dicts[-4:])
+        except Exception as e:
+            logger.warning(f"InterVar answer LLM failed: {e}")
+
+    if not answer:
+        # Deterministic fallback — render the executor output directly
+        answer = render_executor(executor)
+
+    # Stage 3.5: HGVS validator
+    answer, fabricated = validate_answer(answer, executor.rows)
+    if fabricated:
+        logger.info("validator stripped %d fabricated HGVS token(s)", len(fabricated))
+
+    # Stage 4: safety tag
+    answer = apply_safety_tag(answer, decision.intent)
+
+    # Enrich top rows with disease info (gene_enricher)
+    rows_display = executor.rows[:10]
+    try:
+        from app.ai.gene_enricher import enrich_rows_with_diseases
+        rows_display = enrich_rows_with_diseases(rows_display, db)
+    except Exception:
+        pass
+
+    try:
+        db.add(QueryLog(
+            query_type=f"intervar_{decision.intent}",
+            query_text=req.message,
+            result_count=executor.total_matched,
+            execution_time_ms=(time.time() - t0) * 1000,
+            executed_at=datetime.now(),
+        ))
+        db.commit()
+    except Exception:
+        pass
+
+    return ChatResponse(
+        response=answer,
+        type=decision.intent,
+        data=rows_display if rows_display else None,
+        row_count=executor.total_matched,
+        execution_time_ms=(time.time() - t0) * 1000,
+    )
+
+
+def _render_empty_router_answer(decision: Any, executor: Any, resolution_summary: dict) -> str:
+    """Deterministic 0-match reply for the new router pipeline."""
+    from app.ai.intervar_router import RouterDecision, ExecutorResult
+    intent = decision.intent
+    universe_note = ""  # we don't have a universe count in our executor yet
+
+    if intent == "biofilter" and decision.gene:
+        # Build a specific message that includes any verdict filter applied
+        verdict_str = ""
+        if decision.intervar_verdict:
+            verdict_str = f" classified as **{decision.intervar_verdict}** (InterVar)"
+        exonic_str = ""
+        if decision.exonic_func:
+            exonic_str = f" matching **{decision.exonic_func}**"
+        return (
+            f"Your report contains **0 {decision.gene} variants{verdict_str}{exonic_str}**.\n"
+            "This was a complete scan across all annotated rows."
+        )
+    if intent == "coord_lookup" and decision.rsid:
+        return (
+            f"No variant with rsID **{decision.rsid}** was found in your report."
+        )
+    if intent == "coord_lookup" and decision.chr is not None:
+        loc = f"chr{decision.chr}:{decision.start}" if decision.start else f"chr{decision.chr}"
+        return f"No variant at **{loc}** was found in your report."
+    if intent == "hpo_symptom":
+        added = resolution_summary.get("added") or []
+        unresolved = resolution_summary.get("unresolved") or []
+        if not added and unresolved:
+            unr = ", ".join(f'"{s}"' for s in unresolved)
+            return (
+                f"I couldn't map {unr} to a recognised clinical symptom (HPO). "
+                "Could you rephrase with more specific clinical language? For example: "
+                "*muscle weakness*, *hearing loss*, *seizures*, *abdominal pain*, *fatigue*."
+            )
+        resolved_names = [a.get("name") for a in added if a.get("name")]
+        sym_str = ", ".join(resolved_names) if resolved_names else "those symptoms"
+        msg = (
+            f"Your report contains **0 variants** in any gene currently associated with "
+            f"{sym_str} (via HPO). This is a meaningful clinical finding — "
+            "the report does not show variants in the canonical genes linked to those symptoms."
+        )
+        if unresolved:
+            unr = ", ".join(f'"{s}"' for s in unresolved)
+            msg += (
+                f"\n\n*Note: I couldn't map {unr} to an HPO term — "
+                "try rephrasing with a more specific symptom name.*"
+            )
+        return msg
+    if intent == "disease_link" and decision.disease_term:
+        return (
+            f"Your report contains **0 variants** with an Orphanet/OMIM annotation "
+            f"that includes the exact term **\"{decision.disease_term}\"**.\n\n"
+            f"This does not mean you have no risk — many disease-gene associations "
+            f"are indexed under different names. For example:\n"
+            f"- **Diabetes** → try *MODY*, *Wolfram syndrome*, *diabetes mellitus*, *DIDMOAD*\n"
+            f"- **Lung cancer** → try *lung disease*, *pulmonary*, or specific gene names\n"
+            f"- **Heart disease** → try *cardiomyopathy*, *long QT syndrome*, *Marfan*\n\n"
+            f"You can also ask directly: *\"Show variants in [gene name]\"* — "
+            f"for example, *\"Show variants in HNF1A\"* or *\"Show variants in BRCA1\"*."
+        )
+    if intent == "acmg_clinvar":
+        bits = []
+        if decision.clinvar_includes: bits.append(f"ClinVar~'{decision.clinvar_includes}'")
+        if decision.intervar_verdict: bits.append(f"InterVar='{decision.intervar_verdict}'")
+        if decision.acmg_flag:
+            v = decision.acmg_flag_value if decision.acmg_flag_value is not None else 1
+            bits.append(f"{decision.acmg_flag}={v}")
+        flt = " and ".join(bits) if bits else "this filter"
+        return f"Your report contains **0 variants** matching {flt}."
+    # Generic catch-all
+    return (
+        "No variants matched that query in your report. "
+        "Try rephrasing or narrowing the filter.\n\n"
+        "You can ask things like:\n"
+        "- *Do I have any pathogenic variants?*\n"
+        "- *Show variants in BRCA1*\n"
+        "- *I have [symptom] — any related variants?*"
+    )
+
+
+# ── Main chat worker — 8-intent (primary) + 6-layer legacy (fallback) ──────────
 
 def _run_chat(req: ChatRequest) -> ChatResponse:
     from app.ai.text_to_sql import get_engine
@@ -1207,6 +1524,32 @@ def _run_chat(req: ChatRequest) -> ChatResponse:
             type="safety_refuse",
             execution_time_ms=(time.time() - t0) * 1000,
         )
+
+    db = SessionLocal()
+    try:
+        # ── PRIMARY: 8-intent router pipeline (interval_02 architecture) ─────
+        from app.ai.llm_config import get_llm as _get_llm_primary
+        _llm_primary = _get_llm_primary()
+        if _llm_primary is not None and hasattr(_llm_primary, "route"):
+            try:
+                result = _run_intervar_pipeline(req, db, _llm_primary, t0)
+                if result is not None:
+                    return result
+            except Exception as _pipe_err:
+                logger.warning(
+                    f"InterVar pipeline raised: {_pipe_err} — falling back to legacy"
+                )
+
+        # ── FALLBACK: Original 6-layer regex pipeline ─────────────────────────
+        return _run_legacy_chat(req, db, t0)
+
+    finally:
+        db.close()
+
+
+def _run_legacy_chat(req: ChatRequest, db: Any, t0: float) -> ChatResponse:
+    """Original 6-layer pipeline — preserved as fallback."""
+    from app.ai.text_to_sql import get_engine
 
     # ── LAYER 1: Intent classification (with history for anaphora) ───────────
     intent = _classify_intent(req.message, req.history)
@@ -1228,8 +1571,8 @@ def _run_chat(req: ChatRequest) -> ChatResponse:
         except Exception as _hpo_err:
             logger.debug(f"Opportunistic HPO failed: {_hpo_err}")
 
-    db = SessionLocal()
-    try:
+    # Note: db is already open (passed in from _run_chat)
+    if True:
         # ── LAYER 2: HPO resolution ──────────────────────────────────────────
         if intent == "hpo_query":
             # Use pre-computed context from opportunistic enrichment if available
@@ -1502,9 +1845,6 @@ def _run_chat(req: ChatRequest) -> ChatResponse:
             type="general",
             execution_time_ms=(time.time() - t0) * 1000,
         )
-
-    finally:
-        db.close()
 
 
 # ── Endpoints ──────────────────────────────────────────────────────────────────

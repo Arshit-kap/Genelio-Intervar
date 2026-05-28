@@ -1,0 +1,43 @@
+# Keep the build context lean — anything here never reaches the daemon.
+
+# Python build/run artefacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Local databases / large dev artefacts
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Test outputs from scripts/
+scripts/_out_*.json
+scripts/_api_smoke.json
+scripts/_api_smoke.md
+scripts/_compare.md
+
+# Git
+.git/
+.gitignore
+
+# Existing docker-compose state
+docker/pgadmin/sessions/
+
+# Logs
+*.log

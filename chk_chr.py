@@ -1,0 +1,10 @@
+﻿import sqlite3
+conn = sqlite3.connect("patient_variants.db")
+cur = conn.cursor()
+cur.execute("SELECT DISTINCT Chr FROM variants LIMIT 10")
+print("Chr values:", [r[0] for r in cur.fetchall()])
+cur.execute('SELECT Chr, Start FROM variants WHERE Chr="1" LIMIT 3')
+print("Chr=1:", cur.fetchall())
+cur.execute('SELECT Chr, Start FROM variants WHERE Chr="chr1" LIMIT 3')
+print("Chr=chr1:", cur.fetchall())
+conn.close()

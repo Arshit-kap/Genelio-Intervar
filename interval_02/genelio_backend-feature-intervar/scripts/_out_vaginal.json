@@ -1,0 +1,520 @@
+{
+  "site": "vaginal",
+  "email": "e2e+vaginal+1776348864@example.com",
+  "pdf": "/Users/user/Downloads/Vaginal Report from Arshit Arora.pdf",
+  "report_id": "ca69c5f2-0425-4128-87df-f8f425241832",
+  "session_id": "f6278809-462a-401b-af29-767e8455e79d",
+  "upload_seconds": 4.133299582998006,
+  "parsed_data_report": {
+    "site": "vaginal",
+    "display": "Vaginal Microbiome",
+    "patient": {
+      "Sample Type": "Vaginal swab",
+      "PHN": "Not Provided"
+    },
+    "diversity": {
+      "score": 0.02,
+      "range": "0.2-1.01",
+      "range_low": 0.2,
+      "range_high": 1.01,
+      "status": "below_range"
+    },
+    "top_organisms": [
+      {
+        "name": "Lactobacillus crispatus",
+        "abundance": 96.07,
+        "abundance_raw": "96.07%",
+        "reference": "30.08% - 70.69%",
+        "reference_low": 30.08,
+        "reference_high": 70.69,
+        "status": "above_range",
+        "significance": "Lactobacillus spp. dominates the vaginal microflora, amongst Lactobacillus crispatus helps in maintain vaginal pH, protects against vaginal infections and gynaecological health concerns (Wright et al., 2021)"
+      },
+      {
+        "name": "Limosilactobacillus portuensis",
+        "abundance": 0.2,
+        "abundance_raw": "0.20%",
+        "reference": "0.00% - 0.195%",
+        "reference_low": 0.0,
+        "reference_high": 0.195,
+        "status": "above_range",
+        "significance": "Limosilactobacillus portuensis is a rare but naturally occurring lactic acid- producing bacterium in the female genitourinary tract, potentially contributing to vaginal health by lowering pH and inhibiting pathogens (Nguyen et., 2023)"
+      },
+      {
+        "name": "GGB10524 SGB17049",
+        "abundance": 0.06,
+        "abundance_raw": "0.06%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "This bacterium belongs to the phylum firmicutes, major bacterial phylum in vagina (Chen et al., 2021)"
+      },
+      {
+        "name": "Corynebacterium tuscaniense",
+        "abundance": 0.021,
+        "abundance_raw": "0.021%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "Corynebacterium tuscaniense is a facultative bacterium belonging to the Corynebacterium family, commonly present in the vaginal and vulvar microbiome and often enriched in women with Group B Streptococcus colonization, suggesting a potential role in vaginal microbial dysbiosis. Its exact clinical significance remains to be clarified, but its increased presence may indicate shifts toward a less Lactobacillus-dominated community (Smith et al., 2024)"
+      },
+      {
+        "name": "Tessaracoccus timonensis",
+        "abundance": 0.017,
+        "abundance_raw": "0.017%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "Tessaracoccus timonensis is a Gram-negative, non-motile bacterium isolated from vaginal swabs of healthy Senegalese women, suggesting it is a natural inhabitant of the vaginal microbiome (Fall et al., 2019)"
+      },
+      {
+        "name": "Clostridium massiliamazoniense",
+        "abundance": 0.016,
+        "abundance_raw": "0.016%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "Clostridium massiliamazoniense is a recently identified bacterium found in the vaginal microbiome of healthy Senegalese women (Fall et al., 2019)"
+      },
+      {
+        "name": "Finegoldia magna",
+        "abundance": 0.011,
+        "abundance_raw": "0.011%",
+        "reference": "0.00% - 0.206%",
+        "reference_low": 0.0,
+        "reference_high": 0.206,
+        "status": "within_range",
+        "significance": "Finegoldia magna is a common anaerobic bacterium in the vagina that normally lives harmlessly but, under certain conditions like bacterial vaginosis, can produce acids and enzymes that may irritate tissue and trigger immune responses (Murphy and Frick, 2020)"
+      },
+      {
+        "name": "Corynebacterium pseudogenitalium",
+        "abundance": 0.003,
+        "abundance_raw": "0.003%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "Corynebacterium pseudogenitalium is a facultative bacterium found in the vaginal microbiome of healthy women"
+      }
+    ],
+    "keystone_species": [],
+    "conditions": {
+      "bacterial vaginosis": {
+        "markers": [
+          {
+            "name": "Lactobacillus spp",
+            "abundance": 96.07,
+            "abundance_raw": "96.07%",
+            "reference": "35.37% - 80.51%",
+            "reference_low": 35.37,
+            "reference_high": 80.51,
+            "status": "above_range"
+          },
+          {
+            "name": "Veillonella montpellierensis",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Veillonella atypica",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Fannyhessea vaginae",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Gardnerella vaginalis",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.36% - 13.44%",
+            "reference_low": 0.36,
+            "reference_high": 13.44,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "sexually transmitted diseases": {
+        "markers": [
+          {
+            "name": "Lactobacillus spp",
+            "abundance": 96.07,
+            "abundance_raw": "96.07%",
+            "reference": "35.37% - 80.51%",
+            "reference_low": 35.37,
+            "reference_high": 80.51,
+            "status": "above_range"
+          },
+          {
+            "name": "Chlamydia spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Neisseria gonorrhoeae",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Treponema pallidum",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Human Immunodeficiency Virus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Herpes simplex virus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Human papillomavirus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Hepatitis B virus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Cytomegalovirus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Trichomonas vaginalis",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "miscarriage": {
+        "markers": [
+          {
+            "name": "Lactobacillus crispatus",
+            "abundance": 96.07,
+            "abundance_raw": "96.07%",
+            "reference": "33.00% - 77.98%",
+            "reference_low": 33.0,
+            "reference_high": 77.98,
+            "status": "above_range"
+          },
+          {
+            "name": "Gardnerella vaginalis",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.36% - 13.44%",
+            "reference_low": 0.36,
+            "reference_high": 13.44,
+            "status": "not_detected"
+          },
+          {
+            "name": "Atopobium vaginae",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Chlamydia trachomatis",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Ureaplasma spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 0.71%",
+            "reference_low": 0.0,
+            "reference_high": 0.71,
+            "status": "not_detected"
+          },
+          {
+            "name": "Prevotella spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 0.20%",
+            "reference_low": 0.0,
+            "reference_high": 0.2,
+            "status": "not_detected"
+          },
+          {
+            "name": "Megastrobila spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Cyclospora spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Lactobacillus iners",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "9.11% - 59.74%",
+            "reference_low": 9.11,
+            "reference_high": 59.74,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "stillbirth": {
+        "markers": [
+          {
+            "name": "Lactobacillus spp",
+            "abundance": 96.07,
+            "abundance_raw": "96.07%",
+            "reference": "35.37% - 80.51%",
+            "reference_low": 35.37,
+            "reference_high": 80.51,
+            "status": "above_range"
+          },
+          {
+            "name": "Escherichia coli",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 0.31%",
+            "reference_low": 0.0,
+            "reference_high": 0.31,
+            "status": "not_detected"
+          },
+          {
+            "name": "Shigella spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Staphylococcus spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Gardnerella spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.36% - 13.44%",
+            "reference_low": 0.36,
+            "reference_high": 13.44,
+            "status": "not_detected"
+          },
+          {
+            "name": "Listeria spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Bacteroides spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "preterm birth": {
+        "markers": [
+          {
+            "name": "Lactobacillus gasseri",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 5.56%",
+            "reference_low": 0.0,
+            "reference_high": 5.56,
+            "status": "not_detected"
+          },
+          {
+            "name": "Lactobacillus crispatus",
+            "abundance": 96.07,
+            "abundance_raw": "96.07%",
+            "reference": "33.00% - 77.98%",
+            "reference_low": 33.0,
+            "reference_high": 77.98,
+            "status": "above_range"
+          },
+          {
+            "name": "Lactobacillus iners",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "9.11% - 59.74%",
+            "reference_low": 9.11,
+            "reference_high": 59.74,
+            "status": "not_detected"
+          },
+          {
+            "name": "Lactobacillus jensenii",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "3.24% - 21.93%",
+            "reference_low": 3.24,
+            "reference_high": 21.93,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "infertility": {
+        "markers": [
+          {
+            "name": "Lactobacillus spp",
+            "abundance": 96.07,
+            "abundance_raw": "96.07%",
+            "reference": "35.37% - 80.51%",
+            "reference_low": 35.37,
+            "reference_high": 80.51,
+            "status": "above_range"
+          },
+          {
+            "name": "Bifidobacterium spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 6.99%",
+            "reference_low": 0.0,
+            "reference_high": 6.99,
+            "status": "not_detected"
+          },
+          {
+            "name": "Leuconostoc spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Atopobium spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Aerococcus spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          }
+        ]
+      }
+    },
+    "full_text": "\nVaginal Microbiome Report\nClient Information\nName: Date of Birth:\nSample Type: Vaginal swab PHN: Not Provided\nCollection Date: Report Date:\nNote: Current evidence does not support the use of microbiome testing results for clinical diagnosis or treatment\ndecisions. The findings may show links between certain types of microbiome changes and specific health conditions, but\nthese links do not mean that one causes the other. Your results should therefore be viewed as informative rather than\ndiagnostic, and any health concerns should be discussed with your healthcare professional.\nClient Name: Collection Date: Version 2.0 2| P age\nWhat is the vaginal microbiome, and why is it important for your health?\nThe complex ecosystem of bacteria, fungi, and other microorganisms that reside inside the vagina is referred\nto as the vaginal microbiome (also known as the vaginal microbiota or vaginal flora). The vaginal\nmicrobiome is fundamental for women\u2019s health. The reproductive system and general health are greatly\nimpacted by the vaginal microbiome.\nOver 90% of cases of vaginal discomfort, which are the main reason women to seek medical attention, can\nbe traced back to imbalances in the vaginal microbiome. Yeast infections, bacterial vaginosis (BV),\ncytolytic vaginosis (CV), aerobic vaginitis (AV), and other conditions can be signs of imbalances in the\nvaginal microbiome. However, the effects of vaginal microbiome extend far beyond vaginal health.\nAdditionally, it is linked to infertility, pregnancy complications, STIs, and potentially even cancer is an\nunbalanced vaginal microbiome.\nThis comprehensive examination generates a detailed report outlining microbial composition. Beyond\nidentification, this analysis detects genes related to antibiotic resistance, aiding healthcare professionals in\ndetermining effective antibiotic treatments for infections.\nThe report not only lists the types of microbes but also provides detailed information about potentially\nharmful ones. It gives insights into their identity and genetic traits, helping us understand more about the\nmicrobes living in the vagina.\nFor Important Terms and More Information, please refer to Appendix.\nClient Name: Collection Date: Version 2.0 3| P age\nWhat is the composition of your microbiome?\nClient Name: Collection Date: Version 2.0 4| P age\nWhat is the diversity value of your Vaginal microbiome and why is that important?\nVaginal microbiome diversity is crucial for women\u2019s health. A healthy vaginal microbiome is dominated\nby Lactobacillus and low diversity. High diversity of vaginal microbiome profile is correlated with either\ndysbiosis or peri/ postmenopausal vulvovaginal symptoms, especially due to the decreased amounts of\nhormones particularly estrogen and progesterone. The Shannon Diversity Index Value (SDIV) is a metric\nused to evaluate this diversity, typically falling within a healthy range. This microbial balance on the vagina\nis essential for preventing infections. The SDIV for a healthy vaginal microbiome reference cohort is in the\nrange of 0.2 to 1.01. Your vaginal microbiome has an SDVI of 0.02, which is lower than the healthy\nreference range.\nWhich are the most abundant members of my Vaginal microbiome?\nThis table provides important details about the top 10 organisms in your vagina, including their roles,\nimpact on health, and suggestions for lifestyle changes.\nScientific Name Abundance Reference Significance\n% Range (%)\nLactobacillus 96.07% 30.08% - Lactobacillus spp. dominates the vaginal microflora, amongst Lactobacillus\ncrispatus 70.69% crispatus helps in maintain vaginal pH, protects against vaginal infections\nand gynaecological health concerns (Wright et al., 2021).\nClient Name: Collection Date: Version 2.0 5| P age\nLimosilactobacillus 0.20% 0.00% - Limosilactobacillus portuensis is a rare but naturally occurring lactic acid-\nportuensis 0.195% producing bacterium in the female genitourinary tract, potentially\ncontributing to vaginal health by lowering pH and inhibiting pathogens\n(Nguyen et., 2023).\nGGB10524 0.06% ND This bacterium belongs to the phylum firmicutes, major bacterial phylum in\nSGB17049 vagina (Chen et al., 2021).\nCorynebacterium 0.021% ND Corynebacterium tuscaniense is a facultative bacterium belonging to the\ntuscaniense Corynebacterium family, commonly present in the vaginal and vulvar\nmicrobiome and often enriched in women with Group B Streptococcus\ncolonization, suggesting a potential role in vaginal microbial dysbiosis. Its\nexact clinical significance remains to be clarified, but its increased presence\nmay indicate shifts toward a less Lactobacillus-dominated community\n(Smith et al., 2024).\nTessaracoccus 0.017% ND Tessaracoccus timonensis is a Gram-negative, non-motile bacterium\ntimonensis isolated from vaginal swabs of healthy Senegalese women, suggesting it is\na natural inhabitant of the vaginal microbiome (Fall et al., 2019).\nClostridium 0.016% ND Clostridium massiliamazoniense is a recently identified bacterium found in\nmassiliamazoniense the vaginal microbiome of healthy Senegalese women (Fall et al., 2019).\nFinegoldia magna 0.011% 0.00% - Finegoldia magna is a common anaerobic bacterium in the vagina that\n0.206% normally lives harmlessly but, under certain conditions like bacterial\nvaginosis, can produce acids and enzymes that may irritate tissue and\ntrigger immune responses (Murphy and Frick, 2020).\nCorynebacterium 0.003% ND Corynebacterium pseudogenitalium is a facultative bacterium found in the\npseudogenitalium vaginal microbiome of healthy women.\nNote: A healthy microbiome in vagina enriched with Lactobacillus spp. and low microbial diversity.\nCondition-specific microbial markers.\nWhat is a biomarker?\nThe Food and Drug Administration defines a biomarker as a measurable characteristic to tell how the body\nis doing and overall health. It is a measurable indicator or characteristic that can be objectively assessed\nand used as a signpost for biological processes, conditions, or diseases in the body. In the context of the\nvaginal microbiome analysis, biomarkers are specific molecules, genes, or organisms found in the\nmicrobiome that can signal various aspects of vaginal health, disease risk, or treatment response.\nBiomarkers in the vaginal microbiome analysis can serve several purposes:\n\u2022 Health Assessment: Indicates the overall vaginal health status. For instance, the presence or absence of\ncertain bacteria or microbial metabolites can be indicative of a healthy or diseased vaginal environment.\n\u2022 Disease Identification: Specific biomarkers might be linked to certain diseases or conditions. Changes\nin the abundance or diversity of certain microbial species could signal conditions like bacterial vaginosis,\nthrush, STDs such as gonorrhoea or metabolic changes.\n\u2022 Treatment Efficacy: Can be used to assess how the vaginal microbiome responds to treatments or\ninterventions.\n\u2022 Predictive Indicators: Serve as predictive markers, indicating an individual\u2019s susceptibility to certain\ndiseases or response to treatments based on their unique microbial profile.\nClient Name: Collection Date: Version 2.0 6| P age\nIdentifying and understanding these biomarkers can provide valuable in-sights into women\u2019s health, disease\nmechanisms, and personalized approaches for improving vaginal conditions.\nMicrobial markers for bacterial vaginosis\nReduced abundance in Lactobacillus spp. and higher levels in other microbial markers in the table are\nassociated with bacterial vaginosis.\nMicrobial marker Relative abundance (%) Reference Range (%)\nLactobacillus spp. 96.07% 35.37% - 80.51%\nVeillonella montpellierensis ND ND\nVeillonella atypica ND ND\nFannyhessea vaginae ND ND\nGardnerella vaginalis ND 0.36% - 13.44%\nMicrobial markers for sexually transmitted diseases\nReduced abundance in Lactobacillus spp. and higher levels in other microbial markers in the table are\nassociated with sexually transmitted diseases.\nMicrobial marker Relative abundance (%) Reference Range (%)\nLactobacillus spp. 96.07% 35.37% - 80.51%\nChlamydia spp. ND ND\nNeisseria gonorrhoeae ND ND\nTreponema pallidum ND ND\nHuman Immunodeficiency Virus ND ND\nHerpes simplex virus ND ND\nHuman papillomavirus ND ND\nHepatitis B virus ND ND\nCytomegalovirus ND ND\nTrichomonas vaginalis ND ND\nMicrobial markers for miscarriage\nReduced abundance in Lactobacillus crispatus and higher levels in other microbial markers in the table are\nassociated with miscarriage.\nMicrobial marker Relative abundance (%) Reference Range (%)\nLactobacillus crispatus 96.07% 33.00% - 77.98%\nGardnerella vaginalis ND 0.36% - 13.44%\nAtopobium vaginae ND ND\nChlamydia trachomatis ND ND\nUreaplasma spp. ND 0.00% - 0.71%\nPrevotella spp. ND 0.00% - 0.20%\nMegastrobila spp. ND ND\nCyclospora spp. ND ND\nLactobacillus iners ND 9.11% - 59.74%\nClient Name: Collection Date: Version 2.0 7| P age\nMicrobial markers for stillbirth\nReduced abundance in Lactobacillus spp. and higher levels in other microbial markers in the table are\nassociated with stillbirth.\nMicrobial marker Relative abundance (%) Reference Range (%)\nLactobacillus spp. 96.07% 35.37% - 80.51%\nEscherichia coli ND 0.00% - 0.31%\nShigella spp. ND ND\nStaphylococcus spp. ND ND\nGardnerella spp. ND 0.36% - 13.44%\nListeria spp. ND ND\nBacteroides spp. ND ND\nMicrobial markers for preterm birth\nReduced abundance of these microbial markers is associated with preterm birth.\nMicrobial marker Relative abundance (%) Reference Range (%)\nLactobacillus gasseri ND 0.00% - 5.56%\nLactobacillus crispatus 96.07% 33.00% - 77.98%\nLactobacillus iners ND 9.11% - 59.74%\nLactobacillus jensenii ND 3.24% - 21.93%\nMicrobial markers for infertility\nReduced abundance in Lactobacillus spp. and Bifidobacterium spp. but higher levels in other microbial\nmarkers in the table are associated with infertility.\nMicrobial marker Relative abundance (%) Reference Range (%)\nLactobacillus spp. 96.07% 35.37% - 80.51%\nBifidobacterium spp. ND 0.00% - 6.99%\nLeuconostoc spp. ND ND\nAtopobium spp. ND ND\nAerococcus spp. ND ND\nOverall lifestyle recommendations\nTaking care of vagina involves fostering an environment where beneficial bacteria thrive while keeping\nharmful ones in check. Making small but impactful lifestyle changes can significantly enhance the diversity\nand health of vaginal microbiome. Here are some recommendations along with practical tips to help\nimprove vaginal health.\nLifestyle Recommendations:\n\uf0b7 Hygiene: It is important to clean vulvovaginal region by using pH-balanced feminine washes. Do\nnot douche vagina.\nClient Name: Collection Date: Version 2.0 8| P age\n\uf0b7 Clothing: Use clean cotton underwear daily for better hygiene.\n\uf0b7 Panty liners: Use pantyliners to absorb vaginal discharge to stay clean and dry.\n\uf0b7 Stay Hydrated: Drink plenty of water throughout the day to support overall vagina function as it\nhelps in flushing out toxins. Avoid drinks containing plenty of sugars as it can interfere with vaginal\nmicrobiome.\n\uf0b7 Safe sex: Practice safe sex to maintain the health of vagina and its microbiome.\n\uf0b7 Tampon/Sanitary pads: Change your sanitary product every 6-8 hours during menses. Use odor\nfree products.\n\uf0b7 Menstrual cups: Menstrual cups should be at least emptied and washed twice during periods.\nSterilize and store the cups as per manufacturer\u2019s instruction.\n\uf0b7 Limit Antibiotics Use: Only take antibiotics as prescribed by a healthcare professional to avoid\ndisturbing the balance of vaginal bacteria.\n\uf0b7 Avoid Smoking and Excessive Alcohol: Minimize or avoid smoking and excessive alcohol\nconsumption to protect and nurture your vaginal microbiome.\nBy embracing these simple yet effective lifestyle adjustments, you can cultivate an environment in your\nvagina that encourages the growth of beneficial bacteria, ultimately supporting a healthier vagina and\noverall well-being.\nTest Limitation:\nMicrobiome testing may not fully represent by samples because its composition varies among the vaginal surface. The results\nmay also be affected by swabing area when sample was collected. Additionally, species which are present at minor abundance\nis depicted as 0.00% in the sample or healthy dataset. This states the absence of detectable species does not imply their\ncomplete absence but reflects their low abundance relative to the analyzed sample or health dataset.\nDisclaimer: Any information including content on our website or in any of our reports, is intended for informational purposes\nonly. This information is not medical advice and should not be used as a substitute for consultation with a qualified healthcare\nprovider. The content is not intended to diagnose, treat, cure, or prevent any medical condition, nor to prescribe any treatment.\nAll the reference thresholds were calculated based on the healthy subjects from Human Microbiome project. Your health is\nyour responsibility.\nClient Name: Collection Date: Version 2.0 9| P age\nAppendix\nWhat is the technology employed by BioAro?\nThe human body contains trillions of microorganisms. These microorganisms have been known to impact host health in various\nways. Knowing what microbes present help are us to understand how our body responds to dietary interventions, drugs or food\nchoices and how we can manipulate them to receive maximum health benefits.\nWe, at BioAro, care for your health therefore, we try to target every microbe in your sample! How do we ensure that?\nWe perform comprehensive microbiome analysis by employing state of art technology such as shotgun sequencing, which\nenables detection of all kinds of microbes including bacteria, fungi, viruses, and other types of eukaryotes. Not only this, but the\napproach also performs better taxonomic resolution and coverage, while simultaneously giving information about the functional\nmicrobiome profile.\nGlossary of important terms and definitions:\n\uf076 Alpha-diversity (Shannon Index) helps us determine the diversity of species within an ecosystem. In simple words,\nit answers the question of \u2018How Many? Alpha diversity can be explained by describing:\nSpecies richness: A count of the number of different species present in a sample. It does not consider the abundance of\nthe species or their relative distributions.\nSpecies evenness: A measure of relative abundance of different species present in a sample.\nHigh diversity value of vaginal profile indicates that it comprises of variety of microorganisms (bacteria, fungi, viruses,\narchaea) that can produce wide range of metabolites and can positively affect the resilience and stability of the vaginal\nmicrobiome in times of dysbiosis and stress.\n\uf076 Dysbiosis: Disruption of the normal microbiome which causes a change in the functional or metabolic composition of\nthe host microbiome leading to overgrowth of organisms that are otherwise underrepresented or absent in healthy\nsystems.\n\uf076 Sexually Transmitted Diseases (STDs): Infections transmitted from an infected person to an uninfected person\nthrough sexual contact. STDs can be caused by bacteria, viruses, or parasites.\nReferences:\nChen, X., Lu, Y., Chen, T., & Li, R. (2021). The Female Vaginal Microbiome in Health and Bacterial Vaginosis. Frontiers in cellular and\ninfection microbiology, 11, 631972.\nCobo, F., P\u00e9rez-Carrasco, V., Gonz\u00e1lez, A., S\u00e1nchez-Martin, V., Garc\u00eda-Salcedo, J. A., & Navarro-Mar\u00ed, J. M. (2021). Bacteremia caused by\nAnaerococcus SPP: Is this an underdiagnosed infection?. Anaerobe, 70, 102405.\nFall, N. S., Lo, C. I., Fournier, P.-E., Sokhna, C., Raoult, D., Fenollar, F., & Lagier, J.-C. (2019). Arcanobacterium ihumii sp. nov.,\nVaribaculum vaginae sp. nov., and Tessaracoccus timonensis sp. nov., isolated from vaginal swabs from healthy Senegalese women. New\nMicrobes and New Infections, 31, 100585.\nGeorge, S. D., Van Gerwen, O. T., Dong, C., Sousa, L. G. V., Cerca, N., Elnaggar, J. H., Taylor, C. M., & Muzny, C. A. (2024). The Role\nof Prevotella Species in Female Genital Tract Infections. Pathogens (Basel, Switzerland), 13(5), 364.\nhttps://doi.org/10.3390/pathogens13050364\nGlascock, A. L., Jimenez, N. R., Boundy, S., Koparde, V. N., Brooks, J. P., Edwards, D. J., Strauss Iii, J. F., Jefferson, K. K., Serrano, M. G.,\nBuck, G. A., & Fettweis, J. M. (2021). Unique roles of vaginal Megasphaera phylotypes in reproductive health. Microbial genomics, 7(12),\n000526.\nHall, V., Collins, M. D., Lawson, P. A., & Hutson, R. A. (2003). Varibaculum cambriense gen. nov., sp. nov., a novel Gram-positive, anaerobic\ncoccobacillus from human sources. International Journal of Systematic and Evolutionary Microbiology, 53(3), 963-966.\nJanulaitiene, M., Paliulyte, V., Grinceviciene, S., Zakareviciene, J., Vladisauskiene, A., Marcinkute, A., & Pleckaityte, M. (2017). Prevalence\nand distribution of Gardnerella vaginalis subgroups in women with and without bacterial vaginosis. BMC infectious diseases, 17(1), 394.\nhttps://doi.org/10.1186/s12879-017-2501-y\nLagier, J. C., Armougom, F., Million, M., Hugon, P., Pagnier, I., Robert, C., ... & Raoult, D. (2015). Microbial culturomics: paradigm shift in\nthe human gut microbiome study. Clinical Microbiology and Infection, 21(4), 352-361.\nClient Name: Collection Date: Version 2.0 10| P age\nLiu, P., Wang, L., Li, R., & Chen, X. (2023). A rare bacteremia caused by Fannyhessea vaginae in a pregnant woman: case report and literature\nreview. Frontiers in Cellular and Infection Microbiology, 13, 1278921.\nMcCoy, Z. T., Serrano, M. G., Edupuganti, L., Spaine, K. M., Edwards, D. J., Buck, G. A., & Jefferson, K. K. (2024). Antibody response to the\nSneathia vaginalis cytopathogenic toxin A during pregnancy. ImmunoHorizons, 8(1), 114-121.\nNguyen, V. H., et al. (2023). Complete genomes of Limosilactobacillus portuensis and Limosilactobacillus vaginalis isolated from the urine of\npostmenopausal women. Microbiology Resource Announcements, 13(1), e00883-23.\nPapaleo, S., Nodari, R., Sterzi, L., D\u2019Auria, E., Cattaneo, C., Bettoni, G., ... & Comandatore, F. (2024). Unraveling and quantifying\n\u201cCandidatus Saccharibacteria\u201d: in silico and experimental evaluation of V3-V4 16S rRNA metagenomics and qPCR protocols. bioRxiv, 2024-\n03.\nPutonti, C., Shapiro, J. W., Ene, A., Tsibere, O., & Wolfe, A. J. (2020). Comparative Genomic Study of Lactobacillus jensenii and the Newly\nDefined Lactobacillus mulieris Species Identifies Species-Specific Functionality. mSphere, 5(4), e00560-20.\nhttps://doi.org/10.1128/mSphere.00560-20\nSmith, J. A., et al. (2024). Alterations of the vaginal microbiome in healthy pregnant women positive for Group B Streptococcus colonization\nduring the third trimester.\nTheis, K. R., Florova, V., Romero, R., Borisov, A. B., Winters, A. D., Galaz, J., & Gomez-Lopez, N. (2021). Sneathia: an emerging pathogen\nin female reproductive disease and adverse perinatal outcomes. Critical reviews in microbiology, 47(4), 517\u2013542.\nVedel, G., Toussaint, G., Riegel, P., Fouilladieu, J. L., Bill\u00f6et, A., Poyart, C. (2006). Corynebacterium pseudogenitalium sp. nov., commensals\nof the human male and female urogenital tracts. International Journal of Systematic and Evolutionary Microbiology, 56(6), 1371\u20131374.\nWright, M. L., Fettweis, J. M., Eaves, L. J., Silberg, J. L., Neale, M. C., Serrano, M. G., Jimenez, N. R., Prom-Wormley, E., Girerd, P. H.,\nBorzelleca, J. F., Jr, Jefferson, K. K., Strauss, J. F., 3rd, York, T. P., & Buck, G. A. (2021). Vaginal microbiome Lactobacillus crispatus is\nheritable among European American women. Communications biology, 4(1), 872. https://doi.org/10.1038/s42003-021-02394-6\nYang, Y., Pan, Y., Li, L., Hu, H., & Wang, L. (2023). The microbiome biomarkers of pregnant women's vaginal area predict preterm prelabor\nrupture in Western China. Frontiers in Cellular and Infection Microbiology, 13, 11560878.\nZheng, N., Guo, R., Wang, J., Zhou, W., & Ling, Z. (2021). Contribution of Lactobacillus iners to Vaginal Health and Diseases: A Systematic\nReview. Frontiers in cellular and infection microbiology, 11, 792787. https://doi.org/10.3389/fcimb.2021.792787\nClient Name: Collection Date: Version 2.0 11| P age"
+  },
+  "transcript": [
+    {
+      "q": "Is my vaginal microbiome healthy overall?",
+      "a": "Based on your vaginal microbiome report, here's an overview of your overall health:\n\n### **Key Findings:**\n- **Shannon Diversity Index (SDIV):** 0.02 (Healthy range: 0.2-1.01) \ud83d\udfe1 **Below**\n- **Lactobacillus spp.:** 96.07% (Healthy range: 35.37% - 80.51%) \ud83d\udd34 **Above**\n\n### **Summary:**\nYour vaginal microbiome shows **high levels of Lactobacillus**, which is typically associated with a healthy vaginal environment. However, the **Shannon Diversity Index is significantly lower than the healthy range**, which may indicate a lack of microbial diversity. A low diversity can sometimes be associated with imbalances or conditions like bacterial vaginosis, even if Lactobacillus is dominant.\n\n### **Condition-Specific Analysis:**\n\n| Condition | Key Biomarkers | Status |\n|----------|----------------|--------|\n| **Bacterial Vaginosis** | Lactobacillus spp. (96.07%) | \ud83d\udd34 **Above** |\n| **Sexually Transmitted Diseases** | Lactobacillus spp. (96.07%) | \ud83d\udd34 **Above** |\n| **Miscarriage** | Lactobacillus crispatus (96.07%) | \ud83d\udd34 **Above** |\n| **Stillbirth** | Lactobacillus spp. (96.07%) | \ud83d\udd34 **Above** |\n| **Preterm Birth** | Lactobacillus crispatus (96.07%) | \ud83d\udd34 **Above** |\n| **Infertility** | Lactobacillus spp. (96.07%) | \ud83d\udd34 **Above** |\n\n### **Top Organisms:**\n| Organism | Abundance | Reference Range | Status |\n|----------|-----------|------------------|--------|\n| Lactobacillus crispatus | 96.07% | 30.08% - 70.69% | \ud83d\udd34 **Above** |\n| Limosilactobacillus portuensis | 0.20% | 0.00% - 0.195% | \ud83d\udd34 **Above** |\n| GGB10524 SGB17049 | 0.06% | ND | \u26aa **Not Detected** |\n| Corynebacterium tuscaniense | 0.021% | ND | \u26aa **Not Detected** |\n| Tessaracoccus timonensis | 0.017% | ND | \u26aa **Not Detected** |\n| Clostridium massiliamazoniense | 0.016% | ND | \u26aa **Not Detected** |\n| Finegoldia magna | 0.011% | 0.00% - 0.206% | \ud83d\udfe2 **Normal** |\n| Corynebacterium pseudogenitalium | 0.003% | ND | \u26aa **Not Detected** |\n\n### **What This Means:**\n- **High Lactobacillus:** This is generally a good sign, as Lactobacillus helps maintain a healthy vaginal pH and protects against infections.\n- **Low Diversity:** A low Shannon Diversity Index may indicate a less diverse microbial community, which could be a sign of imbalance or an increased risk of certain conditions.\n- **Other Bacteria:** Some bacteria like *Limosilactobacillus portuensis* are present in higher amounts than expected, and others are not detected at all.\n\n### **Recommendations:**\n- **Diet:** Focus on a balanced diet rich in fiber, fermented foods (like yogurt, kefir, and sauerkraut), and prebiotics to support a healthy microbiome.\n- **Hygiene:** Avoid douching and use pH-balanced feminine washes. Wear breathable cotton underwear.\n- **Lifestyle:** Stay hydrated, avoid excessive sugar, and limit antibiotic use unless necessary.\n- **Consult a Healthcare Provider:** While your report shows some concerning trends, it's important to discuss your results with a healthcare provider for personalized advice.\n\nRemember, this is a general overview, and your healthcare provider can help interpret these results in the context of your overall health.",
+      "elapsed": 5.37794658400162
+    },
+    {
+      "q": "What is my Shannon Diversity score and what does it mean for vaginal health?",
+      "a": "### **Your Shannon Diversity Index (SDIV) Score: 0.02**\n\nThis is **significantly lower** than the **healthy reference range of 0.2 to 1.01**.  \nStatus: \u26aa **Below Range** (\ud83d\udfe1 **Below** in the report, but the exact value is much lower than the healthy range)\n\n---\n\n### **What Does This Mean for Vaginal Health?**\n\nThe **Shannon Diversity Index (SDIV)** is a measure of **microbial diversity** in your vaginal microbiome. It tells us how many different types of microbes are present and how evenly they are distributed.\n\n- **Low SDIV (like your 0.02):**  \n  This suggests that your vaginal microbiome has **very few different types of microbes**, and one or a few species dominate.  \n  In your case, **Lactobacillus crispatus** makes up **96.07%** of the microbiome, which is **much higher than the healthy range** (30.08% - 70.69%).\n\n- **High SDIV (within the healthy range):**  \n  A higher diversity is generally associated with a **more stable and resilient microbiome**, which is better at resisting infections and maintaining balance.\n\n---\n\n### **Why Is Low Diversity a Concern?**\n\nWhile **Lactobacillus** is typically a **protective and beneficial bacteria**, having **too much of it** (as in your case) can sometimes indicate an **imbalance**. A low diversity may be linked to:\n\n- **Reduced resilience** to infections or environmental changes\n- **Increased risk of dysbiosis** (microbial imbalance)\n- **Potential associations with conditions** such as bacterial vaginosis, even if Lactobacillus is dominant\n\n---\n\n### **What Can You Do?**\n\nWhile your report shows **high Lactobacillus**, the **low diversity** suggests that your microbiome may benefit from **increasing microbial variety**. Here are some practical steps:\n\n#### \ud83c\udf3f **Dietary Recommendations:**\n- **Eat more fiber-rich foods** (e.g., fruits, vegetables, whole grains) to support a diverse microbiome.\n- **Include fermented foods** like yogurt, kefir, sauerkraut, and kimchi to introduce beneficial bacteria.\n- **Prebiotics** (found in foods like bananas, onions, and garlic) can help feed good bacteria.\n\n#### \ud83e\uddfc **Hygiene Tips:**\n- Avoid **douching**, which can disrupt the natural balance.\n- Use **pH-balanced feminine washes** and avoid harsh soaps.\n- Wear **breathable cotton underwear** and avoid tight-fitting clothing.\n\n#### \ud83e\uddd8 **Lifestyle Adjustments:**\n- Stay **well-hydrated** and manage **stress**, as both can impact microbiome health.\n- **Limit antibiotic use** unless necessary, as they can kill both harmful and beneficial bacteria.\n\n---\n\n### **Important Note:**\nWhile your report provides valuable insights, it\u2019s always best to **discuss your results with a healthcare provider** for personalized guidance. They can help interpret these findings in the context of your overall health and symptoms.\n\nLet me know if you'd like more details about specific organisms or conditions!",
+      "elapsed": 4.179417666997324
+    },
+    {
+      "q": "Tell me about my bacterial vaginosis markers \u2014 list each one with abundance and range.",
+      "a": "### **Bacterial Vaginosis Markers \u2014 Your Results**\n\nHere are the **microbial markers** associated with **bacterial vaginosis (BV)**, along with their **abundance**, **reference range**, and **status**:\n\n| **Microbial Marker**         | **Abundance (%)** | **Reference Range (%)** | **Status** |\n|------------------------------|-------------------|--------------------------|------------|\n| **Lactobacillus spp.**       | 96.07%            | 35.37% - 80.51%          | \ud83d\udd34 **Above** |\n| **Veillonella montpellierensis** | ND              | ND                       | \u26aa **Not Detected** |\n| **Veillonella atypica**      | ND                | ND                       | \u26aa **Not Detected** |\n| **Fannyhessea vaginae**      | ND                | ND                       | \u26aa **Not Detected** |\n| **Gardnerella vaginalis**    | ND                | 0.36% - 13.44%           | \u26aa **Not Detected** |\n\n---\n\n### **What This Means:**\n\n- **Lactobacillus spp.** is **significantly above** the healthy reference range (96.07% vs. 35.37% - 80.51%).  \n  - While **Lactobacillus** is typically a **protective species**, having **too much of it** can sometimes indicate an **imbalance** or **overgrowth**.\n  - In the context of bacterial vaginosis, **low Lactobacillus** is often a red flag, but in your case, the **high Lactobacillus** may suggest a **different kind of imbalance**.\n\n- The other **BV-associated bacteria** (e.g., *Veillonella*, *Fannyhessea*, *Gardnerella*) are **not detected** in your sample.  \n  - This could mean they are **absent or present in very low amounts**, which is **not typical for bacterial vaginosis**.\n\n---\n\n### **Interpretation:**\n\nYour report shows **high Lactobacillus** but **no detectable BV-associated bacteria**. This is **not typical for bacterial vaginosis**, which is usually marked by **low Lactobacillus** and **high levels of anaerobic bacteria**.\n\nHowever, the **low Shannon Diversity Index (0.02)** and **high Lactobacillus dominance** may still suggest a **microbial imbalance** that could be **linked to vaginal health concerns**.\n\n---\n\n### **Next Steps:**\n\n- **Discuss with your healthcare provider** \u2014 They can help interpret these results in the context of your symptoms and medical history.\n- **Consider lifestyle and dietary changes** to support a more balanced vaginal microbiome (see recommendations below).\n\n---\n\n### **Lifestyle Recommendations for Vaginal Health:**\n\n- **Eat a fiber-rich diet** with plenty of fruits, vegetables, and whole grains.\n- **Include fermented foods** like yogurt, kefir, and sauerkraut to support beneficial bacteria.\n- **Avoid douching** and use **pH-balanced feminine washes**.\n- **Wear breathable cotton underwear** and avoid tight-fitting clothing.\n- **Stay hydrated** and manage stress, as both can impact microbiome health.\n- **Limit unnecessary antibiotic use** to preserve beneficial bacteria.\n\nLet me know if you'd like more details about any of these markers or how they relate to your overall vaginal health.",
+      "elapsed": 4.597053165998659
+    },
+    {
+      "q": "Do I have any sexually-transmitted-infection markers flagged in this report?",
+      "a": "### **Do You Have Any Sexually-Transmitted-Infection (STI) Markers Flagged in This Report?**\n\n**Answer: No, there are no sexually-transmitted-infection (STI) markers **flagged** as abnormal in your report.**\n\n---\n\n### **STI Markers in Your Report:**\n\nHere are the **sexually-transmitted-infection (STI) markers** tested in your vaginal microbiome report, along with their **abundance**, **reference range**, and **status**:\n\n| **Microbial Marker**         | **Abundance (%)** | **Reference Range (%)** | **Status** |\n|------------------------------|-------------------|--------------------------|------------|\n| **Lactobacillus spp.**       | 96.07%            | 35.37% - 80.51%          | \ud83d\udd34 **Above** |\n| **Chlamydia spp.**           | ND                | ND                       | \u26aa **Not Detected** |\n| **Neisseria gonorrhoeae**    | ND                | ND                       | \u26aa **Not Detected** |\n| **Treponema pallidum**       | ND                | ND                       | \u26aa **Not Detected** |\n| **Human Immunodeficiency Virus** | ND             | ND                       | \u26aa **Not Detected** |\n| **Herpes simplex virus**     | ND                | ND                       | \u26aa **Not Detected** |\n| **Human papillomavirus**     | ND                | ND                       | \u26aa **Not Detected** |\n| **Hepatitis B virus**        | ND                | ND                       | \u26aa **Not Detected** |\n| **Cytomegalovirus**          | ND                | ND                       | \u26aa **Not Detected** |\n| **Trichomonas vaginalis**    | ND                | ND                       | \u26aa **Not Detected** |\n\n---\n\n### **What This Means:**\n\n- **No STI markers were detected** in your sample.  \n  - This means that **none of the STI-related organisms** (e.g., *Chlamydia*, *Gonorrhea*, *Herpes*, *HPV*, etc.) were found in your vaginal microbiome.\n- **Lactobacillus spp.** is **significantly above** the healthy reference range (96.07% vs. 35.37% - 80.51%), but this is **not an STI marker** \u2014 it is a **normal, protective bacterium** in the vaginal microbiome.\n\n---\n\n### **Important Notes:**\n\n- **This report does not test for STIs directly.**  \n  The markers listed are **microbial indicators** that may be associated with STI risk or vaginal health, but they are **not diagnostic** for STIs.\n- **If you have concerns about STIs**, it\u2019s important to **consult your healthcare provider** for appropriate testing and evaluation.\n- **No STI markers were flagged as abnormal** in your report.\n\n---\n\n### **Summary:**\n\n\u2705 **No sexually-transmitted-infection markers were found to be abnormal.**  \n\u2705 **All STI-related organisms were either not detected or within normal ranges.**  \n\u26a0\ufe0f **However, this report is not a substitute for clinical STI testing.** If you have symptoms or concerns, speak with your healthcare provider.\n\nLet me know if you'd like more details about any of the markers or how they relate to your overall vaginal health.",
+      "elapsed": 4.669340290998662
+    },
+    {
+      "q": "What about miscarriage and infertility markers \u2014 what does my report show?",
+      "a": "### **Miscarriage and Infertility Markers \u2014 What Your Report Shows**\n\nHere\u2019s a detailed breakdown of the **miscarriage** and **infertility** markers tested in your vaginal microbiome report, along with their **abundance**, **reference range**, and **status**.\n\n---\n\n## \ud83d\udea8 **Miscarriage Markers**\n\n| **Microbial Marker**         | **Abundance (%)** | **Reference Range (%)** | **Status** |\n|------------------------------|-------------------|--------------------------|------------|\n| **Lactobacillus crispatus**  | 96.07%            | 33.00% - 77.98%          | \ud83d\udd34 **Above** |\n| **Gardnerella vaginalis**    | ND                | 0.36% - 13.44%           | \u26aa **Not Detected** |\n| **Atopobium vaginae**        | ND                | ND                       | \u26aa **Not Detected** |\n| **Chlamydia trachomatis**    | ND                | ND                       | \u26aa **Not Detected** |\n| **Ureaplasma spp.**          | ND                | 0.00% - 0.71%            | \u26aa **Not Detected** |\n| **Prevotella spp.**          | ND                | 0.00% - 0.20%            | \u26aa **Not Detected** |\n| **Megastrobila spp.**        | ND                | ND                       | \u26aa **Not Detected** |\n| **Cyclospora spp.**          | ND                | ND                       | \u26aa **Not Detected** |\n| **Lactobacillus iners**      | ND                | 9.11% - 59.74%           | \u26aa **Not Detected** |\n\n---\n\n### **What This Means:**\n\n- **Lactobacillus crispatus** is **significantly above** the reference range (96.07% vs. 33.00% - 77.98%).  \n  - This is **not typical** for miscarriage, which is often associated with **reduced Lactobacillus** and **increased anaerobic bacteria**.\n- The other **miscarriage-associated markers** (e.g., *Gardnerella*, *Atopobium*, *Chlamydia*, *Ureaplasma*, *Prevotella*) are **not detected** in your sample.\n  - This suggests they are **absent or present in very low amounts**, which is **not typical for miscarriage**.\n\n---\n\n## \ud83d\udea8 **Infertility Markers**\n\n| **Microbial Marker**         | **Abundance (%)** | **Reference Range (%)** | **Status** |\n|------------------------------|-------------------|--------------------------|------------|\n| **Lactobacillus spp.**       | 96.07%            | 35.37% - 80.51%          | \ud83d\udd34 **Above** |\n| **Bifidobacterium spp.**     | ND                | 0.00% - 6.99%            | \u26aa **Not Detected** |\n| **Leuconostoc spp.**         | ND                | ND                       | \u26aa **Not Detected** |\n| **Atopobium spp.**           | ND                | ND                       | \u26aa **Not Detected** |\n| **Aerococcus spp.**          | ND                | ND                       | \u26aa **Not Detected** |\n\n---\n\n### **What This Means:**\n\n- **Lactobacillus spp.** is **significantly above** the reference range (96.07% vs. 35.37% - 80.51%).  \n  - While **Lactobacillus** is generally considered **beneficial**, **excessive amounts** may suggest an **imbalance**.\n- **Bifidobacterium spp.**, which is often associated with **infertility risk**, is **not detected** in your sample.\n  - This is **not typical** for infertility, which is often linked to **reduced Lactobacillus** and **increased anaerobic bacteria**.\n\n---\n\n## \ud83e\udde0 **Interpretation:**\n\n- **No markers for miscarriage or infertility are flagged as abnormal.**  \n  - Your report shows **high Lactobacillus** but **no detectable markers** associated with miscarriage or infertility.\n- **Lactobacillus dominance** (96.07%) is **not typical** for either condition, which are usually linked to **low Lactobacillus** and **high anaerobic bacteria**.\n- The **low Shannon Diversity Index (0.02)** and **high Lactobacillus dominance** may still suggest a **microbial imbalance** that could be **linked to vaginal health concerns**.\n\n---\n\n## \ud83d\udccc **Important Notes:**\n\n- **This report does not test for miscarriage or infertility directly.**  \n  The markers listed are **microbial indicators** that may be associated with risk or vaginal health, but they are **not diagnostic** for these conditions.\n- **If you have concerns about miscarriage or infertility**, it\u2019s important to **consult your healthcare provider** for appropriate testing and evaluation.\n- **No miscarriage or infertility markers were flagged as abnormal** in your report.\n\n---\n\n## \ud83c\udf3f **Lifestyle Recommendations for Vaginal Health:**\n\n- **Eat a fiber-rich diet** with plenty of fruits, vegetables, and whole grains.\n- **Include fermented foods** like yogurt, kefir, and sauerkraut to support beneficial bacteria.\n- **Avoid douching** and use **pH-balanced feminine washes**.\n- **Wear breathable cotton underwear** and avoid tight-fitting clothing.\n- **Stay hydrated** and manage **stress**, as both can impact microbiome health.\n- **Limit unnecessary antibiotic use** to preserve beneficial bacteria.\n\n---\n\n### \u2705 **Summary:**\n\n\u2705 **No miscarriage or infertility markers were found to be abnormal.**  \n\u2705 **All markers were either not detected or within normal ranges.**  \n\u26a0\ufe0f **However, this report is not a substitute for clinical evaluation.** If you have concerns, speak with your healthcare provider.\n\nLet me know if you'd like more details about any of the markers or how they relate to your overall vaginal health.",
+      "elapsed": 8.079760666998482
+    }
+  ]
+}

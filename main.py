@@ -21,6 +21,7 @@ from app.api.core_endpoints import app as core_app
 from app.api.ai_endpoints       import router as ai_router
 from app.api.acmg_endpoints     import router as acmg_router
 from app.api.evidence_endpoints import router as evidence_router
+from app.api.compat_endpoints   import router as compat_router
 
 # ── Build combined app ─────────────────────────────────────────────────────────
 app = FastAPI(
@@ -70,6 +71,8 @@ for route in core_app.routes:
 app.include_router(ai_router)
 app.include_router(acmg_router)
 app.include_router(evidence_router)
+# Genelio Next.js frontend compatibility layer
+app.include_router(compat_router)
 
 
 @app.get("/", tags=["Root"])

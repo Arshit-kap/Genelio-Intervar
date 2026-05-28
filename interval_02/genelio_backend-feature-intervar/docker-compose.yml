@@ -1,0 +1,92 @@
+# Full Genelio stack — Postgres + pgAdmin + Django web container.
+# Django runs in the `web` container by default; if you'd rather run it
+# on the host, just `docker compose up -d db pgadmin` and skip `web`.
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: genelio-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-genelio}
+      POSTGRES_USER: ${POSTGRES_USER:-genelio}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-genelio}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      # Host-run Django connects via localhost:5432.
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-genelio} -d ${POSTGRES_DB:-genelio}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: genelio-redis
+    restart: unless-stopped
+    ports:
+      # Localhost-only — on shared servers we expect a dedicated Redis
+      # on a non-default port; see DEPLOYMENT.md.
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: genelio-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@genelio.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+      # Skip the "first run" email/password prompt in the UI.
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+      # Pre-register the `db` server so it shows up in the sidebar on login.
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
+    ports:
+      - "5050:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build: .
+    image: genelio-web:latest
+    container_name: genelio-web
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Override host-oriented .env values so they target other containers.
+      DATABASE_URL: postgres://genelio:genelio@db:5432/genelio
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,web,0.0.0.0
+      POSTGRES_HOST: db
+      # vLLM still runs on the host (Mac); reach it via the Docker-Desktop
+      # built-in DNS name so the container can hit host port 8011.
+      VLLM_BASE_URL: http://host.docker.internal:8011/v1
+    extra_hosts:
+      # Required on Linux; harmless on Mac/Windows where Docker Desktop
+      # already resolves host.docker.internal.
+      - "host.docker.internal:host-gateway"
+    volumes:
+      # Bind-mount the source so edits show up without rebuilding (dev).
+      - .:/app
+      # Persist uploaded PDFs + Chroma store across container restarts.
+      - media:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  pgadmin:
+  media:

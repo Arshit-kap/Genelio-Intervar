@@ -1,0 +1,444 @@
+{
+  "site": "skin",
+  "email": "e2e+skin+1776348831@example.com",
+  "pdf": "/Users/user/Downloads/Skin Report from Arshit Arora.pdf",
+  "report_id": "a2f7a336-60f1-4467-b621-b0f22ec71964",
+  "session_id": "1565a180-efcc-4fd3-9aa1-fec2411132d2",
+  "upload_seconds": 3.3581439160006994,
+  "parsed_data_report": {
+    "site": "skin",
+    "display": "Skin Microbiome",
+    "patient": {
+      "Sample Type": "Skin Swab"
+    },
+    "diversity": {
+      "score": 0.571,
+      "range": "2.34-3.5",
+      "range_low": 2.34,
+      "range_high": 3.5,
+      "status": "below_range"
+    },
+    "top_organisms": [
+      {
+        "name": "Cutibacterium acnes",
+        "abundance": 87.7669,
+        "abundance_raw": "87.7669%",
+        "reference": "19.00%- 65.70%",
+        "reference_low": 19.0,
+        "reference_high": 65.7,
+        "status": "above_range",
+        "significance": "Phylum: Actinobacteria Features: A Gram-positive facultative anaerobic commensal rod bacterium that is readily found in pilous follicles, sebaceous glands, and mucosal sites of oily and moist skin. Function: Cutibacterium acnes is one of the key players in skin homeostasis. The skin's barrier function is enhanced by Cutibacterium acnes in terms of antibacterial activity, paracellular diffusion and trans epidermal water loss. Disease: This bacterium is linked to the development of inflammatory acne and other skin conditions like progressive macular hypo melanosis"
+      },
+      {
+        "name": "Staphylococcus epidermidis",
+        "abundance": 5.7736,
+        "abundance_raw": "5.7736%",
+        "reference": "0.43%- 8.63%",
+        "reference_low": 0.43,
+        "reference_high": 8.63,
+        "status": "within_range",
+        "significance": "Phylum: Firmicutes Features: It is a Gram positive commensal, clustered cocci bacteria which is part of normal epithelial flora predominantly occurs in the area around shoulders and face Function: This bacterium contributes to the host immune system by activating some components of both adaptive and innate immunity which induces production of antimicrobial proteins and contributes to homeostasis of skin barrier. Disease: It is associated with atopic dermatitis"
+      },
+      {
+        "name": "Cutibacterium granulosum",
+        "abundance": 1.7801,
+        "abundance_raw": "1.7801%",
+        "reference": "0.00%- 7.22%",
+        "reference_low": 0.0,
+        "reference_high": 7.22,
+        "status": "within_range",
+        "significance": "Phylum: Actinobacteria Features: It is a gram-positive oval shaped anaerobe. It is part of normal skin microbiota found in sebum-rich areas including stratum corneum and hair follicles. Disease: It forms biofilms which is considered pathogenic due to its connection with the development of acne vulgaris"
+      },
+      {
+        "name": "Corynebacterium SGB17002",
+        "abundance": 1.7234,
+        "abundance_raw": "1.7234%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "Phylum: Actinobacteria Features: This lipophilic bacterium is found in the nasal regions and surrounding sites on the face"
+      },
+      {
+        "name": "Anaerococcus SGB6657",
+        "abundance": 1.1172,
+        "abundance_raw": "1.1172%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "Phylum: Firmicutes Features: This gram-positive cocci is an anaerobic bacterium usually found on skin, vagina and nasal cavity"
+      },
+      {
+        "name": "Corynebacterium kefirresidentii",
+        "abundance": 0.9678,
+        "abundance_raw": "0.9678%",
+        "reference": "0.00%- 2.20%",
+        "reference_low": 0.0,
+        "reference_high": 2.2,
+        "status": "within_range",
+        "significance": "Phylum: Actinobacteria Features: This lipophilic bacterium is found in the nasal regions and surrounding sites on the face. Disease: An increase in relative abundance of this bacterium is observed during flare-ups of atopic dermatitis"
+      },
+      {
+        "name": "Malassezia restricta",
+        "abundance": 0.4315,
+        "abundance_raw": "0.4315%",
+        "reference": "0.18%- 2.71%",
+        "reference_low": 0.18,
+        "reference_high": 2.71,
+        "status": "within_range",
+        "significance": "Phylum: Fungi Features: Small rod-shaped cells Function: It may secrete enzymes like lipases which hydrolyze sebum to release fatty acids. Disease: It has been linked to seborrheic dermatitis in several studies. Moreover, an elevated abundance of this fungi can cause disequilibrium within commensals besides, making it an opportunistic pathogen"
+      },
+      {
+        "name": "Corynebacterium sp ACRPR",
+        "abundance": 0.1918,
+        "abundance_raw": "0.1918%",
+        "reference": "ND",
+        "reference_low": null,
+        "reference_high": null,
+        "status": "no_reference",
+        "significance": "Phylum: Actinobacteria Features: This lipophilic bacterium is found in the nasal regions and surrounding sites on the face"
+      },
+      {
+        "name": "Cutibacterium namnetense",
+        "abundance": 0.0557,
+        "abundance_raw": "0.0557%",
+        "reference": "0.00%- 0.18%",
+        "reference_low": 0.0,
+        "reference_high": 0.18,
+        "status": "within_range",
+        "significance": "Phylum: Actinobacteria Features: It is a gram-positive, pleomorphic anaerobe. Disease: It is an opportunistic pathogen found associted with wound infections and prostheic joints"
+      },
+      {
+        "name": "Cutibacterium avidum",
+        "abundance": 0.0539,
+        "abundance_raw": "0.0539%",
+        "reference": "0.00% - 0.08%",
+        "reference_low": 0.0,
+        "reference_high": 0.08,
+        "status": "within_range",
+        "significance": "Phylum: Actinobacteria"
+      }
+    ],
+    "keystone_species": [
+      {
+        "name": "Cutibacterium acnes",
+        "abundance": 87.7669,
+        "abundance_raw": "87.7669%",
+        "reference": "19.00%- 65.70%",
+        "reference_low": 19.0,
+        "reference_high": 65.7,
+        "status": "above_range",
+        "significance": "Phylum: Actinobacteria Features: A Gram-positive facultative anaerobic commensal rod bacterium that is readily found in pilous follicles, sebaceous glands, and mucosal sites of oily and moist skin. Function: Cutibacterium acnes is one of the key players in skin homeostasis. The skin's barrier function is enhanced by Cutibacterium acnes in terms of antibacterial activity, paracellular diffusion and trans epidermal water loss. Disease: This bacterium is linked to the development of inflammatory acne and other skin conditions like progressive macular hypo melanosis"
+      },
+      {
+        "name": "Staphylococcus epidermidis",
+        "abundance": 5.7736,
+        "abundance_raw": "5.7736%",
+        "reference": "0.43%- 8.63%",
+        "reference_low": 0.43,
+        "reference_high": 8.63,
+        "status": "within_range",
+        "significance": "Phylum: Firmicutes Features: It is a Gram positive commensal, clustered cocci bacteria which is part of normal epithelial flora predominantly occurs in the area around shoulders and face Function: This bacterium contributes to the host immune system by activating some components of both adaptive and innate immunity which induces production of antimicrobial proteins and contributes to homeostasis of skin barrier. Disease: It is associated with atopic dermatitis"
+      },
+      {
+        "name": "Malassezia restricta",
+        "abundance": 0.4315,
+        "abundance_raw": "0.4315%",
+        "reference": "0.18%- 2.71%",
+        "reference_low": 0.18,
+        "reference_high": 2.71,
+        "status": "within_range",
+        "significance": "Phylum: Fungi Features: Small rod-shaped cells Function: It may secrete enzymes like lipases which hydrolyze sebum to release fatty acids. Disease: It has been linked to seborrheic dermatitis in several studies. Moreover, an elevated abundance of this fungi can cause disequilibrium within commensals besides, making it an opportunistic pathogen"
+      }
+    ],
+    "conditions": {
+      "Atopic dermatitis": {
+        "markers": [
+          {
+            "name": "Staphylococcus aureus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Streptococcus spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 0.31%",
+            "reference_low": 0.0,
+            "reference_high": 0.31,
+            "status": "not_detected"
+          },
+          {
+            "name": "Gemella spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Haemphilus spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 0.01%",
+            "reference_low": 0.0,
+            "reference_high": 0.01,
+            "status": "not_detected"
+          },
+          {
+            "name": "Lactobacillus spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00%-0.00%",
+            "reference_low": 0.0,
+            "reference_high": 0.0,
+            "status": "not_detected"
+          },
+          {
+            "name": "Staphylococcus epidermidis",
+            "abundance": 5.7736,
+            "abundance_raw": "5.7736%",
+            "reference": "0.43%-8.63%",
+            "reference_low": 0.43,
+            "reference_high": 8.63,
+            "status": "within_range"
+          },
+          {
+            "name": "Finegoldia spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "psoriasis": {
+        "markers": [
+          {
+            "name": "Actinomyces spp",
+            "abundance": 0.0008,
+            "abundance_raw": "0.0008%",
+            "reference": "0.00%-0.01%",
+            "reference_low": 0.0,
+            "reference_high": 0.01,
+            "status": "within_range"
+          },
+          {
+            "name": "Corynebacterium kroppenstedtii",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Leptotrichia spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Neisseria spp",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Rothia mucilaginosa",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "seborrheic dermatitis": {
+        "markers": [
+          {
+            "name": "Malassezia globosa",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 0.22%",
+            "reference_low": 0.0,
+            "reference_high": 0.22,
+            "status": "not_detected"
+          },
+          {
+            "name": "Malassezia restricta",
+            "abundance": 0.4315,
+            "abundance_raw": "0.4315%",
+            "reference": "0.18% - 2.71%",
+            "reference_low": 0.18,
+            "reference_high": 2.71,
+            "status": "within_range"
+          },
+          {
+            "name": "Staphylococcus spp",
+            "abundance": 5.7758,
+            "abundance_raw": "5.7758%%",
+            "reference": "1.35% - 11.29%",
+            "reference_low": 1.35,
+            "reference_high": 11.29,
+            "status": "within_range"
+          }
+        ]
+      },
+      "acne": {
+        "markers": [
+          {
+            "name": "Cutibacterium acnes",
+            "abundance": 87.7669,
+            "abundance_raw": "87.7669%",
+            "reference": "19.00%-65.70%",
+            "reference_low": 19.0,
+            "reference_high": 65.7,
+            "status": "above_range"
+          }
+        ]
+      },
+      "cancer": {
+        "markers": [
+          {
+            "name": "Staphylococcus aureus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "beta-haemolytic Streptococcus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Ralstonia pickettii",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Staphylococcus argenteus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Chlamydophila pneumoniae",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Borrelia burgdorferi",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "ND",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Fusobacterium nucleatum",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% - 0.05%",
+            "reference_low": 0.0,
+            "reference_high": 0.05,
+            "status": "not_detected"
+          }
+        ]
+      },
+      "Melasma": {
+        "markers": [
+          {
+            "name": "Eikenella corrodens",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.00% \u2013 0.01%",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "not_detected"
+          },
+          {
+            "name": "Staphylococcus epidermidis",
+            "abundance": 5.7736,
+            "abundance_raw": "5.7736%",
+            "reference": "0.43% \u2013 8.63%",
+            "reference_low": null,
+            "reference_high": null,
+            "status": "no_reference"
+          },
+          {
+            "name": "Micrococcus luteus",
+            "abundance": null,
+            "abundance_raw": "ND",
+            "reference": "0.01% - 0.04%",
+            "reference_low": 0.01,
+            "reference_high": 0.04,
+            "status": "not_detected"
+          }
+        ]
+      }
+    },
+    "full_text": "Client Name: Receiving Date: Version: 1.0 Page | 1\nSkin Microbiome Report\nClient Information\nName: Date of Birth:\nSample type: Skin Swab Sample Receiving Date:\nReport Date:\nNote: Current evidence does not support the use of microbiome testing results for clinical diagnosis or treatment decisions.\nThe findings may show links between certain types of microbiome changes and specific health conditions, but these links do\nnot mean that one causes the other. Your results should therefore be viewed as informative rather than diagnostic, and any\nhealth concerns should be discussed with your healthcare professional.\nClient Name: Receiving Date: Version: 1.0 Page | 2\nWhat is the skin microbiome, and why is it important for your health?\nThe skin microbiome refers to the diverse community of trillions of microorganisms that inhabit our skin, forming\na complex ecosystem. This intricate network begins to establish itself from birth and continues to evolve\nthroughout our lives. The skin microbiome plays a pivotal role in various aspects of our health and well-being.\nFrom a young age, the assembly of the skin microbiome begins, with these microorganisms contributing\nsignificantly to skin health. They play a crucial role in maintaining the skin's barrier function, influencing its\nhydration, and contributing to its overall resilience. Just as in the gut, the skin microbiome has a dynamic\nrelationship with the immune system, helping to distinguish between beneficial and harmful microbes.\nIn addition to supporting the skin's protective functions, the microbiome on our skin plays a role in the synthesis\nof certain compounds that contribute to skin health. This microbial community can influence the skin's response\nto environmental factors, helping to shield against harmful substances and promoting overall skin well-being.\nAnalyzing the skin microbiome involves studying the genes of various microorganisms, including bacteria, fungi,\nviruses, and other microbes. This thorough examination provides insights into the composition of the skin\nmicrobiome, helping to identify specific microorganisms present. Beyond identification, such analysis can reveal\ninformation about genes related to factors like antimicrobial resistance, aiding healthcare professionals in\nchoosing effective treatments for skin infections.\nA detailed report on the skin microbiome not only lists the types of microbes present but also offers valuable\ninformation about potentially harmful ones. This comprehensive analysis provides insights into their identity and\ngenetic traits, contributing to a better understanding of the diverse microbial community residing on our skin.\nWhat is the composition of your microbiome?\nClient Name: Receiving Date: Version: 1.0 Page | 3\nNote: Text in bold indicates keystone species\nClient Name: Receiving Date: Version: 1.0 Page | 4\nWhat is the diversity value for your skin microbiome? Why is it important?\nSkin microbiome diversity is a crucial indicator of good skin health, influenced by factors such as diabetes,\ninflammation, liver function, and lifestyle. The Shannon Diversity Index Value (SDIV) is a metric used to\nevaluate this diversity, typically falling within a healthy range. A diverse skin microbiome is thought to be more\nresilient and adaptable to environmental changes. It helps create a robust barrier against potentially harmful\npathogens by occupying available ecological niches, leaving less space for pathogenic organisms to thrive. This\nmicrobial balance on the skin is essential for preventing infections, maintaining immune system regulation, and\nsupporting the skin's natural defense mechanisms. The Shannon value for your skin microbiome is 0.571, lower\nthan the healthy range. The SDIV for a healthy skin microbiome reference cohort is in the range of 2.34 to\n3.5.\nWhich are the most abundant members of my skin microbiome?\nThe following graph depicts the top 20 organisms in your skin and their relative abundance.\nThis table provides important details about the top 10 organisms and beneficial species in your skin, including\ntheir roles, impact on health, and suggestions for lifestyle changes.\nSkin Protecting Species are pivotal players among the multitude of microorganisms residing on our skin.\nThese bacteria wield significant influence over how other microbes interact, contributing to tasks such as\nefficient digestion and overall skin health. A decline in these crucial bacteria can upset the skin\u2019s equilibrium,\npotentially leading to health concerns. Hence, they hold immense importance in sustaining a harmonious and\nfunctional environment. When your skin microbiome is out of balance (dysbiosis), these key species are found\nto be lower than normal.\nClient Name: Receiving Date: Version: 1.0 Page | 5\nScientific name Abundance in Reference Significance\nyour profile IQR(%)\nCutibacterium acnes 87.7669% 19.00%- Phylum: Actinobacteria\n65.70%\nFeatures: A Gram-positive facultative anaerobic commensal rod bacterium\nthat is readily found in pilous follicles, sebaceous glands, and mucosal sites\nof oily and moist skin.\nFunction: Cutibacterium acnes is one of the key players in skin\nhomeostasis. The skin's barrier function is enhanced by Cutibacterium\nacnes in terms of antibacterial activity, paracellular diffusion and trans\nepidermal water loss.\nDisease: This bacterium is linked to the development of inflammatory acne\nand other skin conditions like progressive macular hypo melanosis.\nStaphylococcus 5.7736% 0.43%- Phylum: Firmicutes\nepidermidis 8.63%\nFeatures: It is a Gram positive commensal, clustered cocci bacteria which\nis part of normal epithelial flora predominantly occurs in the area around\nshoulders and face\nFunction: This bacterium contributes to the host immune system by\nactivating some components of both adaptive and innate immunity which\ninduces production of antimicrobial proteins and contributes to\nhomeostasis of skin barrier.\nDisease: It is associated with atopic dermatitis.\nCutibacterium 1.7801% 0.00%- Phylum: Actinobacteria\ngranulosum 7.22%\nFeatures: It is a gram-positive oval shaped anaerobe. It is part of normal\nskin microbiota found in sebum-rich areas including stratum corneum and\nhair follicles.\nDisease: It forms biofilms which is considered pathogenic due to its\nconnection with the development of acne vulgaris.\nCorynebacterium 1.7234% ND Phylum: Actinobacteria\nSGB17002\nFeatures: This lipophilic bacterium is found in the nasal regions and\nsurrounding sites on the face.\nAnaerococcus 1.1172% ND Phylum: Firmicutes\nSGB6657\nFeatures: This gram-positive cocci is an anaerobic bacterium usually found\non skin, vagina and nasal cavity\nCorynebacterium 0.9678% 0.00%- Phylum: Actinobacteria\nkefirresidentii 2.20%\nFeatures: This lipophilic bacterium is found in the nasal regions and\nsurrounding sites on the face.\nDisease: An increase in relative abundance of this bacterium is observed\nduring flare-ups of atopic dermatitis\nMalassezia restricta 0.4315% 0.18%- Phylum: Fungi\n2.71%\nFeatures: Small rod-shaped cells\nFunction: It may secrete enzymes like lipases which hydrolyze sebum to\nrelease fatty acids.\nDisease: It has been linked to seborrheic dermatitis in several studies.\nMoreover, an elevated abundance of this fungi can cause disequilibrium\nwithin commensals besides, making it an opportunistic pathogen\nCorynebacterium sp 0.1918% ND Phylum: Actinobacteria\nACRPR\nFeatures: This lipophilic bacterium is found in the nasal regions and\nsurrounding sites on the face.\nCutibacterium 0.0557% 0.00%- Phylum: Actinobacteria\nnamnetense 0.18%\nFeatures: It is a gram-positive, pleomorphic anaerobe.\nDisease: It is an opportunistic pathogen found associted with wound\ninfections and prostheic joints\nCutibacterium 0.0539% 0.00% - Phylum: Actinobacteria\navidum 0.08%\nClient Name: Receiving Date: Version: 1.0 Page | 6\nFeatures: is a Gram-positive anaerobic aerotolerant rod that belongs to\ncommensal skin microbiome and commonly found on sebum-rich oily\nskin.\nDisease: It can also act as opportunistic pathogen and result in skin\nabscess, breast inflammation, endocarditis and also device-related\ninfection\nNote: Green color highlighted species are skin protecting species\nCondition-specific microbial markers\nWhat is a biomarker?\nThe FDA characterizes a biomarker as a measurable trait that provides insight into overall bodily well-being and\nhealth. It serves as a quantifiable indicator or characteristic that can be objectively evaluated, acting as a guidepost\nfor biological processes, conditions, or diseases within the body.\nIn the context of skin microbiome analysis, microbial markers refer to specific molecules, genes, or organisms\nidentified in the microbiome that can indicate various aspects of skin health, disease risk, or response to treatment.\nMicrobial markers in skin microbiome analysis fulfill several important roles:\n\uf0b7 Health Assessment: Aid in assessing the overall health status of the skin. For instance, the presence or\nabsence of certain microbes or microbial by-products can signify whether the skin environment is healthy\nor potentially associated with disease.\n\uf0b7 Disease Identification: Specific microbial markers may be associated with particular skin diseases or\nconditions. Changes in the abundance or diversity of certain microbial species could serve as indicators\nfor conditions such as dermatitis, acne, or other skin disorders.\n\uf0b7 Treatment Efficacy: They can be utilized to assess how the skin microbiome responds to various\ntreatments or interventions. Monitoring changes in these markers helps evaluate the effectiveness of\ntherapeutic approaches.\n\uf0b7 Predictive Indicators: They act as predictive markers, offering insights into an individual's susceptibility\nto certain skin diseases or their potential response to specific treatments based on their unique skin\nmicrobiome profile.\nMicrobial markers for Atopic dermatitis\nAtopic dermatitis is dominated by abundance of following microbial markers.\nMicrobial marker Abundance % Reference Range\nStaphylococcus aureus ND ND\nStreptococcus spp. ND 0.00% - 0.31%\nGemella spp. ND ND\nHaemphilus spp. ND 0.00% - 0.01%\nReduced abundance of following markers is associated with atopic dermatitis.\nMicrobial marker Abundance % Reference Range\nLactobacillus spp ND 0.00%-0.00%\nStaphylococcus epidermidis 5.7736% 0.43%-8.63%\nFinegoldia spp ND ND\nClient Name: Receiving Date: Version: 1.0 Page | 7\nMicrobial markers for psoriasis\nIncreased abundance of following microbes is positively correlated with psoriasis.\nMicrobial marker Abundance % Reference Range\nActinomyces spp. 0.0008% 0.00%-0.01%\nCorynebacterium kroppenstedtii ND ND\nLeptotrichia spp. ND ND\nNeisseria spp. ND ND\nRothia mucilaginosa ND ND\nMicrobial markers for seborrheic dermatitis\nIncreased abundance of following microbes is positively correlated with seborrheic dermatitis (De Pessemieret\nal., 2021).\nMicrobial marker Abundance % Reference Range\nMalassezia globosa ND 0.00% - 0.22%\nMalassezia restricta 0.4315% 0.18% - 2.71%\nStaphylococcus spp. 5.7758%% 1.35% - 11.29%\nMicrobial markers for acne\nIncreased abundance of following markers is linked with acne.\nMicrobial marker Abundance % Reference Range\nCutibacterium acnes 87.7669% 19.00%-65.70%\nMicrobial markers for cancer\nStudies conducted have shown that the dysbiosis of microbiome of skin is associated with various skin cancers.\nDifferent factors like activation of the primary barrier of immune system - skin, microbial metabolites and toxins\nproduction, disruption of skin barrier and UV exposure might be linked to changes in healthy skin microbiome,\nleading to skin cancer, its progression and response to treatment. Increased abundance of following markers is\npositively correlated with the disease.\nMicrobial marker Abundance % Reference Range\nStaphylococcus aureus ND ND\nbeta-haemolytic Streptococcus ND ND\nRalstonia pickettii ND ND\nStaphylococcus argenteus ND ND\nChlamydophila pneumoniae ND ND\nBorrelia burgdorferi ND ND\nFusobacterium nucleatum ND 0.00% - 0.05%\nMicrobial markers for Melasma\nIncreased abundance of following markers is linked with melasma.\nClient Name: Receiving Date: Version: 1.0 Page | 8\nMicrobial marker Abundance % Reference Range\nEikenella corrodens ND 0.00% \u2013 0.01%\nDecreased abundance of following markers is linked with melasma.\nMicrobial marker Abundance % Reference Range\nStaphylococcus epidermidis 5.7736% 0.43% \u2013 8.63%\nMicrococcus luteus ND 0.01% - 0.04%\nDid you find any pathogens in my profile?\nIn our examination of the skin microbiome, we focused on identifying potentially harmful or pathogenic\nmicroorganisms. These types of microbes have the potential to contribute to skin-related issues, leading to\nproblems such as dermatitis, acne, skin infections, unpleasant odors, and systemic health risks. There is growing\nevidence suggesting potential links between an imbalanced skin microbiome and various health concerns,\nincluding inflammatory skin conditions, immune system dysregulation, and systemic diseases like cardiovascular\nissues and diabetes. Understanding the presence and characteristics of these microbes on the skin is crucial for\naddressing and preventing potential health risks associated with an unbalanced skin microbiome (Boxberger et\nal., 2021).\nDisease Microorganisms associated Abundance % Reference Range\nPityriasis versicolor Malassezia spp. 0.4315% 0.18% - 11.03\nDiabetic foot ulcer Staphylococcus aureus ND 0.00% - 0.00%\nLupus erythematosus Staphylococcus aureus ND 0.00% - 0.00%\nOverall lifestyle recommendations\nMaintaining a healthy skin microbiome is crucial for overall skin health. Here are lifestyle recommendations to\npromote a healthy skin microbiome and prevent dysbiosis:\n\uf0b7 Practice Good Skin Hygiene: Cleanse your skin regularly using mild, pH-balanced cleansers. Avoid over\nwashing, as it may strip the skin of beneficial microbes.\n\uf0b7 Limit Antimicrobial Products: While certain skincare products can help manage bacteria, excessive use\nmay disrupt the natural balance of the skin microbiome.\n\uf0b7 Consume a Balanced Diet: Eat a diet rich in fruits, vegetables, whole grains, and lean proteins. Limit the\nintake of sugary and processed foods, as they can impact the growth of beneficial skin microbes.\n\uf0b7 Stay Hydrated: Adequate water intake helps maintain skin hydration and supports a healthy environment\nfor the skin microbiome.\n\uf0b7 Choose Skin-Friendly Products: Opt for skincare products that are gentle, fragrance-free, and suitable for\nyour skin type. Harsh chemicals and fragrances can disturb the skin microbiome.\n\uf0b7 Avoid Excessive Sun Exposure: Prolonged exposure to the sun's harmful rays can affect the skin\nmicrobiome. Use sunscreen to protect your skin when outdoors.\n\uf0b7 Manage Stress: Practice stress-reducing techniques such as meditation, deep breathing, or yoga. Chronic\nstress can impact the skin microbiome and contribute to skin issues.\n\uf0b7 Limit Antibiotic Use: Only take antibiotics as prescribed by a healthcare professional and complete the\nfull course. Antibiotics can affect the balance of the skin microbiome.\nClient Name: Receiving Date: Version: 1.0 Page | 9\n\uf0b7 Regular Skin Check-ups: Consult with skincare professionals for regular skin check-ups and assessments.\nThis helps address any emerging issues and ensures optimal skin health.\n\uf0b7 Address Skin Conditions: If you have specific skin conditions, seek professional advice for appropriate\ntreatments. Certain skin conditions can disrupt the balance of the skin microbiome.\n\uf0b7 Choose Clothing Wisely: Wear breathable fabrics and avoid tight clothing that may trap moisture, creating\nan environment conducive to microbial imbalance.\nTest Limitation:\nMicrobiome testing may not fully represent by skin samples because its composition varies among the skin surface. The results may\nalso be affected by swabing area, constemics usage when sample was collected. Additionally, species which are present at minor\nabundance is depicted as 0.00% in the sample or healthy dataset. This states the absence of detectable species does not imply their\ncomplete absence but reflects their low abundance relative to the analyzed sample or health dataset.\nDisclaimer: Any information including content on our website or in any of our reports, is intended for informational purposes only.\nThis information is not medical advice and should not be used as a substitute for consultation with a qualified healthcare provider.\nThe content is not intended to diagnose, treat, cure, or prevent any medical condition, nor to prescribe any treatment. All the reference\nthresholds were calculated based on the healthy subjects from Human Microbiome project. Your health is your responsibility.\nAppendix:\nWhat is the technology employed by BioAro?\nThe human body contains trillions of microorganisms. These microorganisms have been known to impact host health in various ways.\nKnowing what microbes are present helps us to understand how our body responds to dietary interventions, drugs, or food choices and\nhow we can manipulate them to receive maximum health benefits.\nWe, at BioAro, care for your health therefore, we try to target every microbe in your sample! How do we ensure that? We\nperform comprehensive microbiome analysis by employing state of art technology such as shotgun sequencing, which enables detection\nof all kinds of microbes including bacteria, fungi, viruses, and other types of eukaryotes. Not only this, but the approach also performs\nbetter taxonomic resolution and coverage, while simultaneously giving information about the functional microbiome profile.\nGlossary of important terms and definitions:\n\uf0b7 Alpha-diversity (Shannon Index) helps us determine the diversity of species within an ecosystem. In simple words, it answers\nthe question of \u2018How Many?\u2019. Alpha diversity can be explained by describing:\n\uf0a7 Species richness: This provides a count of the number of different species present in a sample. It does not consider\nthe abundance of the species or their relative distributions.\n\uf0a7 Species evenness: This is a measure of relative abundance of different species present in a sample.\n\uf0b7 Dysbiosis: It refers to disruption of the normal microbiome which causes a change in the functional/metabolic composition of\nthe host microbiome leading to overgrowth of organisms that are otherwise underrepresented or absent in healthy systems.\n\uf0b7 OTU refers to classification of bacteria based on sequence similarity of the marker genes.\n\uf0b7 Hives (urticaria) is a skin reaction which results in itchy welts. Chronic urticaria can last for more than 6 weeks and can\nreappear often over months or years.\n\uf0b7 Acne is characterised by clogging of hair follicles with oil and dead skin cells. It can result in whiteheads, blackheads or\npimples. It is usually observed in teenagers, but it can affect individuals of any age.\n\uf0b7 Eczema is a condition which results in inflamed skin, including a rash, itchiness, and excessive dryness on the skin surface.\n\uf0b7 Atopic dermatitis is a type of eczema that results in inflammation, dryness, and itchy skin, especially in small children, but\ncan occur in individuals of any age.\nClient Name: Receiving Date: Version: 1.0 Page | 10\n\uf0b7 Leprosy (Hansen\u2019s disease) is a bacterial infection caused by Mycobacterium leprae. This infection affects the nerves, skin,\neyes, and lining of the nose (nasal mucosa).\n\uf0b7 Psoriasis is an autoimmune condition. It is characterised by inflammation on your skin, thick areas of discolored skin covered\nwith scales (referred to as plaques).\n\uf0b7 Rosacea is a long-term inflammation of skin characterised by reddened skin and a rash, commonly on cheeks and nose of the\nface region.\nClient Name: Receiving Date: Version: 1.0 Page | 11\nReferences:\nKim, JH., Son, SM., Park, H. et al. Taxonomic profiling of skin microbiome and correlation with clinical skin parameters in healthy Koreans. Sci Rep\n11, 16269 (2021).\nBoxberger, M., Cenizo, V., Cassir, N. et al. Challenges in exploring and manipulating the human skin microbiome. Microbiome 9, 125 (2021).\nZanchetta, C., Vilanova, D., Jarrin, C., Scandolera, A., Chapuis, E., Auriol, D., Robe, P., Dupont, J., Lapierre, L., & Reynaud, R. (2022). Bacterial\ntaxa predictive of hyperpigmented skins. Health science reports, 5(3), e609.\nKhmaladze, I., Leonardi, M., Fabre, S., Messaraa, C., & Mavon, A. (2020). The Skin Interactome: A Holistic \u201cGenome-Microbiome-Exposome\u201d\nApproach to Understand and Modulate Skin Health and Aging. Clinical, Cosmetic and Investigational Dermatology, 13, 1021\u20131040.\nClient Name: Receiving Date: Version: 1.0 Page | 12"
+  },
+  "transcript": [
+    {
+      "q": "Is my skin microbiome healthy overall?",
+      "a": "Based on your skin microbiome report, your microbiome shows some imbalances that may indicate an overall less-than-optimal state. Here's a detailed breakdown:\n\n### **1. Diversity (Shannon Diversity Index - SDIV)**\n- **Value:** 0.571  \n- **Healthy range:** 2.34\u20133.5  \n- **Status:** \u26aa **Below range**  \n- **What it means:** A low diversity score suggests your skin microbiome may lack the variety needed to maintain a strong, resilient barrier. Low diversity is often associated with skin conditions like eczema, acne, or other imbalances.\n\n---\n\n### **2. Top Organisms (10)**\n| Organism | Abundance | Healthy Range | Status |\n|----------|-----------|---------------|--------|\n| *Cutibacterium acnes* | 87.77% | 19.00%\u201365.70% | \ud83d\udd34 **Above range** |\n| *Staphylococcus epidermidis* | 5.77% | 0.43%\u20138.63% | \ud83d\udfe2 **Normal** |\n| *Cutibacterium granulosum* | 1.78% | 0.00%\u20137.22% | \ud83d\udfe2 **Normal** |\n| *Corynebacterium SGB17002* | 1.72% | No reference | \u26aa **Not detected** |\n| *Anaerococcus SGB6657* | 1.12% | No reference | \u26aa **Not detected** |\n| *Corynebacterium kefirresidentii* | 0.97% | 0.00%\u20132.20% | \ud83d\udfe2 **Normal** |\n| *Malassezia restricta* | 0.43% | 0.18%\u20132.71% | \ud83d\udfe2 **Normal** |\n| *Corynebacterium sp ACRPR* | 0.19% | No reference | \u26aa **Not detected** |\n| *Cutibacterium namnetense* | 0.06% | 0.00%\u20130.18% | \ud83d\udfe2 **Normal** |\n| *Cutibacterium avidum* | 0.05% | 0.00%\u20130.08% | \ud83d\udfe2 **Normal** |\n\n- **Key observation:** *Cutibacterium acnes* is **significantly above** the healthy range. This is a common issue in acne-prone skin and can contribute to inflammation and breakouts.\n\n---\n\n### **3. Keystone / Protective Species**\n| Species | Status |\n|--------|--------|\n| *Cutibacterium acnes* | \ud83d\udd34 **Above range** |\n| *Staphylococcus epidermidis* | \ud83d\udfe2 **Normal** |\n| *Malassezia restricta* | \ud83d\udfe2 **Normal** |\n\n- **What it means:** While *Staphylococcus epidermidis* and *Malassezia restricta* are within normal ranges, *Cutibacterium acnes* is overrepresented, which may indicate an imbalance.\n\n---\n\n### **4. Condition-Specific Markers**\n#### **Atopic Dermatitis**\n- All markers are either **not detected** or within range. No clear concerns here.\n\n#### **Psoriasis**\n- All markers are either **not detected** or within range. No clear concerns here.\n\n#### **Seborrheic Dermatitis**\n- *Malassezia restricta* is within range.  \n- *Staphylococcus spp.* is within range.  \n- *Malassezia globosa* is **not detected**.\n\n#### **Acne**\n- *Cutibacterium acnes* is **above range**. This is a key indicator of acne-prone skin.\n\n#### **Melasma**\n- All markers are either **not detected** or within range. No clear concerns here.\n\n#### **Cancer**\n- All markers are **not detected**. No concerns here.\n\n---\n\n### **Summary: Is Your Skin Microbiome Healthy?**\nOverall, your skin microbiome shows **some signs of imbalance**, particularly with:\n- **Low diversity** (Shannon Diversity Index)\n- **High abundance of *Cutibacterium acnes***, which is linked to acne\n- **Some missing protective species** (e.g., *Corynebacterium SGB17002*, *Anaerococcus SGB6657*, *Corynebacterium sp ACRPR*)\n\nWhile your microbiome isn\u2019t in a severe state, these findings suggest that your skin may benefit from lifestyle and skincare adjustments to restore balance.\n\n---\n\n### **Practical Recommendations**\n1. **Reduce *Cutibacterium acnes* overgrowth:**\n   - Avoid harsh cleansers or over-washing, which can strip the skin of beneficial microbes.\n   - Use gentle, pH-balanced skincare products.\n   - Consider topical treatments with ingredients like salicylic acid or benzoyl peroxide (consult a dermatologist).\n\n2. **Boost diversity:**\n   - Stay hydrated and eat a balanced diet rich in fruits, vegetables, and whole grains.\n   - Limit sugary and processed foods, which can feed harmful bacteria.\n\n3. **Support protective species:**\n   - Use probiotic skincare products or prebiotic ingredients to support beneficial microbes.\n   - Avoid excessive use of antimicrobial products, which can disrupt the microbiome.\n\n4. **Protect your skin:**\n   - Use sunscreen daily to protect against UV damage.\n   - Wear breathable fabrics and avoid tight clothing that traps moisture.\n\n---\n\n### **Next Steps**\n- Consider consulting a dermatologist or skincare professional for personalized advice.\n- Monitor your skin for any changes or recurring issues.\n- Re-test your microbiome in 3\u20136 months to see if adjustments have helped restore balance.\n\nLet me know if you'd like help understanding any specific condition or marker in more detail.",
+      "elapsed": 7.367231374999392
+    },
+    {
+      "q": "What is my Shannon Diversity score for skin and how should I interpret it?",
+      "a": "### **Your Shannon Diversity Score for Skin: 0.571**\n\nThis value is **well below** the healthy reference range of **2.34\u20133.5**. Here's how to interpret it:\n\n---\n\n### **What is the Shannon Diversity Index (SDIV)?**\nThe Shannon Diversity Index (SDIV) is a **measure of microbial diversity** in your skin microbiome. It tells us:\n- **How many different types of microbes** are present (species richness)\n- **How evenly distributed** these microbes are (species evenness)\n\nA **higher SDIV** means a more diverse and balanced microbiome, which is generally associated with **healthier skin**. A **lower SDIV** suggests a less diverse microbiome, which may be more vulnerable to imbalances and skin issues.\n\n---\n\n### **Interpretation of Your Score (0.571)**\n- **Status:** \u26aa **Below range**\n- **What it means:** Your skin microbiome has **low diversity**, which may indicate:\n  - A **lack of beneficial microbes** that help protect your skin\n  - An **overgrowth of certain bacteria** (like *Cutibacterium acnes*, which is 87.77% in your sample)\n  - A **weaker skin barrier** that may be more prone to irritation, acne, or other skin conditions\n  - A **less resilient microbiome** that may struggle to recover from environmental stressors (like pollution, harsh skincare, or changes in weather)\n\n---\n\n### **Why Does Low Diversity Matter?**\nA diverse microbiome acts like a **natural defense system** for your skin. It:\n- Helps **fight off harmful pathogens**\n- Supports **skin barrier function**\n- Regulates **inflammation**\n- Keeps the skin **hydrated and healthy**\n\nWhen diversity is low, the microbiome may not function as well, which can lead to:\n- Increased **risk of acne**\n- More **sensitive or reactive skin**\n- Difficulty **maintaining a healthy skin barrier**\n\n---\n\n### **What Can You Do?**\nWhile your microbiome isn\u2019t in a severe state, there are **practical steps** you can take to support a healthier, more diverse skin microbiome:\n\n#### 1. **Avoid Over-Washing or Harsh Cleansers**\n- Over-cleansing can strip your skin of beneficial microbes.\n- Use **mild, pH-balanced cleansers** and avoid over-washing.\n\n#### 2. **Use Gentle Skincare Products**\n- Avoid products with **strong antimicrobial ingredients** (like high concentrations of alcohol or benzoyl peroxide) unless prescribed by a dermatologist.\n- Consider **probiotic or prebiotic skincare** to support beneficial microbes.\n\n#### 3. **Eat a Diverse, Nutrient-Rich Diet**\n- A diet rich in **fiber, fruits, vegetables, and fermented foods** can support a healthy gut-skin axis, which in turn supports skin microbiome health.\n\n#### 4. **Stay Hydrated**\n- Drinking enough water helps maintain skin hydration and supports a healthy microbiome environment.\n\n#### 5. **Limit Processed and Sugary Foods**\n- These can feed harmful bacteria and disrupt the balance of your microbiome.\n\n#### 6. **Wear Breathable Clothing**\n- Tight, non-breathable fabrics can trap moisture and create an environment that favors harmful microbes.\n\n---\n\n### **Next Steps**\n- Consider **consulting a dermatologist** or skincare professional for personalized advice.\n- Monitor your skin for any changes or recurring issues.\n- You may want to **re-test your microbiome** in 3\u20136 months to see if adjustments have helped improve diversity.\n\nLet me know if you'd like help understanding how to improve your microbiome diversity or how specific markers like *Cutibacterium acnes* might be affecting your skin.",
+      "elapsed": 4.767917290999321
+    },
+    {
+      "q": "Tell me about my atopic dermatitis markers \u2014 list every one with its abundance, reference range and status.",
+      "a": "### **Atopic Dermatitis Markers in Your Skin Microbiome**\n\nHere is a detailed breakdown of all **7 microbial markers** tested for **Atopic Dermatitis**, including their **abundance**, **reference range**, and **status**:\n\n| **Microbial Marker**       | **Abundance** | **Reference Range**       | **Status** |\n|---------------------------|---------------|---------------------------|------------|\n| **Staphylococcus aureus**  | ND            | ND                        | \u26aa Not Detected |\n| **Streptococcus spp.**     | ND            | 0.00% \u2013 0.31%             | \u26aa Not Detected |\n| **Gemella spp.**           | ND            | ND                        | \u26aa Not Detected |\n| **Haemophilus spp.**       | ND            | 0.00% \u2013 0.01%             | \u26aa Not Detected |\n| **Lactobacillus spp.**     | ND            | 0.00% \u2013 0.00%             | \u26aa Not Detected |\n| **Staphylococcus epidermidis** | 5.7736%     | 0.43% \u2013 8.63%             | \ud83d\udfe2 Normal |\n| **Finegoldia spp.**        | ND            | ND                        | \u26aa Not Detected |\n\n---\n\n### **Interpretation of Atopic Dermatitis Markers**\n\n- **No significant overgrowth of pathogenic bacteria** like *Staphylococcus aureus* or *Streptococcus spp.* was detected in your sample.\n- **Lactobacillus spp.**, which are often considered **protective** in atopic dermatitis, were **not detected**.\n- **Staphylococcus epidermidis** is within the **normal range**, which is a **beneficial** skin commensal that helps maintain skin barrier function and prevent overgrowth of harmful bacteria.\n\n---\n\n### **What This Means for Atopic Dermatitis**\nWhile **no clear signs of overgrowth** of pathogenic bacteria were found, the **absence of Lactobacillus spp.** may be a concern, as these bacteria are often associated with **anti-inflammatory and protective roles** in atopic dermatitis.\n\n---\n\n### **Recommendations for Atopic Dermatitis**\n- **Support beneficial bacteria** like *Lactobacillus* through **probiotic skincare** or **dietary changes** (e.g., fermented foods like yogurt, kefir, sauerkraut).\n- **Avoid harsh cleansers or over-washing**, which can disrupt the skin barrier and reduce microbial diversity.\n- **Use gentle, moisturizing skincare products** to support the skin\u2019s natural barrier.\n- **Consult a dermatologist** if you experience symptoms like dryness, itching, or redness, as these may be signs of atopic dermatitis even if microbial markers are within range.\n\nLet me know if you'd like help understanding how to support your skin microbiome for better atopic dermatitis management.",
+      "elapsed": 4.014771665999433
+    },
+    {
+      "q": "Which keystone skin organisms am I missing or low in?",
+      "a": "### **Keystone / Protective Skin Organisms in Your Microbiome**\n\nBased on your report, the **three key keystone or protective species** that were tested are:\n\n| **Organism**               | **Abundance** | **Reference Range**       | **Status** |\n|---------------------------|---------------|---------------------------|------------|\n| **Cutibacterium acnes**   | 87.77%        | 19.00% \u2013 65.70%           | \ud83d\udd34 **Above range** |\n| **Staphylococcus epidermidis** | 5.77%     | 0.43% \u2013 8.63%             | \ud83d\udfe2 **Normal** |\n| **Malassezia restricta**  | 0.43%         | 0.18% \u2013 2.71%             | \ud83d\udfe2 **Normal** |\n\n---\n\n### **Which Keystone Species Are Missing or Low?**\n\n#### \u2705 **Staphylococcus epidermidis** is within the **normal range** and is considered a **protective species** that supports skin barrier function.\n\n#### \u2705 **Malassezia restricta** is also within the **normal range** and plays a role in skin health by interacting with sebum and supporting microbial balance.\n\n#### \u274c **Cutibacterium acnes** is **significantly above** the healthy reference range (87.77% vs. 19.00% \u2013 65.70%). While it is a **normal skin commensal**, **excessive levels** are associated with **inflammatory skin conditions** like **acne**.\n\n---\n\n### **Are There Any Other Protective Species That Are Missing?**\n\nFrom the **RAG context**, we also see that the following **potential protective species** were **not detected** in your sample:\n\n| **Organism**               | **Status** | **Notes** |\n|---------------------------|------------|-----------|\n| **Corynebacterium SGB17002** | \u26aa Not Detected | A lipophilic bacterium found in nasal and facial regions. May play a role in skin health. |\n| **Anaerococcus SGB6657**     | \u26aa Not Detected | An anaerobic bacterium found on skin, possibly involved in microbial balance. |\n| **Corynebacterium sp ACRPR** | \u26aa Not Detected | A lipophilic bacterium found in nasal and facial regions. |\n\nThese species are **not detected**, which may indicate a **lack of certain protective microbes** that could help maintain a balanced microbiome.\n\n---\n\n### **Summary: Keystone Organisms in Your Microbiome**\n\n| **Organism**               | **Status** | **Comments** |\n|---------------------------|------------|--------------|\n| **Cutibacterium acnes**   | \ud83d\udd34 Above range | Overrepresented, may contribute to acne or inflammation. |\n| **Staphylococcus epidermidis** | \ud83d\udfe2 Normal | Protective species, supports skin barrier. |\n| **Malassezia restricta**  | \ud83d\udfe2 Normal | Plays a role in skin health and microbial balance. |\n| **Corynebacterium SGB17002** | \u26aa Not Detected | Potential protective species, not found. |\n| **Anaerococcus SGB6657**     | \u26aa Not Detected | Possible contributor to microbial balance, not found. |\n| **Corynebacterium sp ACRPR** | \u26aa Not Detected | Potential protective species, not found. |\n\n---\n\n### **Recommendations for Improving Keystone Species**\n\nIf you're looking to **support your skin microbiome** and **restore balance**, consider the following:\n\n1. **Avoid over-washing or using harsh cleansers** that may strip away beneficial microbes.\n2. **Use gentle, pH-balanced skincare products** that support microbial diversity.\n3. **Consider probiotic or prebiotic skincare** to help restore beneficial bacteria.\n4. **Eat a diet rich in fiber, fermented foods, and whole foods** to support gut-skin axis health.\n5. **Limit the use of antimicrobial products** unless prescribed by a dermatologist.\n\nLet me know if you'd like help understanding how to support the **missing species** or how to improve your microbiome diversity.",
+      "elapsed": 5.597499084000447
+    },
+    {
+      "q": "Tell me about my acne and psoriasis markers in this report.",
+      "a": "### **Acne and Psoriasis Markers in Your Skin Microbiome**\n\nHere\u2019s a detailed breakdown of the **acne and psoriasis markers** tested in your report, including their **abundance**, **reference range**, and **status**.\n\n---\n\n## \ud83e\uddf4 **Acne Markers**\n\n### **1. Cutibacterium acnes**\n- **Abundance:** 87.77%  \n- **Reference Range:** 19.00% \u2013 65.70%  \n- **Status:** \ud83d\udd34 **Above range**  \n- **Interpretation:**  \n  *Cutibacterium acnes* is a **normal skin commensal**, but **excessive levels** are often associated with **acne development**. High abundance may indicate a **disrupted microbiome balance**, which can contribute to **inflammation and acne breakouts**.\n\n---\n\n## \ud83e\uddf4 **Psoriasis Markers**\n\n### **1. Actinomyces spp.**\n- **Abundance:** 0.0008%  \n- **Reference Range:** 0.00% \u2013 0.01%  \n- **Status:** \ud83d\udfe2 **Normal**  \n- **Interpretation:**  \n  *Actinomyces spp.* is a **normal skin commensal** and is not typically associated with psoriasis. Its presence within the reference range suggests **no overgrowth**.\n\n### **2. Corynebacterium kroppenstedtii**\n- **Abundance:** ND  \n- **Reference Range:** ND  \n- **Status:** \u26aa **Not Detected**  \n- **Interpretation:**  \n  *Corynebacterium kroppenstedtii* is **not detected** in your sample. While it is not a **primary marker** for psoriasis, its absence may reflect **reduced microbial diversity**.\n\n### **3. Leptotrichia spp.**\n- **Abundance:** ND  \n- **Reference Range:** ND  \n- **Status:** \u26aa **Not Detected**  \n- **Interpretation:**  \n  *Leptotrichia spp.* is **not detected**. These bacteria are typically **not associated with psoriasis**, but their absence may indicate **reduced microbial diversity**.\n\n### **4. Neisseria spp.**\n- **Abundance:** ND  \n- **Reference Range:** ND  \n- **Status:** \u26aa **Not Detected**  \n- **Interpretation:**  \n  *Neisseria spp.* is **not detected**. These bacteria are **not typically linked to psoriasis**, but their absence may reflect **a less diverse microbiome**.\n\n### **5. Rothia mucilaginosa**\n- **Abundance:** ND  \n- **Reference Range:** ND  \n- **Status:** \u26aa **Not Detected**  \n- **Interpretation:**  \n  *Rothia mucilaginosa* is **not detected**. This species is **not a primary marker** for psoriasis, but its absence may reflect **reduced microbial diversity**.\n\n---\n\n## \ud83e\uddf4 **Summary Table: Acne and Psoriasis Markers**\n\n| **Marker**               | **Abundance** | **Reference Range**       | **Status** |\n|--------------------------|---------------|---------------------------|------------|\n| **Cutibacterium acnes**  | 87.77%        | 19.00% \u2013 65.70%           | \ud83d\udd34 **Above range** |\n| **Actinomyces spp.**     | 0.0008%       | 0.00% \u2013 0.01%             | \ud83d\udfe2 **Normal** |\n| **Corynebacterium kroppenstedtii** | ND | ND | \u26aa **Not Detected** |\n| **Leptotrichia spp.**    | ND            | ND                        | \u26aa **Not Detected** |\n| **Neisseria spp.**       | ND            | ND                        | \u26aa **Not Detected** |\n| **Rothia mucilaginosa**  | ND            | ND                        | \u26aa **Not Detected** |\n\n---\n\n## \ud83e\udde0 **What This Means for Acne and Psoriasis**\n\n### **Acne:**\n- **High levels of *Cutibacterium acnes*** (87.77%) are **above the healthy range**. While *C. acnes* is a **normal skin bacterium**, **excessive amounts** can **contribute to acne formation** by:\n  - Triggering **inflammation**\n  - Disrupting the **skin barrier**\n  - Promoting **sebum production**\n\n### **Psoriasis:**\n- No **clear overgrowth** of known psoriasis-associated bacteria was found.\n- However, several **potential microbial markers** (like *Corynebacterium kroppenstedtii*, *Leptotrichia spp.*, *Neisseria spp.*, and *Rothia mucilaginosa*) were **not detected**, which may reflect **reduced microbial diversity**.\n\n---\n\n## \ud83e\uddf4 **Recommendations for Acne and Psoriasis Support**\n\n### **For Acne:**\n- **Avoid over-washing or using harsh cleansers**, which can strip the skin of beneficial microbes.\n- **Use gentle, pH-balanced skincare products** to avoid disrupting the microbiome.\n- **Consider probiotic or prebiotic skincare** to help restore balance.\n- **Limit the use of antimicrobial products** unless prescribed by a dermatologist.\n\n### **For Psoriasis:**\n- **Maintain a healthy, balanced microbiome** by supporting diversity with a **nutrient-rich diet** and **gentle skincare**.\n- **Avoid over-cleansing** or using products that may disrupt the skin barrier.\n- **Stay hydrated** and **manage stress**, as both can impact skin health.\n- **Consult a dermatologist** if you experience symptoms like redness, scaling, or inflammation.\n\n---\n\nLet me know if you'd like help understanding how to support your microbiome for better skin health or how to interpret other markers in your report.",
+      "elapsed": 7.590309832998173
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+# Core
+Django==5.1.3
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
+django-cors-headers==4.6.0
+django-filter==24.3
+drf-spectacular==0.28.0
+python-decouple==3.8
+Pillow==11.0.0
+psycopg[binary]==3.2.3
+
+# Storage / async
+dj-database-url==2.3.0
+whitenoise==6.8.2
+celery==5.4.0
+redis==5.2.0
+
+# Gut microbiome pipeline (real logic)
+pdfplumber==0.11.4
+chromadb==0.5.23
+sentence-transformers==3.3.1
+# Required by the Nomic embedding model when loaded via trust_remote_code
+einops==0.8.2
+openai==1.55.3
+# Used by chatbot/agentic/external_apis.py for OMIM / Orphanet / HPO REST.
+# Imported lazily — disabled-by-default so a missing key fails closed.
+requests==2.32.3

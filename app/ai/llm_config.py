@@ -175,9 +175,17 @@ def _build_vllm_api() -> Optional[Any]:
             logger.warning(f"vLLM API not reachable at {VLLM_API_URL}: {e}")
             return None
 
-        # Inference client with a generous timeout for Qwen3-32B generation
+        # Inference client with a generous timeout for generation
         client = OpenAI(base_url=f"{VLLM_API_URL}/v1", api_key="not-needed",
                         timeout=120.0, max_retries=0)
+
+        # Qwen3 uses /no_think prefix + extra_body think=False to suppress CoT.
+        # MedGemma and other models don't support these — guard all usages.
+        _IS_QWEN = "qwen" in VLLM_MODEL.lower()
+
+        def _think_body() -> dict:
+            """Return extra_body dict only for Qwen3 models."""
+            return {"think": False} if _IS_QWEN else {}
 
         class _VLLMClient:
             @staticmethod
@@ -292,7 +300,7 @@ def _build_vllm_api() -> Optional[Any]:
                     ],
                     max_tokens=500,
                     temperature=0.01,
-                    extra_body={"think": False},
+                    extra_body=_think_body(),
                 )
                 return self._extract_content(resp)
 
@@ -318,6 +326,10 @@ def _build_vllm_api() -> Optional[Any]:
                 if hpo_context:
                     user_content += f"\n\nHPO context: {hpo_context}"
 
+                # Ollama/Qwen: prepend /no_think to suppress chain-of-thought
+                if _IS_QWEN:
+                    user_content = "/no_think\n" + user_content
+
                 messages = [{"role": "system", "content": _EXPLAIN_SYSTEM_MSG}]
                 for m in (history or [])[-4:]:
                     role = m.get("role") if isinstance(m, dict) else getattr(m, "role", None)
@@ -331,7 +343,7 @@ def _build_vllm_api() -> Optional[Any]:
                     messages=messages,
                     max_tokens=500,
                     temperature=0.1,
-                    extra_body={"think": False},
+                    extra_body=_think_body(),
                 )
                 content = self._extract_content(resp)
                 if not content:
@@ -379,21 +391,127 @@ def _build_vllm_api() -> Optional[Any]:
                 return " ".join(parts)
 
             def answer_general(self, question: str, history: list = None) -> str:
+                # Ollama/Qwen: prepend /no_think to suppress chain-of-thought
+                q = ("/no_think\n" + question) if _IS_QWEN else question
                 messages = [{"role": "system", "content": _GENERAL_SYSTEM_MSG}]
                 for m in (history or [])[-6:]:
                     role = m.get("role") if isinstance(m, dict) else getattr(m, "role", None)
                     content = m.get("content") if isinstance(m, dict) else getattr(m, "content", None)
                     if role in ("user", "assistant") and content:
                         messages.append({"role": role, "content": str(content)})
-                messages.append({"role": "user", "content": question})
+                messages.append({"role": "user", "content": q})
                 resp = client.chat.completions.create(
                     model=VLLM_MODEL,
                     messages=messages,
                     max_tokens=800,
                     temperature=0.4,
-                    extra_body={"think": False},
+                    extra_body=_think_body(),
                 )
                 return self._extract_content(resp)
+
+            def route(self, message: str) -> str:
+                """Stage-1 router call — returns raw JSON string for intent classification."""
+                import re as _re
+                from app.ai.intervar_router import ROUTER_SYSTEM_PROMPT
+                # /no_think is a Qwen3-only directive — strip it for other models
+                sys_prompt = ROUTER_SYSTEM_PROMPT
+                if not _IS_QWEN:
+                    sys_prompt = _re.sub(r"^/no_think\s*\n?", "", sys_prompt)
+                # Ollama ignores extra_body think=False and system-prompt /no_think
+                # — prepend /no_think directly to user message for Qwen/Ollama
+                user_msg = ("/no_think\n" + message) if _IS_QWEN else message
+                resp = client.chat.completions.create(
+                    model=VLLM_MODEL,
+                    messages=[
+                        {"role": "system", "content": sys_prompt},
+                        {"role": "user",   "content": user_msg},
+                    ],
+                    max_tokens=600,
+                    temperature=0.0,
+                    extra_body=_think_body(),
+                )
+                raw = self._extract_content(resp)
+                # Strip any stray <think> tags the model leaks (Qwen3)
+                raw = _re.sub(r"<think>.*?</think>", "", raw, flags=_re.DOTALL).strip()
+                return raw
+
+            @staticmethod
+            def _strip_code_output(text: str) -> str:
+                """Strip Python/SQL/code blocks that LLMs sometimes generate instead of prose.
+
+                MedGemma may generate lines like:
+                  lung_genes = ['CFTR', 'SFTPA1', ...]
+                  query = f\"\"\"SELECT ...\"\"\
+                This strips those before the response reaches the user.
+                """
+                import re as _re
+                if not text or len(text) < 15:
+                    return text
+                original = text
+
+                # 1. Remove fenced code blocks (```...```)
+                text = _re.sub(r'```[\s\S]*?```', '', text)
+
+                # 2. Remove Python variable assignments with list/dict/string/fstring bodies
+                # e.g.  lung_genes = ['CFTR', ...]    query = f"""SELECT ..."""
+                text = _re.sub(
+                    r'^[a-z_][a-z_0-9]*\s*=\s*[\[{(f"\'][\s\S]*?(?:\]|\}|\)|"""|\'\'\')(?:\s*\n|$)',
+                    '', text, flags=_re.MULTILINE
+                )
+                # Also single-line assignments:  foo = "bar"  /  genes = []
+                text = _re.sub(
+                    r'^[a-z_][a-z_0-9]*\s*=\s*[^\n]+$',
+                    '', text, flags=_re.MULTILINE
+                )
+
+                # 3. Remove SQL SELECT … LIMIT blocks
+                text = _re.sub(
+                    r'SELECT\b[\s\S]*?(?:;\s*|LIMIT\s+\d+\s*;?\s*)(?=\n|$|\Z)',
+                    '', text, flags=_re.IGNORECASE
+                )
+
+                # 4. Remove Python keyword lines that are clearly code
+                text = _re.sub(
+                    r'^\s*(?:import\s+\w|from\s+\w+\s+import|def\s+\w|class\s+\w|'
+                    r'for\s+\w+\s+in\s|while\s+\w|if\s+\w[^:]*:\s*$|elif\s|else:\s*$|'
+                    r'return\s|print\s*\(|#\s*[A-Z].*)\n',
+                    '', text, flags=_re.MULTILINE
+                )
+
+                # 5. Collapse excess blank lines
+                text = _re.sub(r'\n{3,}', '\n\n', text)
+                text = text.strip()
+
+                # Safety: if stripping removed most content, return original
+                if len(text) < 30 and len(original) > 80:
+                    return original
+                return text
+
+            def answer(self, user_message: str, history: list = None) -> str:
+                """Stage-3 answer call — grounded on executor output in user_message."""
+                from app.ai.intervar_router import ANSWER_SYSTEM_PROMPT
+                # Ollama ignores extra_body think=False — prepend /no_think to user
+                # turn so Qwen3 suppresses chain-of-thought reasoning in the answer.
+                if _IS_QWEN:
+                    user_message = "/no_think\n" + user_message
+                messages = [{"role": "system", "content": ANSWER_SYSTEM_PROMPT}]
+                for m in (history or [])[-4:]:
+                    role = m.get("role") if isinstance(m, dict) else getattr(m, "role", None)
+                    content = m.get("content") if isinstance(m, dict) else getattr(m, "content", None)
+                    if role in ("user", "assistant") and content:
+                        messages.append({"role": role, "content": str(content)})
+                messages.append({"role": "user", "content": user_message})
+                resp = client.chat.completions.create(
+                    model=VLLM_MODEL,
+                    messages=messages,
+                    max_tokens=2048,
+                    temperature=0.1,
+                    extra_body=_think_body(),
+                )
+                content = self._extract_content(resp)
+                # Strip any code blocks that MedGemma/other models may generate
+                content = self._strip_code_output(content)
+                return content
 
         logger.info(f"vLLM API backend ready — model: {VLLM_MODEL} @ {VLLM_API_URL}")
         return _VLLMClient()
